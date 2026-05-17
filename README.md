@@ -13,10 +13,11 @@ A modern web application for browsing, searching, and downloading free public do
 | Styling | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (radix-sera style, taupe base) |
 | Icons | [Hugeicons](https://hugeicons.com) |
 | Theming | [next-themes](https://github.com/pacocoursey/next-themes) (dark/light mode, toggle with `D` key) |
-| Fonts | DM Sans (body), Merriweather (headings), Geist Mono (code) |
+| Fonts | Satoshi (body), Familjen Grotesk (headings), JetBrains Mono (code) |
 | Package Manager | [pnpm](https://pnpm.io) |
 | Linting | ESLint (next/core-web-vitals + typescript) |
 | Formatting | Prettier + tailwindcss plugin |
+| AI Provider | NVIDIA API endpoint through the OpenAI SDK |
 
 ## Project Structure
 
@@ -33,6 +34,8 @@ project-gutenberg/
 │   ├── search/
 │   │   ├── page.tsx            # Search page — query/topic/language filters
 │   │   └── search-results.tsx  # Client component — search form + results
+│   ├── api/
+│   │   └── book-chat/route.ts  # Streaming book assistant API
 │   └── book/
 │       └── [id]/
 │           ├── page.tsx        # Book detail — SSR with dynamic metadata
@@ -43,6 +46,7 @@ project-gutenberg/
 │   ├── book-grid.tsx           # Responsive grid + skeleton loading
 │   ├── pagination.tsx          # Previous/Next pagination controls
 │   ├── download-links.tsx      # Download format buttons (HTML, EPUB, Kindle, etc.)
+│   ├── book-chat-assistant.tsx # Floating AI assistant for book questions
 │   ├── reader-toc-minimap.tsx  # Floating reader table-of-contents minimap
 │   ├── logo.tsx                # Project mark
 │   ├── theme-provider.tsx      # Theme provider with keyboard shortcut
@@ -53,7 +57,8 @@ project-gutenberg/
 │       ├── input.tsx
 │       ├── separator.tsx
 │       ├── sheet.tsx
-│       └── skeleton.tsx
+│       ├── skeleton.tsx
+│       └── textarea.tsx
 ├── hooks/
 │   └── use-paginated-books.ts  # Client-side paginated fetch/cache hook
 ├── lib/
@@ -92,10 +97,20 @@ Server-rendered book detail page with:
 - External Project Gutenberg reader fallback when only HTML is available
 - Download links in multiple formats (HTML, EPUB, Kindle, Plain Text, ZIP, and other non-image formats)
 - Book summary, subjects, bookshelves, and translators
+- Floating AI assistant for concise questions about the current book
 - Dynamic SEO metadata via `generateMetadata`
 
 ### `/book/[id]/read` — Reader
-Server-rendered reading view that fetches the book's plain text edition, removes Project Gutenberg boilerplate, detects likely chapter/section headings, and renders a readable long-form layout with an optional table-of-contents minimap. If plain text is unavailable, it offers a link to the official Gutenberg HTML edition when possible.
+Server-rendered reading view that fetches the book's plain text edition, removes Project Gutenberg boilerplate, detects likely chapter/section headings, and renders a readable long-form layout with an optional table-of-contents minimap. Readers can highlight a passage and ask the AI assistant about that selection. If plain text is unavailable, it offers a link to the official Gutenberg HTML edition when possible.
+
+### `/api/book-chat` — Book Assistant
+Streams concise, book-scoped assistant responses for the detail and reader pages. The route:
+
+- Uses the OpenAI SDK with NVIDIA's OpenAI-compatible API endpoint
+- Requires `NVIDIA_API_KEY`
+- Fetches the selected book from Gutendex and builds a constrained system prompt from its metadata
+- Accepts recent user/assistant chat history plus optional selected passage text
+- Returns a plain text streaming response with `Cache-Control: no-store`
 
 ## API Integration
 
@@ -141,13 +156,15 @@ interface PaginatedResponse<T> {
 - **Book lists** — revalidated every **1 hour** (`revalidate: 3600`)
 - **Book details** — revalidated every **24 hours** (`revalidate: 86400`)
 - **Reader text** — revalidated every **24 hours** (`revalidate: 86400`)
+- **Book chat** — no-store streaming response; book metadata still uses the cached Gutendex helper
 - **Client navigation** — in-memory page caching avoids refetching already loaded home, browse, and search pages during a session
 
 ## Key Features
 
 - **Responsive design** — 2-column mobile to 6-column desktop grid
-- **Infinite home feed** — popular books load as the user scrolls
+- **Infinite feeds** — popular and topic pages load more books as the user scrolls
 - **In-app reader** — plain text editions are parsed into readable sections with a minimap table of contents
+- **Book-scoped AI assistant** — ask about a book from the detail page or highlight reader text for passage-specific questions
 - **Dark/light mode** — system-aware with manual toggle (press `D`)
 - **Skeleton loading and retries** — graceful loading/error states for paginated client fetches
 - **URL-based state** — all filters and pagination reflected in query params for shareable URLs
@@ -159,8 +176,18 @@ interface PaginatedResponse<T> {
 
 ### Prerequisites
 
-- Node.js >= 18
+- Node.js 20 or newer
 - pnpm
+
+### Environment
+
+The browsing, search, detail, and reader experiences work with the public Gutendex API and do not require local environment variables.
+
+The AI book assistant requires:
+
+```bash
+NVIDIA_API_KEY=...
+```
 
 ### Install
 
@@ -186,6 +213,14 @@ pnpm build
 
 ```bash
 pnpm lint
-pnpm format
 pnpm typecheck
+pnpm format
+```
+
+For a production confidence check, run:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
