@@ -21,7 +21,7 @@ export function BookCard({ book }: BookCardProps) {
 
     return (
         <Link href={`/book/${book.id}`}>
-            <Card className="group h-full overflow-hidden gap-0 py-0 transition-shadow hover:shadow-lg">
+            <Card className="group h-full gap-0 overflow-hidden py-0 transition-shadow hover:shadow-lg">
                 <div className="relative aspect-2/3 overflow-hidden bg-muted">
                     {coverUrl ? (
                         <Image
@@ -33,18 +33,24 @@ export function BookCard({ book }: BookCardProps) {
                         />
                     ) : (
                         <div className="flex size-full items-center justify-center">
-                            <BookOpen01Icon className="size-16 text-muted-foreground/40" />
+                            <BookOpen01Icon
+                                className="size-16 text-muted-foreground/40"
+                                aria-hidden="true"
+                            />
                         </div>
                     )}
                     <div className="absolute right-2 bottom-2">
                         <Badge variant="secondary" className="gap-1 text-xs">
-                            <ArrowDown01Icon className="size-3" />
+                            <ArrowDown01Icon
+                                className="size-3"
+                                aria-hidden="true"
+                            />
                             {formatDownloadCount(book.download_count)}
                         </Badge>
                     </div>
                 </div>
                 <CardContent className="border-t border-border/60 p-0">
-                    <div className="border-l-2 border-primary/40 px-3 pt-3 pb-2">
+                    <div className="min-w-0 border-l-2 border-primary/40 px-3 pt-3 pb-2">
                         <h3 className="line-clamp-2 font-heading text-sm leading-tight font-semibold">
                             {book.title}
                         </h3>

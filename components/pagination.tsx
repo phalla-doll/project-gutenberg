@@ -19,10 +19,17 @@ export function Pagination({
     totalResults,
 }: PaginationProps) {
     return (
-        <div className="flex items-center justify-between py-8">
+        <div
+            className="flex items-center justify-between py-8"
+            role="navigation"
+            aria-label="Pagination"
+        >
             <p className="text-sm text-muted-foreground">
                 {totalResults !== undefined && (
-                    <>{totalResults.toLocaleString()} books found</>
+                    <>
+                        {new Intl.NumberFormat("en-US").format(totalResults)}{" "}
+                        books found
+                    </>
                 )}
             </p>
             <div className="flex items-center gap-2">
@@ -32,10 +39,13 @@ export function Pagination({
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={!hasPrev}
                 >
-                    <ArrowLeft01Icon className="size-4" />
+                    <ArrowLeft01Icon className="size-4" aria-hidden="true" />
                     Previous
                 </Button>
-                <span className="px-3 text-sm text-muted-foreground">
+                <span
+                    className="px-3 text-sm text-muted-foreground"
+                    aria-current="page"
+                >
                     Page {currentPage}
                 </span>
                 <Button
@@ -45,7 +55,7 @@ export function Pagination({
                     disabled={!hasNext}
                 >
                     Next
-                    <ArrowRight01Icon className="size-4" />
+                    <ArrowRight01Icon className="size-4" aria-hidden="true" />
                 </Button>
             </div>
         </div>

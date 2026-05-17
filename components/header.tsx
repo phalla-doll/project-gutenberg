@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,7 +18,7 @@ import {
     BookOpen01Icon,
     LibraryIcon,
 } from "hugeicons-react"
-import { useRouter } from "next/navigation"
+import { ThemeToggle } from "@/components/theme-provider"
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home01Icon },
@@ -46,12 +46,18 @@ export function Header() {
                     href="/"
                     className="flex items-center gap-2 font-heading text-lg font-bold"
                 >
-                    <BookOpen01Icon className="size-6 text-primary" />
+                    <BookOpen01Icon
+                        className="size-6 text-primary"
+                        aria-hidden="true"
+                    />
                     <span className="hidden sm:inline">Project Gutenberg</span>
                     <span className="sm:hidden">PG</span>
                 </Link>
 
-                <nav className="hidden items-center gap-1 md:flex">
+                <nav
+                    className="hidden items-center gap-1 md:flex"
+                    aria-label="Main navigation"
+                >
                     {navLinks.map(({ href, label, icon: Icon }) => (
                         <Link key={href} href={href}>
                             <Button
@@ -61,7 +67,7 @@ export function Header() {
                                 size="sm"
                                 className="gap-1.5"
                             >
-                                <Icon className="size-4" />
+                                <Icon className="size-4" aria-hidden="true" />
                                 {label}
                             </Button>
                         </Link>
@@ -71,18 +77,27 @@ export function Header() {
                 <form
                     onSubmit={handleSearch}
                     className="ml-auto flex max-w-sm flex-1 items-center"
+                    role="search"
                 >
                     <div className="relative w-full">
-                        <Search01Icon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                        <Search01Icon
+                            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+                            aria-hidden="true"
+                        />
                         <Input
                             type="search"
-                            placeholder="Search books..."
+                            name="q"
+                            placeholder="Search books\u2026"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="pl-9"
+                            aria-label="Search books"
+                            autoComplete="off"
                         />
                     </div>
                 </form>
+
+                <ThemeToggle />
 
                 <Sheet>
                     <SheetTrigger asChild>
@@ -90,13 +105,17 @@ export function Header() {
                             variant="ghost"
                             size="icon"
                             className="md:hidden"
+                            aria-label="Open navigation menu"
                         >
-                            <Menu01Icon className="size-5" />
+                            <Menu01Icon className="size-5" aria-hidden="true" />
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="right">
                         <SheetTitle>Navigation</SheetTitle>
-                        <nav className="mt-6 flex flex-col gap-2">
+                        <nav
+                            className="mt-6 flex flex-col gap-2"
+                            aria-label="Mobile navigation"
+                        >
                             {navLinks.map(({ href, label, icon: Icon }) => (
                                 <Link key={href} href={href}>
                                     <Button
@@ -107,7 +126,10 @@ export function Header() {
                                         }
                                         className="w-full justify-start gap-2"
                                     >
-                                        <Icon className="size-4" />
+                                        <Icon
+                                            className="size-4"
+                                            aria-hidden="true"
+                                        />
                                         {label}
                                     </Button>
                                 </Link>
