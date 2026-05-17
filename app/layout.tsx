@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google"
 import { JetBrains_Mono } from "next/font/google"
 import Link from "next/link"
 import { Header } from "@/components/header"
@@ -113,6 +114,7 @@ export default function RootLayout({
                     </div>
                 </footer>
             </body>
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
         </html>
     )
 }
