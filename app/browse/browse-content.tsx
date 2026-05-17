@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { getBooksByTopic } from "@/lib/gutendex"
-import type { PaginatedResponse, Book } from "@/lib/gutendex"
+import { usePaginatedBooks } from "@/hooks/use-paginated-books"
 
 interface Topic {
     slug: string
@@ -25,20 +26,15 @@ export function BrowseContent({
     currentPage,
 }: BrowseContentProps) {
     const router = useRouter()
-    const [data, setData] = useState<{
-        topic: string
-        page: number
-        result: PaginatedResponse<Book>
-    } | null>(null)
 
-    const loading =
-        !data || data.topic !== activeTopic || data.page !== currentPage
+    const key = `${activeTopic}|${currentPage}`
 
-    useEffect(() => {
-        getBooksByTopic(activeTopic, currentPage).then((result) => {
-            setData({ topic: activeTopic, page: currentPage, result })
-        })
-    }, [activeTopic, currentPage])
+    const fetchFn = useCallback(
+        () => getBooksByTopic(activeTopic, currentPage),
+        [activeTopic, currentPage]
+    )
+
+    const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key)
 
     function handleTopicChange(topic: string) {
         router.push(`/browse?topic=${encodeURIComponent(topic)}`)
@@ -54,30 +50,50 @@ export function BrowseContent({
 
     return (
         <div className="flex flex-col gap-6">
-            <div className="flex flex-wrap gap-1.5">
+            <div
+                className="flex flex-wrap gap-1.5"
+                role="group"
+                aria-label="Filter by topic"
+            >
                 {topics.map(({ slug, label }) => (
                     <Badge
                         key={slug}
+                        asChild
                         variant={activeTopic === slug ? "default" : "outline"}
                         className="cursor-pointer"
-                        onClick={() => handleTopicChange(slug)}
                     >
-                        {label}
+                        <button
+                            type="button"
+                            onClick={() => handleTopicChange(slug)}
+                        >
+                            {label}
+                        </button>
                     </Badge>
                 ))}
             </div>
 
-            {loading && <BookGridSkeleton />}
+            {error && (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <p className="text-lg text-muted-foreground">
+                        Failed to load books. Please try again.
+                    </p>
+                    <Button onClick={retry} variant="outline">
+                        Retry
+                    </Button>
+                </div>
+            )}
 
-            {!loading && data && (
+            {!error && loading && <BookGridSkeleton />}
+
+            {!error && !loading && data && (
                 <>
-                    <BookGrid books={data.result.results} />
+                    <BookGrid books={data.results} />
                     <Pagination
                         currentPage={currentPage}
-                        hasNext={data.result.next !== null}
-                        hasPrev={data.result.previous !== null}
+                        hasNext={data.next !== null}
+                        hasPrev={data.previous !== null}
                         onPageChange={handlePageChange}
-                        totalResults={data.result.count}
+                        totalResults={data.count}
                     />
                 </>
             )}

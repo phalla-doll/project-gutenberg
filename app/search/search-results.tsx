@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/badge"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
 import { searchBooks } from "@/lib/gutendex"
-import type { PaginatedResponse, Book } from "@/lib/gutendex"
 import { Search01Icon, Cancel01Icon } from "hugeicons-react"
+import { usePaginatedBooks } from "@/hooks/use-paginated-books"
 
 const LANGUAGES = [
     { code: "en", label: "English" },
@@ -37,13 +37,6 @@ const TOPICS = [
     "Horror",
 ]
 
-interface FetchKey {
-    query: string
-    topic: string
-    lang: string
-    page: number
-}
-
 interface SearchResultsProps {
     query: string
     topic: string
@@ -61,28 +54,42 @@ export function SearchResults({
     const [inputQuery, setInputQuery] = useState(query)
     const [selectedLang, setSelectedLang] = useState(lang)
     const [selectedTopic, setSelectedTopic] = useState(topic)
-    const [data, setData] = useState<{
-        key: FetchKey
-        result: PaginatedResponse<Book>
-    } | null>(null)
 
-    const hasSearch = query || topic
-    const currentKey: FetchKey = { query, topic, lang, page: currentPage }
-    const loading =
-        hasSearch &&
-        (!data || JSON.stringify(data.key) !== JSON.stringify(currentKey))
+    const [prevQuery, setPrevQuery] = useState(query)
+    if (prevQuery !== query) {
+        setPrevQuery(query)
+        setInputQuery(query)
+    }
 
-    useEffect(() => {
-        if (!query && !topic) return
-        searchBooks({
-            search: query || undefined,
-            topic: topic || undefined,
-            languages: lang ? [lang] : undefined,
-            page: currentPage,
-        }).then((result) => {
-            setData({ key: { query, topic, lang, page: currentPage }, result })
-        })
-    }, [query, topic, lang, currentPage])
+    const [prevLang, setPrevLang] = useState(lang)
+    if (prevLang !== lang) {
+        setPrevLang(lang)
+        setSelectedLang(lang)
+    }
+
+    const [prevTopic, setPrevTopic] = useState(topic)
+    if (prevTopic !== topic) {
+        setPrevTopic(topic)
+        setSelectedTopic(topic)
+    }
+
+    const hasSearch = !!(query || topic)
+    const key = `${query}|${topic}|${lang}|${currentPage}`
+
+    const fetchFn = useCallback(
+        () =>
+            searchBooks({
+                search: query || undefined,
+                topic: topic || undefined,
+                languages: lang ? [lang] : undefined,
+                page: currentPage,
+            }),
+        [query, topic, lang, currentPage]
+    )
+
+    const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key, {
+        enabled: hasSearch,
+    })
 
     function handleSearch(e: React.FormEvent) {
         e.preventDefault()
@@ -114,77 +121,109 @@ export function SearchResults({
 
     return (
         <div className="flex flex-col gap-6">
-            <form onSubmit={handleSearch} className="flex flex-col gap-4">
+            <form
+                onSubmit={handleSearch}
+                className="flex flex-col gap-4"
+                role="search"
+            >
                 <div className="flex gap-2">
                     <div className="relative flex-1">
-                        <Search01Icon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+                        <Search01Icon
+                            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+                            aria-hidden="true"
+                        />
                         <Input
                             type="search"
-                            placeholder="Search by title or author..."
+                            name="q"
+                            placeholder="Search by title or author\u2026"
                             value={inputQuery}
                             onChange={(e) => setInputQuery(e.target.value)}
                             className="pl-9"
+                            aria-label="Search by title or author"
+                            autoComplete="off"
                         />
                     </div>
                     <Button type="submit">Search</Button>
-                    {hasActiveFilters && (
+                    {hasActiveFilters ? (
                         <Button
                             type="button"
                             variant="ghost"
                             onClick={clearFilters}
+                            aria-label="Clear all filters"
                         >
-                            <Cancel01Icon className="size-4" />
+                            <Cancel01Icon
+                                className="size-4"
+                                aria-hidden="true"
+                            />
                         </Button>
-                    )}
+                    ) : null}
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <div>
-                        <p className="mb-2 text-xs font-medium text-muted-foreground">
+                    <div role="group" aria-labelledby="language-label">
+                        <p
+                            id="language-label"
+                            className="mb-2 text-xs font-medium text-muted-foreground"
+                        >
                             Language
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                             {LANGUAGES.map(({ code, label }) => (
                                 <Badge
                                     key={code}
+                                    asChild
                                     variant={
                                         selectedLang === code
                                             ? "default"
                                             : "outline"
                                     }
                                     className="cursor-pointer"
-                                    onClick={() =>
-                                        setSelectedLang(
-                                            selectedLang === code ? "" : code
-                                        )
-                                    }
                                 >
-                                    {label}
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setSelectedLang(
+                                                selectedLang === code
+                                                    ? ""
+                                                    : code
+                                            )
+                                        }
+                                    >
+                                        {label}
+                                    </button>
                                 </Badge>
                             ))}
                         </div>
                     </div>
-                    <div>
-                        <p className="mb-2 text-xs font-medium text-muted-foreground">
+                    <div role="group" aria-labelledby="topic-label">
+                        <p
+                            id="topic-label"
+                            className="mb-2 text-xs font-medium text-muted-foreground"
+                        >
                             Topic
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                             {TOPICS.map((t) => (
                                 <Badge
                                     key={t}
+                                    asChild
                                     variant={
                                         selectedTopic === t
                                             ? "default"
                                             : "outline"
                                     }
                                     className="cursor-pointer"
-                                    onClick={() =>
-                                        setSelectedTopic(
-                                            selectedTopic === t ? "" : t
-                                        )
-                                    }
                                 >
-                                    {t}
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setSelectedTopic(
+                                                selectedTopic === t ? "" : t
+                                            )
+                                        }
+                                    >
+                                        {t}
+                                    </button>
                                 </Badge>
                             ))}
                         </div>
@@ -192,22 +231,33 @@ export function SearchResults({
                 </div>
             </form>
 
-            {loading && <BookGridSkeleton />}
+            {error && (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <p className="text-lg text-muted-foreground">
+                        Failed to load search results. Please try again.
+                    </p>
+                    <Button onClick={retry} variant="outline">
+                        Retry
+                    </Button>
+                </div>
+            )}
 
-            {!loading && data && (
+            {!error && loading && <BookGridSkeleton />}
+
+            {!error && !loading && data && (
                 <>
-                    <BookGrid books={data.result.results} />
+                    <BookGrid books={data.results} />
                     <Pagination
                         currentPage={currentPage}
-                        hasNext={data.result.next !== null}
-                        hasPrev={data.result.previous !== null}
+                        hasNext={data.next !== null}
+                        hasPrev={data.previous !== null}
                         onPageChange={handlePageChange}
-                        totalResults={data.result.count}
+                        totalResults={data.count}
                     />
                 </>
             )}
 
-            {!loading && !hasSearch && (
+            {!error && !loading && !hasSearch && (
                 <div className="py-16 text-center">
                     <p className="text-lg text-muted-foreground">
                         Search for books by title, author, or filter by topic
@@ -216,7 +266,7 @@ export function SearchResults({
                 </div>
             )}
 
-            {!loading && data && data.result.results.length === 0 && (
+            {!error && !loading && data && data.results.length === 0 && (
                 <div className="py-16 text-center">
                     <p className="text-lg text-muted-foreground">
                         No books found. Try adjusting your search or filters.

@@ -117,15 +117,18 @@ export function getCoverUrl(book: Book): string | null {
 
 export function getFormatLabel(mimeType: string): string {
     const labels: Record<string, string> = {
-        "text/html": "Read Online (HTML)",
-        "text/plain; charset=utf-8": "Plain Text",
+        "text/html": "Read Online",
+        "text/plain; charset=utf-8": "Plain Text (UTF-8)",
         "text/plain; charset=us-ascii": "Plain Text",
         "application/epub+zip": "EPUB",
         "application/x-mobipocket-ebook": "Kindle",
-        "application/octet-stream": "Download (ZIP)",
-        "application/rdf+xml": "RDF Metadata",
+        "application/octet-stream": "ZIP",
     }
-    return labels[mimeType] || mimeType
+    return (
+        labels[mimeType] ||
+        mimeType.split(";")[0].split("/")[1]?.toUpperCase() ||
+        mimeType
+    )
 }
 
 export function formatAuthorName(person: Person): string {

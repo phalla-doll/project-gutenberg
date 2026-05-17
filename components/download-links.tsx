@@ -7,6 +7,7 @@ import {
     SmartPhone01Icon,
 } from "hugeicons-react"
 import type { Book } from "@/lib/gutendex"
+import { getFormatLabel } from "@/lib/gutendex"
 
 function getFormatIcon(mimeType: string) {
     if (mimeType.includes("epub")) return SmartPhone01Icon
@@ -71,21 +72,5 @@ export function DownloadLinks({ book }: DownloadLinksProps) {
                 })}
             </div>
         </div>
-    )
-}
-
-function getFormatLabel(mimeType: string): string {
-    const labels: Record<string, string> = {
-        "text/html": "Read Online",
-        "text/plain; charset=utf-8": "Plain Text (UTF-8)",
-        "text/plain; charset=us-ascii": "Plain Text",
-        "application/epub+zip": "EPUB",
-        "application/x-mobipocket-ebook": "Kindle",
-        "application/octet-stream": "ZIP",
-    }
-    return (
-        labels[mimeType] ||
-        mimeType.split(";")[0].split("/")[1]?.toUpperCase() ||
-        mimeType
     )
 }
