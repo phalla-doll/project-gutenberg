@@ -233,7 +233,7 @@ export default async function BookReaderPage({
                     </Link>
                 </Button>
 
-                <header className="flex flex-col gap-4 border-b border-border pb-6">
+                <header className="flex flex-col gap-4 border-b border-border pb-6 retina:border-b-[0.5px]">
                     <div className="flex flex-wrap gap-2">
                         {book.languages.map((lang) => (
                             <Badge key={lang} variant="secondary">
@@ -266,7 +266,7 @@ export default async function BookReaderPage({
                                 className="scroll-mt-28"
                             >
                                 {section.includeInToc && (
-                                    <h2 className="mb-5 border-b border-border pb-3 font-heading text-2xl tracking-tight text-body-strong sm:text-3xl">
+                                    <h2 className="mb-5 border-b border-border pb-3 font-heading text-2xl tracking-tight text-body-strong sm:text-3xl retina:border-b-[0.5px]">
                                         {section.title}
                                     </h2>
                                 )}
