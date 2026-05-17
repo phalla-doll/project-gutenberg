@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { DownloadLinks } from "@/components/download-links"
+import { BookChatAssistant } from "@/components/book-chat-assistant"
 import {
     getBookById as _getBookById,
     getCoverUrl,
@@ -242,6 +243,8 @@ export default async function BookDetailPage({
             <div className="mt-12 rounded-xl bg-surface-dark p-8 text-on-dark">
                 <DownloadLinks book={book} />
             </div>
+
+            <BookChatAssistant bookId={book.id} title={book.title} />
         </div>
     )
 }
