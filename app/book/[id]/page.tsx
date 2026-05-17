@@ -107,7 +107,7 @@ export default async function BookDetailPage({
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <Link href="/">
-                <Button variant="link" size="sm" className="mb-8 gap-1.5">
+                <Button variant="link" size="sm" className="mb-8 gap-2 px-0">
                     <ArrowLeft01Icon className="size-4" aria-hidden="true" />
                     Back to books
                 </Button>
@@ -115,7 +115,7 @@ export default async function BookDetailPage({
 
             <div className="grid gap-8 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="relative aspect-[2/3] w-full max-w-[320px] overflow-hidden rounded-xl border border-border bg-muted">
+                    <div className="relative aspect-2/3 w-full max-w-[320px] overflow-hidden rounded-xl border border-border bg-muted">
                         {coverUrl ? (
                             <Image
                                 src={coverUrl}

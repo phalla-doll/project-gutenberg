@@ -267,18 +267,13 @@ export default async function BookReaderPage({
     return (
         <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-6">
-                <Button
-                    variant="link"
-                    size="sm"
-                    className="w-fit gap-1.5"
-                    asChild
-                >
+                <Button asChild variant="link" className="w-fit gap-2 px-0">
                     <Link href={`/book/${book.id}`}>
                         <ArrowLeft01Icon
                             className="size-4"
                             aria-hidden="true"
                         />
-                        Book details
+                        Book Details
                     </Link>
                 </Button>
 

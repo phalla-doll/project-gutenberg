@@ -133,7 +133,7 @@ export default function AboutDisclaimerPage() {
 
             <Separator className="my-10" />
 
-            <Button asChild variant="ghost" className="gap-2">
+            <Button asChild variant="link" className="gap-2 px-0">
                 <Link href="/">
                     <ArrowLeft01Icon className="size-4" aria-hidden />
                     Back to books
