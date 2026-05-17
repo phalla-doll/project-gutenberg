@@ -64,7 +64,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
         >
             <div
                 className={cn(
-                    "max-h-[calc(70svh-1rem)] overflow-x-hidden overflow-y-auto",
+                    "max-h-[calc(70svh-1rem)] scrollbar-none overflow-x-hidden overflow-y-auto",
                     isExpanded ? "px-2" : "px-0"
                 )}
             >
