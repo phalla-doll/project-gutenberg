@@ -8,44 +8,47 @@ import type { PaginatedResponse, Book } from "@/lib/gutendex"
 import { getPopularBooks } from "@/lib/gutendex"
 
 interface HomeBookGridProps {
-  initialData: PaginatedResponse<Book>
-  currentPage: number
+    initialData: PaginatedResponse<Book>
+    currentPage: number
 }
 
 export function HomeBookGrid({ initialData, currentPage }: HomeBookGridProps) {
-  const router = useRouter()
-  const [data, setData] = useState<{ page: number; result: PaginatedResponse<Book> }>({
-    page: 1,
-    result: initialData,
-  })
-
-  const loading = data.page !== currentPage
-
-  useEffect(() => {
-    getPopularBooks(currentPage).then((result) => {
-      setData({ page: currentPage, result })
+    const router = useRouter()
+    const [data, setData] = useState<{
+        page: number
+        result: PaginatedResponse<Book>
+    }>({
+        page: 1,
+        result: initialData,
     })
-  }, [currentPage])
 
-  function handlePageChange(page: number) {
-    router.push(`/?page=${page}`)
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    const loading = data.page !== currentPage
 
-  if (loading) {
-    return <BookGridSkeleton />
-  }
+    useEffect(() => {
+        getPopularBooks(currentPage).then((result) => {
+            setData({ page: currentPage, result })
+        })
+    }, [currentPage])
 
-  return (
-    <>
-      <BookGrid books={data.result.results} />
-      <Pagination
-        currentPage={currentPage}
-        hasNext={data.result.next !== null}
-        hasPrev={data.result.previous !== null}
-        onPageChange={handlePageChange}
-        totalResults={data.result.count}
-      />
-    </>
-  )
+    function handlePageChange(page: number) {
+        router.push(`/?page=${page}`)
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    if (loading) {
+        return <BookGridSkeleton />
+    }
+
+    return (
+        <>
+            <BookGrid books={data.result.results} />
+            <Pagination
+                currentPage={currentPage}
+                hasNext={data.result.next !== null}
+                hasPrev={data.result.previous !== null}
+                onPageChange={handlePageChange}
+                totalResults={data.result.count}
+            />
+        </>
+    )
 }
