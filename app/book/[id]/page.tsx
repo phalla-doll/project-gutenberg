@@ -26,6 +26,14 @@ import type { Metadata } from "next"
 
 const getBookById = cache(_getBookById)
 
+function formatBookshelfName(shelf: string) {
+    return formatMetadataLabel(shelf.replace(/^Category:\s*/i, ""))
+}
+
+function formatMetadataLabel(label: string) {
+    return label.replace(/\s*--\s*/g, " — ")
+}
+
 export async function generateMetadata({
     params,
 }: {
@@ -188,17 +196,15 @@ export default async function BookDetailPage({
                         <div>
                             <h3 className="font-heading text-lg">Subjects</h3>
                             <Separator className="my-2" />
-                            <div className="flex min-w-0 flex-wrap gap-1.5">
+                            <ul className="flex min-w-0 flex-wrap gap-2">
                                 {book.subjects.map((subject) => (
-                                    <Badge
-                                        key={subject}
-                                        variant="outline"
-                                        className="max-w-full justify-start text-left text-xs leading-relaxed break-words whitespace-normal"
-                                    >
-                                        {subject}
-                                    </Badge>
+                                    <li key={subject} className="max-w-full">
+                                        <span className="inline-flex max-w-full rounded-md border border-hairline-soft bg-surface-soft px-2.5 py-1.5 text-sm leading-snug break-words whitespace-normal text-body-text">
+                                            {formatMetadataLabel(subject)}
+                                        </span>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </div>
                     )}
 
@@ -208,17 +214,15 @@ export default async function BookDetailPage({
                                 Bookshelves
                             </h3>
                             <Separator className="my-2" />
-                            <div className="flex flex-wrap gap-1.5">
+                            <ul className="flex min-w-0 flex-wrap gap-2">
                                 {book.bookshelves.map((shelf) => (
-                                    <Badge
-                                        key={shelf}
-                                        variant="secondary"
-                                        className="text-xs"
-                                    >
-                                        {shelf}
-                                    </Badge>
+                                    <li key={shelf} className="max-w-full">
+                                        <span className="inline-flex max-w-full rounded-md bg-muted px-2.5 py-1.5 text-sm leading-snug break-words whitespace-normal text-muted-foreground">
+                                            {formatBookshelfName(shelf)}
+                                        </span>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </div>
                     )}
 
