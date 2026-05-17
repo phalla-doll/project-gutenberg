@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import { SearchResults } from "./search-results"
 import { BookGridSkeleton } from "@/components/book-grid"
+import { searchBooks } from "@/lib/gutendex"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -25,6 +26,21 @@ export default async function SearchPage({
     const lang = params.lang || ""
     const page = Number(params.page) || 1
 
+    const hasSearch = !!(query || topic)
+
+    const initialData = hasSearch
+        ? await searchBooks({
+              search: query || undefined,
+              topic: topic || undefined,
+              languages: lang ? [lang] : undefined,
+              page,
+          })
+        : undefined
+
+    const initialKey = hasSearch
+        ? `${query}|${topic}|${lang}|${page}`
+        : undefined
+
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -41,6 +57,8 @@ export default async function SearchPage({
                     topic={topic}
                     lang={lang}
                     currentPage={page}
+                    initialData={initialData}
+                    initialKey={initialKey}
                 />
             </Suspense>
         </div>
