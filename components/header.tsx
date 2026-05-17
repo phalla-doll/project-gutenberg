@@ -18,7 +18,6 @@ import {
     BookOpen01Icon,
     LibraryIcon,
 } from "hugeicons-react"
-import { ThemeToggle } from "@/components/theme-provider"
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home01Icon },
@@ -44,7 +43,7 @@ export function Header() {
             <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
                 <Link
                     href="/"
-                    className="flex items-center gap-2 font-heading text-lg font-bold"
+                    className="flex items-center gap-2 font-heading text-lg"
                 >
                     <BookOpen01Icon
                         className="size-6 text-primary"
@@ -96,8 +95,6 @@ export function Header() {
                         />
                     </div>
                 </form>
-
-                <ThemeToggle />
 
                 <Sheet>
                     <SheetTrigger asChild>

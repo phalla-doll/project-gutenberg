@@ -4,7 +4,6 @@ import { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
 import { searchBooks } from "@/lib/gutendex"
@@ -169,29 +168,22 @@ export function SearchResults({
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                             {LANGUAGES.map(({ code, label }) => (
-                                <Badge
+                                <button
                                     key={code}
-                                    asChild
-                                    variant={
-                                        selectedLang === code
-                                            ? "default"
-                                            : "outline"
+                                    type="button"
+                                    onClick={() =>
+                                        setSelectedLang(
+                                            selectedLang === code ? "" : code
+                                        )
                                     }
-                                    className="cursor-pointer"
+                                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                                        selectedLang === code
+                                            ? "bg-card text-foreground"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    }`}
                                 >
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setSelectedLang(
-                                                selectedLang === code
-                                                    ? ""
-                                                    : code
-                                            )
-                                        }
-                                    >
-                                        {label}
-                                    </button>
-                                </Badge>
+                                    {label}
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -204,27 +196,22 @@ export function SearchResults({
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                             {TOPICS.map((t) => (
-                                <Badge
+                                <button
                                     key={t}
-                                    asChild
-                                    variant={
-                                        selectedTopic === t
-                                            ? "default"
-                                            : "outline"
+                                    type="button"
+                                    onClick={() =>
+                                        setSelectedTopic(
+                                            selectedTopic === t ? "" : t
+                                        )
                                     }
-                                    className="cursor-pointer"
+                                    className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                                        selectedTopic === t
+                                            ? "bg-card text-foreground"
+                                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                    }`}
                                 >
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setSelectedTopic(
-                                                selectedTopic === t ? "" : t
-                                            )
-                                        }
-                                    >
-                                        {t}
-                                    </button>
-                                </Badge>
+                                    {t}
+                                </button>
                             ))}
                         </div>
                     </div>

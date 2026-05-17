@@ -1,5 +1,4 @@
-import { DM_Sans, Merriweather, Geist_Mono } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import { JetBrains_Mono } from "next/font/google"
 import { Header } from "@/components/header"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
@@ -14,21 +13,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-    themeColor: [
-        { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-        { media: "(prefers-color-scheme: dark)", color: "#1e1c19" },
-    ],
+    themeColor: "#faf9f5",
 }
 
-const merriweatherHeading = Merriweather({
-    subsets: ["latin"],
-    variable: "--font-heading",
-    weight: ["300", "400", "700", "900"],
-})
-
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" })
-
-const fontMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
     subsets: ["latin"],
     variable: "--font-mono",
 })
@@ -41,33 +29,32 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            suppressHydrationWarning
-            className={`${dmSans.variable} ${merriweatherHeading.variable} ${fontMono.variable} font-sans antialiased`}
+            className={`${jetbrainsMono.variable} font-sans antialiased`}
         >
             <head>
+                <link rel="preconnect" href="https://cdn.fontshare.com" />
+                <link
+                    href="https://api.fontshare.com/v2/css?f[]=boska&f[]=satoshi&display=swap"
+                    rel="stylesheet"
+                />
                 <link rel="preconnect" href="https://gutendex.com" />
                 <link
                     rel="preconnect"
                     href="https://www.gutenberg.org"
                     crossOrigin=""
                 />
-                <link
-                    rel="preconnect"
-                    href="https://covers.openlibrary.org"
-                    crossOrigin=""
-                />
+                <link rel="preconnect" href="https://covers.openlibrary.org" />
             </head>
             <body className="min-h-svh bg-background">
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="light"
-                    disableTransitionOnChange
-                >
-                    <Header />
-                    <main id="main-content">{children}</main>
-                    <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                            <p>
+                <Header />
+                <main id="main-content">{children}</main>
+                <footer className="bg-surface-dark py-16 text-on-dark-soft">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="flex flex-col items-center gap-4 text-center">
+                            <p className="font-heading text-lg text-on-dark">
+                                Project Gutenberg
+                            </p>
+                            <p className="text-sm">
                                 Built with data from{" "}
                                 <a
                                     href="https://gutendex.com"
@@ -77,11 +64,11 @@ export default function RootLayout({
                                 >
                                     Gutendex API
                                 </a>{" "}
-                                &mdash; Project Gutenberg
+                                &mdash; Free ebooks, open to all
                             </p>
                         </div>
-                    </footer>
-                </ThemeProvider>
+                    </div>
+                </footer>
             </body>
         </html>
     )

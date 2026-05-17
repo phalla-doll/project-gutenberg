@@ -4,7 +4,6 @@ import { useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getBooksByTopic } from "@/lib/gutendex"
 import { usePaginatedBooks } from "@/hooks/use-paginated-books"
@@ -56,19 +55,18 @@ export function BrowseContent({
                 aria-label="Filter by topic"
             >
                 {topics.map(({ slug, label }) => (
-                    <Badge
+                    <button
                         key={slug}
-                        asChild
-                        variant={activeTopic === slug ? "default" : "outline"}
-                        className="cursor-pointer"
+                        type="button"
+                        onClick={() => handleTopicChange(slug)}
+                        className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                            activeTopic === slug
+                                ? "bg-card text-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        }`}
                     >
-                        <button
-                            type="button"
-                            onClick={() => handleTopicChange(slug)}
-                        >
-                            {label}
-                        </button>
-                    </Badge>
+                        {label}
+                    </button>
                 ))}
             </div>
 

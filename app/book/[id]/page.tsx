@@ -61,9 +61,9 @@ export default async function BookDetailPage({
         : "Unknown Author"
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <Link href="/">
-                <Button variant="ghost" size="sm" className="mb-6 gap-1.5">
+                <Button variant="ghost" size="sm" className="mb-8 gap-1.5">
                     <ArrowLeft01Icon className="size-4" aria-hidden="true" />
                     Back to books
                 </Button>
@@ -71,7 +71,7 @@ export default async function BookDetailPage({
 
             <div className="grid gap-8 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="relative aspect-[2/3] w-full max-w-[320px] overflow-hidden rounded-lg border border-border bg-muted shadow-lg">
+                    <div className="relative aspect-[2/3] w-full max-w-[320px] overflow-hidden rounded-xl border border-border bg-muted">
                         {coverUrl ? (
                             <Image
                                 src={coverUrl}
@@ -101,7 +101,7 @@ export default async function BookDetailPage({
 
                 <div className="flex flex-col gap-6">
                     <div>
-                        <h1 className="font-heading text-2xl font-bold tracking-tight text-balance break-words md:text-3xl lg:text-4xl">
+                        <h1 className="font-heading text-3xl tracking-tight text-balance break-words md:text-4xl">
                             {book.title}
                         </h1>
                         <p className="mt-2 text-lg text-muted-foreground">
@@ -132,18 +132,14 @@ export default async function BookDetailPage({
                         )}
                     </div>
 
-                    <DownloadLinks book={book} />
-
                     {book.summaries.length > 0 && (
                         <div>
-                            <h3 className="font-heading text-lg font-semibold">
-                                Summary
-                            </h3>
+                            <h3 className="font-heading text-lg">Summary</h3>
                             <Separator className="my-2" />
                             {book.summaries.map((summary, i) => (
                                 <p
                                     key={i}
-                                    className="text-sm leading-relaxed text-muted-foreground"
+                                    className="text-sm leading-relaxed text-body-text"
                                 >
                                     {summary}
                                 </p>
@@ -153,9 +149,7 @@ export default async function BookDetailPage({
 
                     {book.subjects.length > 0 && (
                         <div>
-                            <h3 className="font-heading text-lg font-semibold">
-                                Subjects
-                            </h3>
+                            <h3 className="font-heading text-lg">Subjects</h3>
                             <Separator className="my-2" />
                             <div className="flex flex-wrap gap-1.5">
                                 {book.subjects.map((subject) => (
@@ -173,7 +167,7 @@ export default async function BookDetailPage({
 
                     {book.bookshelves.length > 0 && (
                         <div>
-                            <h3 className="font-heading text-lg font-semibold">
+                            <h3 className="font-heading text-lg">
                                 Bookshelves
                             </h3>
                             <Separator className="my-2" />
@@ -193,7 +187,7 @@ export default async function BookDetailPage({
 
                     {book.translators.length > 0 && (
                         <div>
-                            <h3 className="font-heading text-lg font-semibold">
+                            <h3 className="font-heading text-lg">
                                 Translators
                             </h3>
                             <Separator className="my-2" />
@@ -207,6 +201,10 @@ export default async function BookDetailPage({
                         </div>
                     )}
                 </div>
+            </div>
+
+            <div className="mt-12 rounded-xl bg-surface-dark p-8 text-on-dark">
+                <DownloadLinks book={book} />
             </div>
         </div>
     )

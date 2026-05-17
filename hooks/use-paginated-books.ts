@@ -52,9 +52,8 @@ export function usePaginatedBooks(
                     setState({
                         key,
                         result: null,
-                        error: err instanceof Error
-                            ? err
-                            : new Error(String(err)),
+                        error:
+                            err instanceof Error ? err : new Error(String(err)),
                     })
                 }
             })

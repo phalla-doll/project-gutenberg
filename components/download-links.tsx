@@ -46,16 +46,16 @@ export function DownloadLinks({ book }: DownloadLinksProps) {
 
     return (
         <div className="flex flex-col gap-3">
-            <h3 className="font-heading text-lg font-semibold">Download</h3>
+            <h3 className="font-heading text-lg">Download</h3>
             <Separator />
             <div className="flex flex-wrap gap-2">
-                {formats.map(([mimeType, url]) => {
+                {formats.map(([mimeType, url], index) => {
                     const Icon = getFormatIcon(mimeType)
                     const label = getFormatLabel(mimeType)
                     return (
                         <Button
                             key={mimeType}
-                            variant="outline"
+                            variant={index === 0 ? "default" : "outline"}
                             size="sm"
                             asChild
                         >
