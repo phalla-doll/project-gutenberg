@@ -52,24 +52,17 @@ export function BookCard({ book }: BookCardProps) {
                 <CardContent className="border-t border-border/60 p-0">
                     <div className="min-w-0 border-l-2 border-primary/40 px-3 pt-3 pb-2">
                         <h3 className="line-clamp-2 text-sm leading-tight font-medium">
-                            {book.title}
+                            [
+                            {book.languages.slice(0, 2).map((lang) => (
+                                <span key={lang}>{lang.toUpperCase()}</span>
+                            ))}
+                            ]<span className="ml-1">{book.title}</span>
                         </h3>
                         <p className="mt-1 line-clamp-1 text-xs text-body-text">
                             {authorName}
                         </p>
                     </div>
                 </CardContent>
-                <CardFooter className="flex flex-wrap gap-1 border-t border-border/40 px-3 !py-2">
-                    {book.languages.slice(0, 2).map((lang) => (
-                        <Badge
-                            key={lang}
-                            variant="outline"
-                            className="text-[10px]"
-                        >
-                            {lang.toUpperCase()}
-                        </Badge>
-                    ))}
-                </CardFooter>
             </Card>
         </Link>
     )
