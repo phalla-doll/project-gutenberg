@@ -4,26 +4,42 @@ import { Logo } from "@/components/logo"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
 
+const siteUrl = "https://boooks.manthaa.dev"
+
 export const metadata: Metadata = {
+    metadataBase: new URL(siteUrl),
     title: {
         template: "%s - Project Gutenberg",
         default: "Project Gutenberg",
     },
     description:
         "Browse and search thousands of free ebooks from Project Gutenberg",
+    alternates: {
+        canonical: "/",
+    },
     openGraph: {
         title: "Project Gutenberg",
         description:
             "Browse and search thousands of free ebooks from Project Gutenberg",
+        url: siteUrl,
         siteName: "Project Gutenberg",
         locale: "en_US",
         type: "website",
+        images: [
+            {
+                url: "/project-gutenberg-og.png",
+                width: 1376,
+                height: 768,
+                alt: "Project Gutenberg book cover and title artwork",
+            },
+        ],
     },
     twitter: {
-        card: "summary",
+        card: "summary_large_image",
         title: "Project Gutenberg",
         description:
             "Browse and search thousands of free ebooks from Project Gutenberg",
+        images: ["/project-gutenberg-og.png"],
     },
 }
 
