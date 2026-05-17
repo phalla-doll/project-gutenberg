@@ -4,7 +4,7 @@ import { Logo } from "@/components/logo"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
 
-const siteUrl = "https://books.manthaa.dev"
+const siteUrl = "https://gutenberg.manthaa.dev"
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
