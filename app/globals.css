@@ -54,6 +54,16 @@
     --surface-soft: oklch(0.957 0.012 79.8);
     --hairline-soft: oklch(0.927 0.011 76.6);
     --surface-dark-soft: oklch(0.235 0.006 91.6);
+    --ds-gray-1000: var(--foreground);
+    --ds-background-200: var(--surface-soft);
+    --ds-amber-600: var(--primary);
+    --ds-book-bind: rgba(20, 20, 19, 0.08);
+    --ds-gray-alpha-400: rgba(20, 20, 19, 0.1);
+    --book-gradient: linear-gradient(
+        180deg,
+        oklch(0.982 0.005 95.1) 0%,
+        oklch(0.936 0.016 82.8) 100%
+    );
 }
 
 @theme inline {
@@ -103,6 +113,13 @@
     --color-surface-soft: var(--surface-soft);
     --color-hairline-soft: var(--hairline-soft);
     --color-surface-dark-soft: var(--surface-dark-soft);
+    --color-background-200: var(--ds-background-200);
+    --color-gray-alpha-400: var(--ds-gray-alpha-400);
+    --shadow-book:
+        0 18px 34px rgba(20, 20, 19, 0.12),
+        0 2px 6px rgba(20, 20, 19, 0.06);
+    --shadow-book-border: inset 0 0 0 1px rgba(255, 255, 255, 0.62);
+    --background-image-book-gradient: var(--book-gradient);
     --radius-sm: calc(var(--radius) * 0.75);
     --radius-md: var(--radius);
     --radius-lg: calc(var(--radius) * 1.5);
@@ -138,5 +155,16 @@
     h3 {
         font-family: var(--font-heading);
         letter-spacing: -0.02em;
+    }
+}
+
+@layer utilities {
+    .book-rotate {
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .book-rotate:hover {
+        transform: rotateX(2deg) rotateY(-10deg);
     }
 }

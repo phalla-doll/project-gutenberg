@@ -1,4 +1,4 @@
-import { BookCard } from "@/components/book-card"
+import { BookCard } from "@/components/book-card-2"
 import { Skeleton } from "@/components/ui/skeleton"
 import type { Book } from "@/lib/gutendex"
 

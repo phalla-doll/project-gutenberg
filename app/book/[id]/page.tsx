@@ -1,7 +1,7 @@
 import { cache } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { Book } from "@/components/book-card-2"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
@@ -115,24 +115,14 @@ export default async function BookDetailPage({
 
             <div className="grid gap-8 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr]">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="relative aspect-2/3 w-full max-w-[320px] overflow-hidden rounded-xl border border-border bg-muted">
-                        {coverUrl ? (
-                            <Image
-                                src={coverUrl}
-                                alt={book.title}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, 320px"
-                                priority
-                            />
-                        ) : (
-                            <div className="flex size-full items-center justify-center">
-                                <BookOpen01Icon
-                                    className="size-24 text-muted-foreground/40"
-                                    aria-hidden="true"
-                                />
-                            </div>
-                        )}
+                    <div className="flex w-full max-w-[320px] justify-center">
+                        <Book
+                            title={book.title}
+                            width={{ sm: 240, md: 280, lg: 320 }}
+                            coverUrl={coverUrl}
+                            coverAlt={book.title}
+                            textured
+                        />
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <ArrowDown01Icon
