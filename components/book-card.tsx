@@ -21,7 +21,7 @@ export function BookCard({ book }: BookCardProps) {
 
     return (
         <Link href={`/book/${book.id}`}>
-            <Card className="group h-full overflow-hidden py-0 transition-shadow hover:shadow-lg">
+            <Card className="group h-full overflow-hidden gap-0 py-0 transition-shadow hover:shadow-lg">
                 <div className="relative aspect-2/3 overflow-hidden bg-muted">
                     {coverUrl ? (
                         <Image
@@ -43,15 +43,17 @@ export function BookCard({ book }: BookCardProps) {
                         </Badge>
                     </div>
                 </div>
-                <CardContent className="p-3">
-                    <h3 className="line-clamp-2 font-heading text-sm leading-tight font-semibold">
-                        {book.title}
-                    </h3>
-                    <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
-                        {authorName}
-                    </p>
+                <CardContent className="border-t border-border/60 p-0">
+                    <div className="border-l-2 border-primary/40 px-3 pt-3 pb-2">
+                        <h3 className="line-clamp-2 font-heading text-sm leading-tight font-semibold">
+                            {book.title}
+                        </h3>
+                        <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
+                            {authorName}
+                        </p>
+                    </div>
                 </CardContent>
-                <CardFooter className="flex flex-wrap gap-1 px-3 pt-0 pb-3">
+                <CardFooter className="flex flex-wrap gap-1 border-t border-border/40 px-3 py-2">
                     {book.languages.slice(0, 2).map((lang) => (
                         <Badge
                             key={lang}
