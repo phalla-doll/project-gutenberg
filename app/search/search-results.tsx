@@ -141,7 +141,7 @@ export function SearchResults({
                         <Input
                             type="search"
                             name="q"
-                            placeholder="Search by title or author\u2026"
+                            placeholder="Search by title or author..."
                             value={inputQuery}
                             onChange={(e) => setInputQuery(e.target.value)}
                             className="pl-9"

@@ -83,7 +83,7 @@ export function Header() {
                         <Input
                             type="search"
                             name="q"
-                            placeholder="Search books\u2026"
+                            placeholder="Search books..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="pl-9"
