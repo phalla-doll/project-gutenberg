@@ -52,7 +52,7 @@
 
 @theme inline {
     --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
-    --font-heading: "Gambarino", serif;
+    --font-heading: "Familjen Grotesk", serif;
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
