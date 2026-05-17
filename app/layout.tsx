@@ -1,5 +1,6 @@
 import { JetBrains_Mono } from "next/font/google"
 import { Header } from "@/components/header"
+import { Logo } from "@/components/logo"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
 
@@ -10,6 +11,20 @@ export const metadata: Metadata = {
     },
     description:
         "Browse and search thousands of free ebooks from Project Gutenberg",
+    openGraph: {
+        title: "Project Gutenberg",
+        description:
+            "Browse and search thousands of free ebooks from Project Gutenberg",
+        siteName: "Project Gutenberg",
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary",
+        title: "Project Gutenberg",
+        description:
+            "Browse and search thousands of free ebooks from Project Gutenberg",
+    },
 }
 
 export const viewport: Viewport = {
@@ -53,9 +68,12 @@ export default function RootLayout({
                 <footer className="bg-surface-dark py-16 text-on-dark-soft">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col items-center gap-4 text-center">
-                            <p className="font-heading text-lg text-on-dark">
-                                Project Gutenberg
-                            </p>
+                            <div className="flex items-center gap-2">
+                                <Logo className="size-6 text-on-dark" />
+                                <span className="font-heading text-lg text-on-dark">
+                                    Project Gutenberg
+                                </span>
+                            </div>
                             <p className="text-sm">
                                 Built with data from{" "}
                                 <a

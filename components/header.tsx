@@ -11,11 +11,11 @@ import {
     SheetTrigger,
     SheetTitle,
 } from "@/components/ui/sheet"
+import { Logo } from "@/components/logo"
 import {
     Home01Icon,
     Menu01Icon,
     Search01Icon,
-    BookOpen01Icon,
     LibraryIcon,
 } from "hugeicons-react"
 
@@ -45,10 +45,7 @@ export function Header() {
                     href="/"
                     className="flex items-center gap-2 font-heading text-lg"
                 >
-                    <BookOpen01Icon
-                        className="size-6 text-primary"
-                        aria-hidden="true"
-                    />
+                    <Logo className="size-6 text-primary" />
                     <span className="hidden sm:inline">Project Gutenberg</span>
                     <span className="sm:hidden">PG</span>
                 </Link>
