@@ -20,7 +20,7 @@ export default async function HomePage({
                     The most downloaded free books from Project Gutenberg
                 </p>
             </div>
-            <HomeBookGrid initialData={data} currentPage={page} />
+            <HomeBookGrid key={page} initialData={data} currentPage={page} />
         </div>
     )
 }

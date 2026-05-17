@@ -1,71 +1,103 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { useCallback } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
-import { Pagination } from "@/components/pagination"
 import { Button } from "@/components/ui/button"
+import type { Book, PaginatedResponse } from "@/lib/gutendex"
 import { getPopularBooks } from "@/lib/gutendex"
-import { usePaginatedBooks } from "@/hooks/use-paginated-books"
+import { getCached, setCache } from "@/lib/book-cache"
 
 interface HomeBookGridProps {
-    initialData: import("@/lib/gutendex").PaginatedResponse<
-        import("@/lib/gutendex").Book
-    >
+    initialData: PaginatedResponse<Book>
     currentPage: number
 }
 
 export function HomeBookGrid({ initialData, currentPage }: HomeBookGridProps) {
-    const router = useRouter()
+    const sentinelRef = useRef<HTMLDivElement | null>(null)
+    const [books, setBooks] = useState(initialData.results)
+    const [nextPage, setNextPage] = useState(currentPage + 1)
+    const [hasNext, setHasNext] = useState(initialData.next !== null)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<Error | null>(null)
 
-    const fetchFn = useCallback(
-        () => getPopularBooks(currentPage),
-        [currentPage]
-    )
+    useEffect(() => {
+        setCache(`page:${currentPage}`, initialData)
+    }, [currentPage, initialData])
 
-    const { data, loading, error, retry } = usePaginatedBooks(
-        fetchFn,
-        `page:${currentPage}`,
-        {
-            initialData,
-            initialKey: "page:1",
+    const loadMore = useCallback(async () => {
+        if (loading || !hasNext) return
+
+        setLoading(true)
+        setError(null)
+
+        try {
+            const key = `page:${nextPage}`
+            const data = getCached(key) ?? (await getPopularBooks(nextPage))
+
+            setCache(key, data)
+            setBooks((currentBooks) => {
+                const bookIds = new Set(currentBooks.map((book) => book.id))
+                const newBooks = data.results.filter(
+                    (book) => !bookIds.has(book.id)
+                )
+
+                return [...currentBooks, ...newBooks]
+            })
+            setHasNext(data.next !== null)
+            setNextPage((page) => page + 1)
+        } catch (err) {
+            setError(err instanceof Error ? err : new Error(String(err)))
+        } finally {
+            setLoading(false)
         }
-    )
+    }, [hasNext, loading, nextPage])
 
-    function handlePageChange(page: number) {
-        router.push(`/?page=${page}`)
-        window.scrollTo({ top: 0, behavior: "smooth" })
-    }
+    useEffect(() => {
+        const sentinel = sentinelRef.current
+        if (!sentinel || !hasNext) return
 
-    if (error) {
-        return (
-            <div className="flex flex-col items-center gap-4 py-16 text-center">
-                <p className="text-lg text-muted-foreground">
-                    Failed to load books. Please try again.
-                </p>
-                <Button onClick={retry} variant="outline">
-                    Retry
-                </Button>
-            </div>
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry?.isIntersecting) {
+                    void loadMore()
+                }
+            },
+            { rootMargin: "480px 0px" }
         )
-    }
 
-    if (loading) {
-        return <BookGridSkeleton />
-    }
+        observer.observe(sentinel)
 
-    if (!data) return null
+        return () => observer.disconnect()
+    }, [hasNext, loadMore])
 
     return (
         <>
-            <BookGrid books={data.results} />
-            <Pagination
-                currentPage={currentPage}
-                hasNext={data.next !== null}
-                hasPrev={data.previous !== null}
-                onPageChange={handlePageChange}
-                totalResults={data.count}
-            />
+            <BookGrid books={books} />
+            <div ref={sentinelRef} className="flex justify-center py-8">
+                {loading && (
+                    <div className="w-full" aria-live="polite">
+                        <BookGridSkeleton />
+                    </div>
+                )}
+                {error && (
+                    <div className="flex flex-col items-center gap-4 text-center">
+                        <p className="text-sm text-muted-foreground">
+                            Failed to load more books. Please try again.
+                        </p>
+                        <Button
+                            onClick={() => void loadMore()}
+                            variant="outline"
+                        >
+                            Retry
+                        </Button>
+                    </div>
+                )}
+                {!hasNext && !loading && !error && (
+                    <p className="text-sm text-muted-foreground">
+                        You have reached the end of the list.
+                    </p>
+                )}
+            </div>
         </>
     )
 }
