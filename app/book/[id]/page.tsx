@@ -1,3 +1,4 @@
+import { cache } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -6,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { DownloadLinks } from "@/components/download-links"
 import {
-    getBookById,
+    getBookById as _getBookById,
     getCoverUrl,
     formatAuthorName,
     formatDownloadCount,
@@ -18,6 +19,8 @@ import {
     Calendar01Icon,
 } from "hugeicons-react"
 import type { Metadata } from "next"
+
+const getBookById = cache(_getBookById)
 
 export async function generateMetadata({
     params,
@@ -61,7 +64,7 @@ export default async function BookDetailPage({
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
             <Link href="/">
                 <Button variant="ghost" size="sm" className="mb-6 gap-1.5">
-                    <ArrowLeft01Icon className="size-4" />
+                    <ArrowLeft01Icon className="size-4" aria-hidden="true" />
                     Back to books
                 </Button>
             </Link>
@@ -80,19 +83,25 @@ export default async function BookDetailPage({
                             />
                         ) : (
                             <div className="flex size-full items-center justify-center">
-                                <BookOpen01Icon className="size-24 text-muted-foreground/40" />
+                                <BookOpen01Icon
+                                    className="size-24 text-muted-foreground/40"
+                                    aria-hidden="true"
+                                />
                             </div>
                         )}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <ArrowDown01Icon className="size-4" />
+                        <ArrowDown01Icon
+                            className="size-4"
+                            aria-hidden="true"
+                        />
                         {formatDownloadCount(book.download_count)} downloads
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-6">
                     <div>
-                        <h1 className="font-heading text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl">
+                        <h1 className="font-heading text-2xl font-bold tracking-tight text-balance break-words md:text-3xl lg:text-4xl">
                             {book.title}
                         </h1>
                         <p className="mt-2 text-lg text-muted-foreground">
@@ -102,7 +111,10 @@ export default async function BookDetailPage({
                             (mainAuthor.birth_year ||
                                 mainAuthor.death_year) && (
                                 <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                                    <Calendar01Icon className="size-3.5" />
+                                    <Calendar01Icon
+                                        className="size-3.5"
+                                        aria-hidden="true"
+                                    />
                                     {mainAuthor.birth_year || "?"} &ndash;{" "}
                                     {mainAuthor.death_year || "?"}
                                 </div>
