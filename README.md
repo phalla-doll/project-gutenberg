@@ -2,6 +2,8 @@
 
 A modern web application for browsing, searching, and downloading free public domain ebooks from [Project Gutenberg](https://www.gutenberg.org), powered by the [Gutendex API](https://gutendex.com).
 
+![Project Gutenberg preview](public/project-gutenberg-og.png)
+
 ## Tech Stack
 
 | Category | Technology |
