@@ -122,14 +122,16 @@
     html {
         @apply font-sans;
     }
-    @media (prefers-reduced-motion: no-preference) {
-        html {
-            scroll-behavior: smooth;
-        }
-    }
     button,
     [role="button"] {
         touch-action: manipulation;
+    }
+    .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
     }
     h1,
     h2,
