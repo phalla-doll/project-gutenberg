@@ -63,7 +63,7 @@ export default async function BookDetailPage({
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <Link href="/">
-                <Button variant="ghost" size="sm" className="mb-8 gap-1.5">
+                <Button variant="link" size="sm" className="mb-8 gap-1.5">
                     <ArrowLeft01Icon className="size-4" aria-hidden="true" />
                     Back to books
                 </Button>
