@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import type { PaginatedResponse, Book } from "@/lib/gutendex"
+import { getCached, setCache } from "@/lib/book-cache"
 
 interface HookState {
     key: string | null
@@ -30,6 +31,7 @@ export function usePaginatedBooks(
     const [retryCount, setRetryCount] = useState(0)
     const [state, setState] = useState<HookState>(() => {
         if (initialData && initialKey) {
+            setCache(initialKey, initialData)
             return { key: initialKey, result: initialData, error: null }
         }
         return { key: null, result: null, error: null }
@@ -41,9 +43,13 @@ export function usePaginatedBooks(
         if (!enabled) return
         let cancelled = false
 
-        fetchFn()
+        const cached = getCached(key)
+        const promise = cached ? Promise.resolve(cached) : fetchFn()
+
+        promise
             .then((result) => {
                 if (!cancelled) {
+                    setCache(key, result)
                     setState({ key, result, error: null })
                 }
             })

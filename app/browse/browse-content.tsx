@@ -6,6 +6,7 @@ import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
 import { Button } from "@/components/ui/button"
 import { getBooksByTopic } from "@/lib/gutendex"
+import type { PaginatedResponse, Book } from "@/lib/gutendex"
 import { usePaginatedBooks } from "@/hooks/use-paginated-books"
 
 interface Topic {
@@ -17,12 +18,16 @@ interface BrowseContentProps {
     topics: Topic[]
     activeTopic: string
     currentPage: number
+    initialData: PaginatedResponse<Book>
+    initialKey: string
 }
 
 export function BrowseContent({
     topics,
     activeTopic,
     currentPage,
+    initialData,
+    initialKey,
 }: BrowseContentProps) {
     const router = useRouter()
 
@@ -33,7 +38,10 @@ export function BrowseContent({
         [activeTopic, currentPage]
     )
 
-    const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key)
+    const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key, {
+        initialData,
+        initialKey,
+    })
 
     function handleTopicChange(topic: string) {
         router.push(`/browse?topic=${encodeURIComponent(topic)}`)

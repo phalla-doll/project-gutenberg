@@ -47,7 +47,9 @@ export default function RootLayout({
             </head>
             <body className="flex min-h-svh flex-col bg-background">
                 <Header />
-                <main id="main-content" className="flex-1">{children}</main>
+                <main id="main-content" className="flex-1">
+                    {children}
+                </main>
                 <footer className="bg-surface-dark py-16 text-on-dark-soft">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col items-center gap-4 text-center">
