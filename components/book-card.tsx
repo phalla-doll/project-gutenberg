@@ -59,7 +59,7 @@ export function BookCard({ book }: BookCardProps) {
                         </p>
                     </div>
                 </CardContent>
-                <CardFooter className="flex flex-wrap gap-1 border-t border-border/40 px-3 py-2">
+                <CardFooter className="flex flex-wrap gap-1 border-t border-border/40 px-3 !py-2">
                     {book.languages.slice(0, 2).map((lang) => (
                         <Badge
                             key={lang}
