@@ -135,7 +135,7 @@ export default async function BookDetailPage({
                     )}
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex min-w-0 flex-col gap-6">
                     <div>
                         <h1 className="font-heading text-3xl tracking-tight text-balance break-words md:text-4xl">
                             {book.title}
@@ -187,12 +187,12 @@ export default async function BookDetailPage({
                         <div>
                             <h3 className="font-heading text-lg">Subjects</h3>
                             <Separator className="my-2" />
-                            <div className="flex flex-wrap gap-1.5">
+                            <div className="flex min-w-0 flex-wrap gap-1.5">
                                 {book.subjects.map((subject) => (
                                     <Badge
                                         key={subject}
                                         variant="outline"
-                                        className="text-xs"
+                                        className="max-w-full justify-start text-left text-xs leading-relaxed break-words whitespace-normal"
                                     >
                                         {subject}
                                     </Badge>
