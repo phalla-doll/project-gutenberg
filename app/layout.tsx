@@ -1,4 +1,5 @@
 import { JetBrains_Mono } from "next/font/google"
+import Link from "next/link"
 import { Header } from "@/components/header"
 import { Logo } from "@/components/logo"
 import {
@@ -100,8 +101,14 @@ export default function RootLayout({
                                 >
                                     Gutendex API
                                 </a>{" "}
-                                &mdash; Free ebooks, open to all
+                                - free ebooks, open to all
                             </p>
+                            <Link
+                                href="/about/disclaimer"
+                                className="text-sm text-on-dark underline underline-offset-4 transition-colors hover:text-primary"
+                            >
+                                About & Disclaimer
+                            </Link>
                         </div>
                     </div>
                 </footer>

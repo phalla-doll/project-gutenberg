@@ -2,6 +2,8 @@ import { getPopularBooks, getReadableTextUrl } from "@/lib/gutendex"
 import { siteUrl } from "@/lib/site-metadata"
 import type { MetadataRoute } from "next"
 
+export const dynamic = "force-dynamic"
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticRoutes: MetadataRoute.Sitemap = [
         {
@@ -18,6 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${siteUrl}/search`,
             changeFrequency: "weekly",
             priority: 0.5,
+        },
+        {
+            url: `${siteUrl}/about/disclaimer`,
+            changeFrequency: "yearly",
+            priority: 0.4,
         },
     ]
 
