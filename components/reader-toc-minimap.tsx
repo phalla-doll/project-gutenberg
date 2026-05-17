@@ -112,11 +112,12 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                 <div
                     className={cn(
                         "flex flex-col transition-[gap] duration-150 ease-out",
-                        isExpanded ? "gap-1" : "gap-0.5"
+                        isExpanded ? "gap-1" : "gap-px"
                     )}
                 >
-                    {items.map((item) => {
+                    {items.map((item, index) => {
                         const isActive = activeId === item.id
+                        const isCollapsedMarker = (index + 1) % 5 === 0
 
                         return (
                             <a
@@ -126,7 +127,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                                 aria-label={`Scroll to ${item.title}`}
                                 className={cn(
                                     "group flex items-center transition-[height] duration-150 ease-out outline-none",
-                                    isExpanded ? "h-7 gap-3" : "h-2.5 gap-0"
+                                    isExpanded ? "h-7 gap-3" : "h-2 gap-0"
                                 )}
                             >
                                 <span
@@ -137,8 +138,11 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                                                 ? "w-4 bg-primary"
                                                 : "w-2 bg-muted-foreground/35 group-hover:bg-muted-foreground/70"
                                             : isActive
-                                              ? "w-4 bg-primary"
-                                              : "w-3 bg-muted-foreground/25 group-hover:bg-muted-foreground/50"
+                                              ? "w-5"
+                                              : isCollapsedMarker
+                                                ? "w-4 bg-muted-foreground/30 group-hover:bg-muted-foreground/55"
+                                                : "w-3 bg-muted-foreground/25 group-hover:bg-muted-foreground/50",
+                                        isActive && "bg-primary"
                                     )}
                                     aria-hidden="true"
                                 />
