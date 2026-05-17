@@ -34,7 +34,7 @@ export default function RootLayout({
             <head>
                 <link rel="preconnect" href="https://cdn.fontshare.com" />
                 <link
-                    href="https://api.fontshare.com/v2/css?f[]=boska&f[]=satoshi&display=swap"
+                    href="https://api.fontshare.com/v2/css?f[]=gambarino&f[]=satoshi&display=swap"
                     rel="stylesheet"
                 />
                 <link rel="preconnect" href="https://gutendex.com" />
