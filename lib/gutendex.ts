@@ -115,6 +115,34 @@ export function getCoverUrl(book: Book): string | null {
     return book.formats["image/jpeg"] || null
 }
 
+export function getReadableTextUrl(book: Book): string | null {
+    const preferredFormats = [
+        "text/plain; charset=utf-8",
+        "text/plain; charset=us-ascii",
+        "text/plain",
+    ]
+
+    for (const format of preferredFormats) {
+        if (book.formats[format]) return book.formats[format]
+    }
+
+    const textFormat = Object.entries(book.formats).find(([mimeType]) =>
+        mimeType.startsWith("text/plain")
+    )
+
+    return textFormat?.[1] || null
+}
+
+export function getOnlineReadUrl(book: Book): string | null {
+    return (
+        book.formats["text/html"] ||
+        Object.entries(book.formats).find(([mimeType]) =>
+            mimeType.startsWith("text/html")
+        )?.[1] ||
+        null
+    )
+}
+
 export function getFormatLabel(mimeType: string): string {
     const labels: Record<string, string> = {
         "text/html": "Read Online",

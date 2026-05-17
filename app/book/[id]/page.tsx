@@ -9,6 +9,8 @@ import { DownloadLinks } from "@/components/download-links"
 import {
     getBookById as _getBookById,
     getCoverUrl,
+    getOnlineReadUrl,
+    getReadableTextUrl,
     formatAuthorName,
     formatDownloadCount,
 } from "@/lib/gutendex"
@@ -17,6 +19,7 @@ import {
     BookOpen01Icon,
     ArrowDown01Icon,
     Calendar01Icon,
+    ArrowUpRight03Icon,
 } from "hugeicons-react"
 import type { Metadata } from "next"
 
@@ -59,6 +62,8 @@ export default async function BookDetailPage({
     const authorName = mainAuthor
         ? formatAuthorName(mainAuthor)
         : "Unknown Author"
+    const readableTextUrl = getReadableTextUrl(book)
+    const onlineReadUrl = getOnlineReadUrl(book)
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -97,6 +102,37 @@ export default async function BookDetailPage({
                         />
                         {formatDownloadCount(book.download_count)} downloads
                     </div>
+                    {readableTextUrl ? (
+                        <Button className="w-full max-w-[320px]" asChild>
+                            <Link href={`/book/${book.id}/read`}>
+                                <BookOpen01Icon
+                                    className="size-4"
+                                    aria-hidden="true"
+                                />
+                                Read online
+                            </Link>
+                        </Button>
+                    ) : (
+                        onlineReadUrl && (
+                            <Button className="w-full max-w-[320px]" asChild>
+                                <a
+                                    href={onlineReadUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <BookOpen01Icon
+                                        className="size-4"
+                                        aria-hidden="true"
+                                    />
+                                    Read online
+                                    <ArrowUpRight03Icon
+                                        className="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </a>
+                            </Button>
+                        )
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-6">

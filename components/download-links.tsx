@@ -51,7 +51,9 @@ export function DownloadLinks({ book }: DownloadLinksProps) {
             <div className="flex flex-wrap gap-2">
                 {formats.map(([mimeType, url], index) => {
                     const Icon = getFormatIcon(mimeType)
-                    const label = getFormatLabel(mimeType)
+                    const label = mimeType.startsWith("text/html")
+                        ? "Read official page"
+                        : getFormatLabel(mimeType)
                     return (
                         <Button
                             key={mimeType}
