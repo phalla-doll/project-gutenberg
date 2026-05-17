@@ -56,6 +56,7 @@ export default async function BrowsePage({
             </div>
             <Suspense fallback={<BookGridSkeleton />}>
                 <BrowseContent
+                    key={`${topic}|${page}`}
                     topics={TOPICS}
                     activeTopic={topic}
                     currentPage={page}
