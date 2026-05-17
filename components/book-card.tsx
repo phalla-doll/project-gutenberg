@@ -1,13 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { BookOpen01Icon, ArrowDown01Icon } from "hugeicons-react"
+import { BookOpen01Icon } from "hugeicons-react"
 import {
     type Book,
     getCoverUrl,
     formatAuthorName,
-    formatDownloadCount,
 } from "@/lib/gutendex"
 
 interface BookCardProps {
