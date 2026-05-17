@@ -63,9 +63,6 @@ export default function RootLayout({
                     defaultTheme="light"
                     disableTransitionOnChange
                 >
-                    <a href="#main-content" className="skip-link">
-                        Skip to main content
-                    </a>
                     <Header />
                     <main id="main-content">{children}</main>
                     <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
