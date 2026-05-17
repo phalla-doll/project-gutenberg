@@ -18,7 +18,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
     const [readingProgress, setReadingProgress] = useState(0)
     const ids = useMemo(() => items.map((item) => item.id), [items])
     const expandedProgress = `${readingProgress.toFixed(2)}% reading progress`
-    const collapsedProgress = `${Math.round(readingProgress)}%`
+    const collapsedProgress = `${readingProgress.toFixed(1)}%`
 
     useEffect(() => {
         if (!ids.length) return
@@ -92,7 +92,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
             aria-label="Book sections"
             className={cn(
                 "fixed top-1/2 right-6 z-40 hidden max-h-[70svh] -translate-y-1/2 overflow-hidden py-2 transition-[width] duration-150 ease-out xl:block",
-                isExpanded ? "w-56" : "w-8"
+                isExpanded ? "w-56" : "w-12"
             )}
             onMouseEnter={() => setIsExpanded(true)}
             onMouseLeave={() => setIsExpanded(false)}
@@ -127,7 +127,9 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                                 aria-label={`Scroll to ${item.title}`}
                                 className={cn(
                                     "group flex items-center transition-[height] duration-150 ease-out outline-none",
-                                    isExpanded ? "h-7 gap-3" : "h-2 gap-0"
+                                    isExpanded
+                                        ? "h-7 gap-3"
+                                        : "h-2 justify-center gap-0"
                                 )}
                             >
                                 <span
@@ -163,7 +165,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
             <div
                 className={cn(
                     "mx-auto mt-3 border-t border-border/70 pt-2 text-center text-[10px] leading-none font-semibold tracking-normal text-muted-foreground tabular-nums transition-[width,color] duration-150",
-                    isExpanded ? "w-[calc(100%-1rem)] text-xs" : "w-8"
+                    isExpanded ? "w-[calc(100%-1rem)] text-xs" : "w-12"
                 )}
                 aria-label={expandedProgress}
             >
