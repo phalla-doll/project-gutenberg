@@ -59,6 +59,11 @@ export function DownloadLinks({ book }: DownloadLinksProps) {
                             key={mimeType}
                             variant={index === 0 ? "default" : "outline"}
                             size="sm"
+                            className={
+                                index === 0
+                                    ? undefined
+                                    : "border-on-dark/75 text-on-dark hover:border-on-dark hover:!bg-on-dark/5 hover:!text-on-dark"
+                            }
                             asChild
                         >
                             <a
