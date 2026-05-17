@@ -122,6 +122,11 @@
     html {
         @apply font-sans;
     }
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
     button,
     [role="button"] {
         touch-action: manipulation;

@@ -62,7 +62,12 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                 }
             }}
         >
-            <div className="max-h-[calc(70svh-1rem)] overflow-y-auto px-2">
+            <div
+                className={cn(
+                    "max-h-[calc(70svh-1rem)] overflow-x-hidden overflow-y-auto",
+                    isExpanded ? "px-2" : "px-0"
+                )}
+            >
                 <div
                     className={cn(
                         "flex flex-col transition-[gap] duration-150 ease-out",
@@ -79,25 +84,9 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                                 aria-current={isActive ? "location" : undefined}
                                 aria-label={`Scroll to ${item.title}`}
                                 className={cn(
-                                    "group flex items-center gap-3 transition-[height] duration-150 ease-out outline-none",
-                                    isExpanded ? "h-7" : "h-2.5"
+                                    "group flex items-center transition-[height] duration-150 ease-out outline-none",
+                                    isExpanded ? "h-7 gap-3" : "h-2.5 gap-0"
                                 )}
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    const element = document.getElementById(
-                                        item.id
-                                    )
-                                    if (!element) return
-
-                                    const top =
-                                        element.getBoundingClientRect().top +
-                                        window.scrollY -
-                                        96
-                                    window.scrollTo({
-                                        top,
-                                        behavior: "smooth",
-                                    })
-                                }}
                             >
                                 <span
                                     className={cn(
@@ -107,8 +96,8 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                                                 ? "w-4 bg-primary"
                                                 : "w-2 bg-muted-foreground/35 group-hover:bg-muted-foreground/70"
                                             : isActive
-                                              ? "w-5 bg-primary"
-                                              : "w-5 bg-muted-foreground/25 group-hover:bg-muted-foreground/50"
+                                              ? "w-4 bg-primary"
+                                              : "w-3 bg-muted-foreground/25 group-hover:bg-muted-foreground/50"
                                     )}
                                     aria-hidden="true"
                                 />
