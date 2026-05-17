@@ -39,7 +39,25 @@ function trimProjectGutenbergText(text: string) {
         : 0
     const endIndex = endMarker?.index ?? normalized.length
 
-    return normalized.slice(startIndex, endIndex).trim()
+    return trimDecorativeOpening(normalized.slice(startIndex, endIndex)).trim()
+}
+
+function trimDecorativeOpening(text: string) {
+    const lines = text.trim().split("\n")
+    const searchLimit = Math.min(lines.length, 220)
+    const firstContentIndex = lines.findIndex((line, index) => {
+        if (index > searchLimit) return false
+
+        return /^(preface|introduction|prologue|chapter|book|volume|part)\b/i.test(
+            line.trim()
+        )
+    })
+
+    if (firstContentIndex <= 0 || firstContentIndex >= searchLimit) {
+        return text
+    }
+
+    return lines.slice(firstContentIndex).join("\n")
 }
 
 function createSectionId(title: string, index: number) {
