@@ -117,20 +117,30 @@ export const Book = ({
                 }}
             >
                 <div
-                    className="relative flex h-full translate-x-0 flex-col overflow-hidden rounded-l-md rounded-r bg-background-200 shadow-book after:absolute after:h-full after:w-full after:rounded-l-md after:rounded-r after:border after:border-gray-alpha-400 after:shadow-book-border"
+                    className="relative flex h-full translate-x-0 flex-col overflow-hidden rounded-l-md rounded-r bg-background-200 shadow-book after:absolute after:inset-0 after:rounded-l-md after:rounded-r after:border after:border-gray-alpha-400 after:shadow-book-border"
                     style={{ width: _width }}
                 >
                     {coverUrl ? (
-                        <div className="relative size-full bg-background-200">
-                            <div className="absolute inset-y-[2px] right-[7.8%] left-[8.4%] overflow-hidden">
+                        <div className="relative size-full overflow-hidden bg-background-200">
+                            <Image
+                                src={coverUrl}
+                                alt=""
+                                fill
+                                aria-hidden="true"
+                                className="scale-[1.12] object-cover opacity-[0.22] blur-md saturate-75"
+                                sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 196px"
+                            />
+                            <div className="absolute inset-0 bg-background-200/45" />
+                            <div className="absolute inset-y-[2.2%] right-[3.4%] left-[9.8%] overflow-hidden rounded-[2px] shadow-[0_1px_1px_rgba(20,20,19,0.2),0_0_0_1px_rgba(255,255,255,0.36)]">
                                 <Image
                                     src={coverUrl}
                                     alt={coverAlt}
                                     fill
-                                    className="object-contain"
+                                    className="object-cover"
                                     sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 196px"
                                 />
                             </div>
+                            <div className="pointer-events-none absolute inset-y-[2.2%] right-[3.4%] left-[9.8%] rounded-[2px] bg-[linear-gradient(90deg,rgba(255,255,255,0.12),transparent_16%,transparent_78%,rgba(20,20,19,0.08)),linear-gradient(180deg,rgba(255,255,255,0.2),transparent_14%,transparent_82%,rgba(20,20,19,0.12))]" />
                         </div>
                     ) : (
                         <>
@@ -218,20 +228,21 @@ export const Book = ({
                         className="pointer-events-none absolute inset-y-0 left-0 w-[8.4%]"
                         style={{
                             background:
-                                "linear-gradient(90deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86) 44%, rgba(20,20,19,0.045) 76%, rgba(255,255,255,0.18))",
+                                "linear-gradient(90deg, rgba(255,255,255,0.96), rgba(255,255,255,0.76) 34%, rgba(20,20,19,0.085) 78%, rgba(255,255,255,0.16))",
                         }}
                     />
                     <div className="pointer-events-none absolute inset-y-0 left-[3.2%] w-px bg-white/70" />
-                    <div className="pointer-events-none absolute inset-y-0 left-[8.2%] w-px bg-foreground/18" />
-                    <div className="pointer-events-none absolute inset-y-0 left-[8.8%] w-[2.8%] bg-[linear-gradient(90deg,rgba(20,20,19,0.075),transparent)]" />
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-[1.4%] bg-[linear-gradient(270deg,rgba(20,20,19,0.05),transparent)]" />
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-[5%] bg-[linear-gradient(180deg,rgba(255,255,255,0.16),transparent)] mix-blend-screen" />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[7%] bg-[linear-gradient(0deg,rgba(20,20,19,0.04),transparent)] mix-blend-multiply" />
+                    <div className="pointer-events-none absolute inset-y-0 left-[8.2%] w-px bg-foreground/20" />
+                    <div className="pointer-events-none absolute inset-y-0 left-[8.8%] w-[4.6%] bg-[linear-gradient(90deg,rgba(20,20,19,0.1),rgba(255,255,255,0.14)_42%,transparent)] mix-blend-multiply" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-[2.4%] bg-[linear-gradient(270deg,rgba(20,20,19,0.1),transparent)] mix-blend-multiply" />
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-[6.5%] bg-[linear-gradient(180deg,rgba(255,255,255,0.24),transparent)] mix-blend-screen" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[8.5%] bg-[linear-gradient(0deg,rgba(20,20,19,0.1),transparent)] mix-blend-multiply" />
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(108deg,transparent_0%,rgba(255,255,255,0.12)_30%,transparent_43%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                     {textured ? (
                         <div
                             className={clsx(
                                 "pointer-events-none absolute inset-0 top-0 left-0 rotate-180 rounded-l-md rounded-r bg-[url('https://assets.vercel.com/image/upload/v1720554484/front/design/book-texture.avif')] bg-cover bg-no-repeat mix-blend-hard-light brightness-110",
-                                coverUrl ? "opacity-20" : "opacity-50"
+                                coverUrl ? "opacity-28" : "opacity-50"
                             )}
                         />
                     ) : null}
@@ -241,13 +252,15 @@ export const Book = ({
                     className="absolute top-[3px] h-[calc(100%_-_2_*_3px)] w-[calc(29cqw_-_2px)]"
                     style={{
                         background:
-                            "linear-gradient(90deg, #eaeaea, transparent 70%), linear-gradient(#fff, #fafafa)",
+                            "repeating-linear-gradient(180deg, rgba(20,20,19,0.08) 0 1px, transparent 1px 4px), linear-gradient(90deg, #e8e1d1, #fffdf6 38%, #ddd3bd 100%)",
                         transform: `translateX(calc(${_width} * 1px - 29cqw / 2 - 3px)) rotateY(90deg) translateX(calc(29cqw / 2))`,
                     }}
                 />
                 <div
                     className="absolute top-0 left-0 h-full rounded-l-md rounded-r bg-gray-200"
                     style={{
+                        background:
+                            "linear-gradient(90deg, rgba(20,20,19,0.08), transparent 14%), linear-gradient(180deg, #eee8db, #d7cdb9)",
                         width: _width,
                         transform: "translateZ(calc(-1 * 29cqw))",
                     }}
