@@ -3,6 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { BookChatAssistant } from "@/components/book-chat-assistant"
 import { ReaderTocMinimap } from "@/components/reader-toc-minimap"
 import {
     getBookById as _getBookById,
@@ -340,6 +341,14 @@ export default async function BookReaderPage({
                     )}
                 </div>
             )}
+
+            <BookChatAssistant
+                bookId={book.id}
+                title={book.title}
+                launcherLabel="Ask AI"
+                launcherTone="reader"
+                enableSelectionAsk
+            />
         </div>
     )
 }

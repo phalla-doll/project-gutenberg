@@ -76,7 +76,10 @@ export default function RootLayout({
                 />
                 <link rel="preconnect" href="https://covers.openlibrary.org" />
             </head>
-            <body className="flex min-h-svh flex-col bg-background">
+            <body
+                className="flex min-h-svh flex-col bg-background"
+                suppressHydrationWarning
+            >
                 <Header />
                 <main id="main-content" className="flex-1">
                     {children}
