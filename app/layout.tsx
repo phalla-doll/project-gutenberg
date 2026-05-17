@@ -17,7 +17,7 @@ export const metadata: Metadata = {
         default: siteName,
     },
     description: defaultDescription,
-    authors: [{ name: siteName, url: "https://www.gutenberg.org" }],
+    authors: [{ name: siteName, url: siteUrl }],
     creator: siteName,
     publisher: siteName,
     alternates: {
@@ -87,7 +87,7 @@ export default function RootLayout({
                             <div className="flex items-center gap-2">
                                 <Logo className="size-6 text-on-dark" />
                                 <span className="font-heading text-lg text-on-dark">
-                                    Project Gutenberg
+                                    Project Sonam
                                 </span>
                             </div>
                             <p className="text-sm">

@@ -17,7 +17,7 @@ export default async function HomePage({
                     Popular Books
                 </h1>
                 <p className="mt-3 text-lg text-muted-foreground">
-                    The most downloaded free books from Project Gutenberg
+                    The most downloaded free books on Project Sonam
                 </p>
             </div>
             <HomeBookGrid key={page} initialData={data} currentPage={page} />

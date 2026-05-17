@@ -57,7 +57,7 @@ function createSystemPrompt(book: Awaited<ReturnType<typeof getBookById>>) {
         ? book.subjects.join(", ")
         : "No subjects are available for this book."
 
-    return `You are a focused book assistant for one Project Gutenberg book.
+    return `You are a focused book assistant for one Project Sonam book.
 
 Book:
 Title: ${book.title}

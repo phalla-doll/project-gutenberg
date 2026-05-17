@@ -7,15 +7,14 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
     title: "Search",
-    description:
-        "Search through thousands of free ebooks from Project Gutenberg",
+    description: "Search through thousands of free ebooks with Project Sonam",
     alternates: {
         canonical: "/search",
     },
     openGraph: {
         title: `Search - ${siteName}`,
         description:
-            "Search through thousands of free ebooks from Project Gutenberg",
+            "Search through thousands of free ebooks with Project Sonam",
         url: "/search",
         siteName,
         locale: "en_US",
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: `Search - ${siteName}`,
         description:
-            "Search through thousands of free ebooks from Project Gutenberg",
+            "Search through thousands of free ebooks with Project Sonam",
         images: [defaultOgImage.url],
     },
 }

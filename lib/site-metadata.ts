@@ -1,14 +1,14 @@
-export const siteName = "Project Gutenberg"
-export const siteUrl = "https://gutenberg.manthaa.dev"
+export const siteName = "Project Sonam"
+export const siteUrl = "https://sonam.manthaa.dev"
 
 export const defaultDescription =
-    "Browse and search thousands of free ebooks from Project Gutenberg"
+    "Browse and search thousands of free ebooks with Project Sonam"
 
 export const defaultOgImage = {
-    url: "/project-gutenberg-og.png",
+    url: "/project-sonam-og.png",
     width: 1376,
     height: 768,
-    alt: "Project Gutenberg book cover and title artwork",
+    alt: "Project Sonam book cover and title artwork",
 }
 
 export function getAbsoluteUrl(path: string) {

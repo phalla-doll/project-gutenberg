@@ -46,8 +46,8 @@ export function Header() {
                     className="flex items-center gap-2 font-heading text-lg"
                 >
                     <Logo className="size-6 text-primary" />
-                    <span className="hidden sm:inline">Project Gutenberg</span>
-                    <span className="sm:hidden">PG</span>
+                    <span className="hidden sm:inline">Project Sonam</span>
+                    <span className="sm:hidden">PS</span>
                 </Link>
 
                 <nav

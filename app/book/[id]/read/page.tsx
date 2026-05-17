@@ -205,8 +205,7 @@ export async function generateMetadata({
     try {
         const book = await getBookById(Number(id))
         const description =
-            book.summaries[0] ||
-            `Read ${book.title} online from Project Gutenberg`
+            book.summaries[0] || `Read ${book.title} online with Project Sonam`
         const authorNames = book.authors.map(formatAuthorName)
         const title = `Read ${book.title} - ${siteName}`
         const url = `/book/${book.id}/read`
@@ -351,8 +350,8 @@ export default async function BookReaderPage({
                         </h2>
                         <p className="text-sm leading-relaxed text-muted-foreground">
                             This title does not include a plain text edition in
-                            Gutendex. You can still read it on Project Gutenberg
-                            when an HTML edition is available.
+                            Gutendex. You can still read it in the original
+                            reader when an HTML edition is available.
                         </p>
                     </div>
                     {onlineUrl && (
@@ -362,7 +361,7 @@ export default async function BookReaderPage({
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Open Gutenberg
+                                Open original reader
                                 <ArrowUpRight03Icon
                                     className="size-4"
                                     aria-hidden="true"

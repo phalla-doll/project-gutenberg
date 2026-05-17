@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next"
-
-const siteUrl = "https://gutenberg.manthaa.dev"
+import { siteUrl } from "@/lib/site-metadata"
 
 export default function robots(): MetadataRoute.Robots {
     return {

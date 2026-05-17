@@ -1,8 +1,8 @@
-# Project Gutenberg
+# Project Sonam
 
-A modern web application for browsing, searching, and downloading free public domain ebooks from [Project Gutenberg](https://www.gutenberg.org), powered by the [Gutendex API](https://gutendex.com).
+A modern web application for browsing, searching, and downloading free public domain ebooks, powered by the [Gutendex API](https://gutendex.com).
 
-![Project Gutenberg preview](public/project-gutenberg-og.png)
+![Project Sonam preview](public/project-sonam-og.png)
 
 ## Tech Stack
 
@@ -22,7 +22,7 @@ A modern web application for browsing, searching, and downloading free public do
 ## Project Structure
 
 ```
-project-gutenberg/
+project-sonam/
 ├── app/
 │   ├── layout.tsx              # Root layout (fonts, theme, header, footer)
 │   ├── page.tsx                # Home page — popular books grid
@@ -78,7 +78,7 @@ project-gutenberg/
 ## Pages & Routes
 
 ### `/` — Home
-Displays the most downloaded books from Project Gutenberg in a responsive grid with infinite loading, duplicate filtering, cached pages, skeleton states, and a retry action for failed page loads.
+Displays the most downloaded books in a responsive grid with infinite loading, duplicate filtering, cached pages, skeleton states, and a retry action for failed page loads.
 
 ### `/browse` — Browse by Topic
 Browse books across 20 curated topics (Fiction, Science Fiction, Fantasy, Mystery, Romance, Adventure, History, Philosophy, Science, Poetry, and more). Topic selection via badge filters.
@@ -94,14 +94,14 @@ Server-rendered book detail page with:
 - Cover image (from Gutenberg CDN)
 - Author info with birth/death years
 - In-app reader link when a plain text edition is available
-- External Project Gutenberg reader fallback when only HTML is available
+- External original reader fallback when only HTML is available
 - Download links in multiple formats (HTML, EPUB, Kindle, Plain Text, ZIP, and other non-image formats)
 - Book summary, subjects, bookshelves, and translators
 - Floating AI assistant for concise questions about the current book
 - Dynamic SEO metadata via `generateMetadata`
 
 ### `/book/[id]/read` — Reader
-Server-rendered reading view that fetches the book's plain text edition, removes Project Gutenberg boilerplate, detects likely chapter/section headings, and renders a readable long-form layout with an optional table-of-contents minimap. Readers can highlight a passage and ask the AI assistant about that selection. If plain text is unavailable, it offers a link to the official Gutenberg HTML edition when possible.
+Server-rendered reading view that fetches the book's plain text edition, removes source boilerplate, detects likely chapter/section headings, and renders a readable long-form layout with an optional table-of-contents minimap. Readers can highlight a passage and ask the AI assistant about that selection. If plain text is unavailable, it offers a link to the original HTML edition when possible.
 
 ### `/api/book-chat` — Book Assistant
 Streams concise, book-scoped assistant responses for the detail and reader pages. The route:

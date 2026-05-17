@@ -44,8 +44,7 @@ export async function generateMetadata({
     try {
         const book = await getBookById(Number(id))
         const description =
-            book.summaries[0] ||
-            `Read ${book.title} for free on Project Gutenberg`
+            book.summaries[0] || `Read ${book.title} for free on Project Sonam`
         const authorNames = book.authors.map(formatAuthorName)
         const title = `${book.title} - ${siteName}`
         const url = `/book/${book.id}`

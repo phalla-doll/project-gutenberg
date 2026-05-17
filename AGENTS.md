@@ -1,4 +1,4 @@
-# AGENTS.md — Project Gutenberg
+# AGENTS.md — Project Sonam
 
 ## Commands
 
