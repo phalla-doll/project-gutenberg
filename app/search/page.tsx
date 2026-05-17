@@ -2,12 +2,33 @@ import { Suspense } from "react"
 import { SearchResults } from "./search-results"
 import { BookGridSkeleton } from "@/components/book-grid"
 import { searchBooks } from "@/lib/gutendex"
+import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-    title: "Search - Project Gutenberg",
+    title: "Search",
     description:
         "Search through thousands of free ebooks from Project Gutenberg",
+    alternates: {
+        canonical: "/search",
+    },
+    openGraph: {
+        title: `Search - ${siteName}`,
+        description:
+            "Search through thousands of free ebooks from Project Gutenberg",
+        url: "/search",
+        siteName,
+        locale: "en_US",
+        type: "website",
+        images: [defaultOgImage],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `Search - ${siteName}`,
+        description:
+            "Search through thousands of free ebooks from Project Gutenberg",
+        images: [defaultOgImage.url],
+    },
 }
 
 export default async function SearchPage({

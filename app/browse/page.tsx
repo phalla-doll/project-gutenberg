@@ -2,12 +2,33 @@ import { Suspense } from "react"
 import { BrowseContent } from "./browse-content"
 import { BookGridSkeleton } from "@/components/book-grid"
 import { getBooksByTopic } from "@/lib/gutendex"
+import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-    title: "Browse - Project Gutenberg",
+    title: "Browse",
     description:
         "Browse free ebooks by topic and category from Project Gutenberg",
+    alternates: {
+        canonical: "/browse",
+    },
+    openGraph: {
+        title: `Browse - ${siteName}`,
+        description:
+            "Browse free ebooks by topic and category from Project Gutenberg",
+        url: "/browse",
+        siteName,
+        locale: "en_US",
+        type: "website",
+        images: [defaultOgImage],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `Browse - ${siteName}`,
+        description:
+            "Browse free ebooks by topic and category from Project Gutenberg",
+        images: [defaultOgImage.url],
+    },
 }
 
 const TOPICS = [

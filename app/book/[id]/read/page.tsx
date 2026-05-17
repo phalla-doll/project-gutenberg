@@ -11,6 +11,7 @@ import {
     getReadableTextUrl,
     formatAuthorName,
 } from "@/lib/gutendex"
+import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import {
     ArrowLeft01Icon,
     ArrowUpRight03Icon,
@@ -203,14 +204,44 @@ export async function generateMetadata({
     const { id } = await params
     try {
         const book = await getBookById(Number(id))
+        const description =
+            book.summaries[0] ||
+            `Read ${book.title} online from Project Gutenberg`
+        const authorNames = book.authors.map(formatAuthorName)
+        const title = `Read ${book.title} - ${siteName}`
+        const url = `/book/${book.id}/read`
+
         return {
-            title: `Read ${book.title} - Project Gutenberg`,
-            description:
-                book.summaries[0] ||
-                `Read ${book.title} online from Project Gutenberg`,
+            title: `Read ${book.title}`,
+            description,
+            authors: authorNames.length
+                ? authorNames.map((name) => ({ name }))
+                : [{ name: siteName }],
+            creator: authorNames[0] || siteName,
+            publisher: siteName,
+            alternates: {
+                canonical: url,
+            },
+            openGraph: {
+                title,
+                description,
+                url,
+                siteName,
+                locale: "en_US",
+                type: "book",
+                authors: authorNames.length ? authorNames : undefined,
+                tags: book.subjects.slice(0, 8),
+                images: [defaultOgImage],
+            },
+            twitter: {
+                card: "summary_large_image",
+                title,
+                description,
+                images: [defaultOgImage.url],
+            },
         }
     } catch {
-        return { title: "Read Book - Project Gutenberg" }
+        return { title: "Read Book" }
     }
 }
 

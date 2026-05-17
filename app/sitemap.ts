@@ -1,7 +1,6 @@
 import { getPopularBooks, getReadableTextUrl } from "@/lib/gutendex"
+import { siteUrl } from "@/lib/site-metadata"
 import type { MetadataRoute } from "next"
-
-const siteUrl = "https://gutenberg.manthaa.dev"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticRoutes: MetadataRoute.Sitemap = [

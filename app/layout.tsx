@@ -1,45 +1,42 @@
 import { JetBrains_Mono } from "next/font/google"
 import { Header } from "@/components/header"
 import { Logo } from "@/components/logo"
+import {
+    defaultDescription,
+    defaultOgImage,
+    siteName,
+    siteUrl,
+} from "@/lib/site-metadata"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
-
-const siteUrl = "https://gutenberg.manthaa.dev"
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
     title: {
-        template: "%s - Project Gutenberg",
-        default: "Project Gutenberg",
+        template: `%s - ${siteName}`,
+        default: siteName,
     },
-    description:
-        "Browse and search thousands of free ebooks from Project Gutenberg",
+    description: defaultDescription,
+    authors: [{ name: siteName, url: "https://www.gutenberg.org" }],
+    creator: siteName,
+    publisher: siteName,
     alternates: {
         canonical: "/",
     },
     openGraph: {
-        title: "Project Gutenberg",
-        description:
-            "Browse and search thousands of free ebooks from Project Gutenberg",
+        title: siteName,
+        description: defaultDescription,
         url: siteUrl,
-        siteName: "Project Gutenberg",
+        siteName,
         locale: "en_US",
         type: "website",
-        images: [
-            {
-                url: "/project-gutenberg-og.png",
-                width: 1376,
-                height: 768,
-                alt: "Project Gutenberg book cover and title artwork",
-            },
-        ],
+        images: [defaultOgImage],
     },
     twitter: {
         card: "summary_large_image",
-        title: "Project Gutenberg",
-        description:
-            "Browse and search thousands of free ebooks from Project Gutenberg",
-        images: ["/project-gutenberg-og.png"],
+        title: siteName,
+        description: defaultDescription,
+        images: [defaultOgImage.url],
     },
 }
 
