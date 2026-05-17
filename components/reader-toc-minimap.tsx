@@ -15,7 +15,10 @@ interface ReaderTocMinimapProps {
 export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
     const [activeId, setActiveId] = useState(items[0]?.id ?? "")
     const [isExpanded, setIsExpanded] = useState(false)
+    const [readingProgress, setReadingProgress] = useState(0)
     const ids = useMemo(() => items.map((item) => item.id), [items])
+    const expandedProgress = `${readingProgress.toFixed(2)}% reading progress`
+    const collapsedProgress = `${Math.round(readingProgress)}%`
 
     useEffect(() => {
         if (!ids.length) return
@@ -44,6 +47,44 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
         return () => observer.disconnect()
     }, [ids])
 
+    useEffect(() => {
+        let frameId: number | null = null
+
+        const updateProgress = () => {
+            frameId = null
+
+            const readerContent = document.querySelector<HTMLElement>(
+                "[data-reader-content]"
+            )
+            if (!readerContent) return
+
+            const start = readerContent.offsetTop
+            const end =
+                readerContent.offsetTop +
+                readerContent.scrollHeight -
+                window.innerHeight
+            const distance = Math.max(end - start, 1)
+            const progress = ((window.scrollY - start) / distance) * 100
+
+            setReadingProgress(Math.min(100, Math.max(0, progress)))
+        }
+
+        const scheduleUpdate = () => {
+            if (frameId !== null) return
+            frameId = window.requestAnimationFrame(updateProgress)
+        }
+
+        scheduleUpdate()
+        window.addEventListener("scroll", scheduleUpdate, { passive: true })
+        window.addEventListener("resize", scheduleUpdate)
+
+        return () => {
+            if (frameId !== null) window.cancelAnimationFrame(frameId)
+            window.removeEventListener("scroll", scheduleUpdate)
+            window.removeEventListener("resize", scheduleUpdate)
+        }
+    }, [])
+
     if (items.length < 2) return null
 
     return (
@@ -64,7 +105,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
         >
             <div
                 className={cn(
-                    "max-h-[calc(70svh-1rem)] scrollbar-none overflow-x-hidden overflow-y-auto",
+                    "max-h-[calc(70svh-3rem)] scrollbar-none overflow-x-hidden overflow-y-auto",
                     isExpanded ? "px-2" : "px-0"
                 )}
             >
@@ -114,6 +155,15 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                         )
                     })}
                 </div>
+            </div>
+            <div
+                className={cn(
+                    "mx-auto mt-3 border-t border-border/70 pt-2 text-center text-[10px] leading-none font-semibold tracking-normal text-muted-foreground tabular-nums transition-[width,color] duration-150",
+                    isExpanded ? "w-[calc(100%-1rem)] text-xs" : "w-8"
+                )}
+                aria-label={expandedProgress}
+            >
+                {isExpanded ? expandedProgress : collapsedProgress}
             </div>
         </nav>
     )

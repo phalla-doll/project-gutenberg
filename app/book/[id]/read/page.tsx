@@ -258,7 +258,10 @@ export default async function BookReaderPage({
             {parsedBook ? (
                 <>
                     <ReaderTocMinimap items={parsedBook.tocItems} />
-                    <article className="mx-auto flex w-full max-w-3xl flex-col gap-12">
+                    <article
+                        className="mx-auto flex w-full max-w-3xl flex-col gap-12"
+                        data-reader-content
+                    >
                         {parsedBook.sections.map((section, index) => (
                             <section
                                 key={section.id}
