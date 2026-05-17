@@ -22,7 +22,7 @@ export function BookCard({ book }: BookCardProps) {
     return (
         <Link href={`/book/${book.id}`}>
             <Card className="group h-full py-0 overflow-hidden transition-shadow hover:shadow-lg">
-                <div className="relative aspect-[2/3] overflow-hidden bg-muted">
+                <div className="relative aspect-2/3 overflow-hidden bg-muted">
                     {coverUrl ? (
                         <Image
                             src={coverUrl}
