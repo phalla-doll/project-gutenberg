@@ -281,7 +281,7 @@ export function BookChatAssistant({ bookId, title }: BookChatAssistantProps) {
                 onClick={() => setIsOpen((current) => !current)}
             >
                 <BubbleChatSparkIcon className="size-4" aria-hidden="true" />
-                Ask about book
+                Ask Librarian
             </Button>
         </div>
     )
