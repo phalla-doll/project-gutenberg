@@ -39,15 +39,6 @@ export function BookCard({ book }: BookCardProps) {
                             />
                         </div>
                     )}
-                    <div className="absolute right-2 bottom-2">
-                        <Badge variant="secondary" className="gap-1 text-xs">
-                            <ArrowDown01Icon
-                                className="size-3"
-                                aria-hidden="true"
-                            />
-                            {formatDownloadCount(book.download_count)}
-                        </Badge>
-                    </div>
                 </div>
                 <CardContent className="border-t border-border/60 p-0">
                     <div className="min-w-0 border-l-2 border-primary/40 px-3 pt-3 pb-2">
