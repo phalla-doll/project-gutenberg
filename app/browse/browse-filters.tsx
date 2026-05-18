@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState, useTransition } from "react"
+import { useEffect, useMemo, useRef, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { ArrowLeft01Icon, ArrowRight01Icon } from "hugeicons-react"
 import type { BrowseSort } from "@/lib/gutendex"
 import type { BrowseTopicGroup } from "./page"
 
@@ -53,6 +54,33 @@ export function BrowseFilters({
         topicGroups.find((g) => g.heading === activeGroupHeading) ??
         topicGroups[0]
 
+    const tablistRef = useRef<HTMLDivElement>(null)
+    const [overflow, setOverflow] = useState({ left: false, right: false })
+
+    useEffect(() => {
+        const el = tablistRef.current
+        if (!el) return
+        const update = () => {
+            const { scrollLeft, scrollWidth, clientWidth } = el
+            setOverflow({
+                left: scrollLeft > 0,
+                right: scrollLeft + clientWidth < scrollWidth - 1,
+            })
+        }
+        update()
+        const raf = requestAnimationFrame(update)
+        el.addEventListener("scroll", update, { passive: true })
+        window.addEventListener("resize", update)
+        const ro = new ResizeObserver(update)
+        ro.observe(el)
+        return () => {
+            cancelAnimationFrame(raf)
+            el.removeEventListener("scroll", update)
+            window.removeEventListener("resize", update)
+            ro.disconnect()
+        }
+    }, [topicGroups.length, activeGroupHeading])
+
     function pushUrl(slug: string, nextSort: BrowseSort) {
         const params = new URLSearchParams()
         params.set("topic", slug)
@@ -78,43 +106,95 @@ export function BrowseFilters({
         <>
             <section
                 aria-label="Browse filters"
-                className="rounded-2xl border border-border/70 bg-card/40"
+                className="rounded-2xl overflow-x-hidden border border-border/70 bg-card/40"
             >
-                <div
-                    role="tablist"
-                    aria-label="Category group"
-                    className="flex gap-1 overflow-x-auto border-b border-border/60 px-3 py-2 sm:px-4"
-                >
-                    {topicGroups.map((group) => {
-                        const isActive = group.heading === activeGroup.heading
-                        const containsSelected = group.topics.some(
-                            (t) => t.slug === selectedSlug
-                        )
-                        return (
+                <div className="relative border-b border-border/60">
+                    <div
+                        ref={tablistRef}
+                        role="tablist"
+                        aria-label="Category group"
+                        className="scrollbar-none flex gap-1 overflow-x-auto scroll-smooth px-3 py-2 sm:px-4"
+                    >
+                        {topicGroups.map((group) => {
+                            const isActive =
+                                group.heading === activeGroup.heading
+                            const containsSelected = group.topics.some(
+                                (t) => t.slug === selectedSlug
+                            )
+                            return (
+                                <button
+                                    key={group.heading}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={isActive}
+                                    onClick={() =>
+                                        setActiveGroupHeading(group.heading)
+                                    }
+                                    className={`relative shrink-0 rounded-md px-3 py-1.5 font-heading text-sm tracking-wide whitespace-nowrap transition-colors ${
+                                        isActive
+                                            ? "bg-background text-foreground shadow-xs"
+                                            : "text-muted-foreground hover:text-foreground"
+                                    }`}
+                                >
+                                    {group.heading}
+                                    {!isActive && containsSelected && (
+                                        <span
+                                            aria-hidden
+                                            className="ml-1.5 inline-block size-1.5 rounded-full bg-foreground/70 align-middle"
+                                        />
+                                    )}
+                                </button>
+                            )
+                        })}
+                    </div>
+                    {overflow.left && (
+                        <>
+                            <div
+                                aria-hidden
+                                className="pointer-events-none absolute inset-y-0 left-0 w-14 rounded-tl-2xl bg-gradient-to-r from-card from-50% to-transparent"
+                            />
                             <button
-                                key={group.heading}
                                 type="button"
-                                role="tab"
-                                aria-selected={isActive}
+                                aria-label="Scroll categories left"
                                 onClick={() =>
-                                    setActiveGroupHeading(group.heading)
+                                    tablistRef.current?.scrollBy({
+                                        left: -240,
+                                        behavior: "smooth",
+                                    })
                                 }
-                                className={`relative shrink-0 rounded-md px-3 py-1.5 font-heading text-sm tracking-wide whitespace-nowrap transition-colors ${
-                                    isActive
-                                        ? "bg-background text-foreground shadow-xs"
-                                        : "text-muted-foreground hover:text-foreground"
-                                }`}
+                                className="absolute top-1/2 left-1 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full text-foreground hover:text-foreground/70"
                             >
-                                {group.heading}
-                                {!isActive && containsSelected && (
-                                    <span
-                                        aria-hidden
-                                        className="ml-1.5 inline-block size-1.5 rounded-full bg-foreground/70 align-middle"
-                                    />
-                                )}
+                                <ArrowLeft01Icon
+                                    className="size-4"
+                                    aria-hidden
+                                />
                             </button>
-                        )
-                    })}
+                        </>
+                    )}
+                    {overflow.right && (
+                        <>
+                            <div
+                                aria-hidden
+                                className="pointer-events-none absolute inset-y-0 right-0 w-14 rounded-tr-2xl bg-gradient-to-l from-card from-50% to-transparent"
+                            />
+                            <button
+                                type="button"
+                                aria-label="Scroll categories right"
+                                onClick={() =>
+                                    tablistRef.current?.scrollBy({
+                                        left: 240,
+                                        behavior: "smooth",
+                                    })
+                                }
+                                className="absolute top-1/2 right-1 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full text-foreground hover:text-foreground/70"
+                            >
+                                <ArrowRight01Icon
+                                    className="size-4"
+                                    aria-hidden
+                                />
+                            </button>
+                        </>
+                    )}
                 </div>
                 <div
                     className="flex flex-wrap gap-1.5 px-5 py-5 sm:px-6"
