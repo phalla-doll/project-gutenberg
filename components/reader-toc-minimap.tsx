@@ -2,23 +2,21 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
-
-export interface ReaderTocItem {
-    id: string
-    title: string
-}
+import type { ReaderTocItem } from "@/components/reader-types"
 
 interface ReaderTocMinimapProps {
     items: ReaderTocItem[]
+    activeId?: string
 }
 
-export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
-    const [activeId, setActiveId] = useState(items[0]?.id ?? "")
+export function ReaderTocMinimap({
+    items,
+    activeId: controlledActiveId,
+}: ReaderTocMinimapProps) {
+    const [localActiveId, setLocalActiveId] = useState(items[0]?.id ?? "")
     const [isExpanded, setIsExpanded] = useState(false)
-    const [readingProgress, setReadingProgress] = useState(0)
     const ids = useMemo(() => items.map((item) => item.id), [items])
-    const expandedProgress = `${readingProgress.toFixed(2)}% reading progress`
-    const collapsedProgress = `${readingProgress.toFixed(1)}%`
+    const activeId = controlledActiveId ?? localActiveId
 
     useEffect(() => {
         if (!ids.length) return
@@ -33,7 +31,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                     )
 
                 if (visible[0]) {
-                    setActiveId(visible[0].target.id)
+                    setLocalActiveId(visible[0].target.id)
                 }
             },
             { rootMargin: "-18% 0px -72% 0px", threshold: 0 }
@@ -46,44 +44,6 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
 
         return () => observer.disconnect()
     }, [ids])
-
-    useEffect(() => {
-        let frameId: number | null = null
-
-        const updateProgress = () => {
-            frameId = null
-
-            const readerContent = document.querySelector<HTMLElement>(
-                "[data-reader-content]"
-            )
-            if (!readerContent) return
-
-            const start = readerContent.offsetTop
-            const end =
-                readerContent.offsetTop +
-                readerContent.scrollHeight -
-                window.innerHeight
-            const distance = Math.max(end - start, 1)
-            const progress = ((window.scrollY - start) / distance) * 100
-
-            setReadingProgress(Math.min(100, Math.max(0, progress)))
-        }
-
-        const scheduleUpdate = () => {
-            if (frameId !== null) return
-            frameId = window.requestAnimationFrame(updateProgress)
-        }
-
-        scheduleUpdate()
-        window.addEventListener("scroll", scheduleUpdate, { passive: true })
-        window.addEventListener("resize", scheduleUpdate)
-
-        return () => {
-            if (frameId !== null) window.cancelAnimationFrame(frameId)
-            window.removeEventListener("scroll", scheduleUpdate)
-            window.removeEventListener("resize", scheduleUpdate)
-        }
-    }, [])
 
     if (items.length < 2) return null
 
@@ -105,7 +65,7 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
         >
             <div
                 className={cn(
-                    "max-h-[calc(70svh-3rem)] scrollbar-none overflow-x-hidden overflow-y-auto",
+                    "max-h-[70svh] scrollbar-none overflow-x-hidden overflow-y-auto",
                     isExpanded ? "px-2" : "px-0"
                 )}
             >
@@ -134,25 +94,25 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                             >
                                 <span
                                     className={cn(
-                                        "h-0.5 shrink-0 rounded-full transition-[width,background-color] duration-150 ease-out",
+                                        "h-0.5 shrink-0 rounded-full bg-[var(--reader-muted)] transition-[width,background-color,opacity] duration-150 ease-out",
                                         isExpanded
                                             ? isActive
                                                 ? "w-4 bg-primary"
-                                                : "w-2 bg-muted-foreground/35 group-hover:bg-muted-foreground/70"
+                                                : "w-2 opacity-55 group-hover:opacity-90"
                                             : isActive
                                               ? "w-5"
                                               : isCollapsedMarker
-                                                ? "w-4 bg-muted-foreground/30 group-hover:bg-muted-foreground/55"
-                                                : "w-3 bg-muted-foreground/25 group-hover:bg-muted-foreground/50",
+                                                ? "w-4 opacity-45 group-hover:opacity-75"
+                                                : "w-3 opacity-35 group-hover:opacity-65",
                                         isActive && "bg-primary"
                                     )}
                                     aria-hidden="true"
                                 />
                                 <span
                                     className={cn(
-                                        "truncate text-xs font-medium text-muted-foreground opacity-0 transition-opacity duration-100 ease-out group-hover:text-foreground",
+                                        "truncate text-xs font-medium text-[var(--reader-muted)] opacity-0 transition-[color,opacity] duration-100 ease-out group-hover:text-[var(--reader-text)]",
                                         isExpanded && "opacity-100",
-                                        isActive && "text-foreground"
+                                        isActive && "text-[var(--reader-text)]"
                                     )}
                                 >
                                     {item.title}
@@ -161,15 +121,6 @@ export function ReaderTocMinimap({ items }: ReaderTocMinimapProps) {
                         )
                     })}
                 </div>
-            </div>
-            <div
-                className={cn(
-                    "mx-auto mt-3 border-t border-border/70 pt-2 text-center text-[10px] leading-none font-semibold tracking-normal text-muted-foreground tabular-nums transition-[width,color] duration-150",
-                    isExpanded ? "w-[calc(100%-1rem)] text-xs" : "w-12"
-                )}
-                aria-label={expandedProgress}
-            >
-                {isExpanded ? expandedProgress : collapsedProgress}
             </div>
         </nav>
     )

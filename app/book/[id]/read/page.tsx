@@ -1,10 +1,7 @@
 import { cache } from "react"
-import Link from "next/link"
 import { notFound } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { BookChatAssistant } from "@/components/book-chat-assistant"
-import { ReaderTocMinimap } from "@/components/reader-toc-minimap"
+import { ReaderShell } from "@/components/reader-shell"
 import {
     getBookById as _getBookById,
     getOnlineReadUrl,
@@ -12,21 +9,17 @@ import {
     formatAuthorName,
 } from "@/lib/gutendex"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
-import {
-    ArrowLeft01Icon,
-    ArrowUpRight03Icon,
-    BookOpen01Icon,
-} from "hugeicons-react"
+import { ArrowUpRight03Icon, BookOpen01Icon } from "hugeicons-react"
 import type { Metadata } from "next"
+import type { ReaderBlock, ReaderSection } from "@/components/reader-types"
 
 const getBookById = cache(_getBookById)
-
-interface ReaderSection {
-    id: string
-    title: string
-    body: string
-    includeInToc: boolean
-}
+const ordinalWords =
+    "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty"
+const spelledPartPattern = new RegExp(
+    `^part\\s+(?:${ordinalWords})\\b(?:\\s*[-–—]{1,2}\\s*.+)?$`,
+    "i"
+)
 
 function trimProjectGutenbergText(text: string) {
     const normalized = text.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n")
@@ -69,6 +62,10 @@ function createSectionId(title: string, index: number) {
         .replace(/^-+|-+$/g, "")
 
     return slug ? `${slug}-${index + 1}` : `section-${index + 1}`
+}
+
+function createBlockId(sectionId: string, index: number) {
+    return `${sectionId}-block-${index + 1}`
 }
 
 function getContentsLineIndexes(lines: string[]) {
@@ -116,6 +113,7 @@ function isLikelySectionHeading(line: string, previous: string, next: string) {
     ]
 
     if (sectionPatterns.some((pattern) => pattern.test(title))) return true
+    if (spelledPartPattern.test(title) && hasBreathingRoom) return true
 
     const isUppercase =
         title === title.toUpperCase() &&
@@ -125,6 +123,83 @@ function isLikelySectionHeading(line: string, previous: string, next: string) {
         title.length <= 48
 
     return hasBreathingRoom && isUppercase
+}
+
+function isLikelySplitRomanHeading(
+    line: string,
+    previous: string,
+    next: string,
+    afterNext: string
+) {
+    const roman = line.trim()
+    const title = next.trim().replace(/\s+/g, " ")
+    const hasBreathingRoom = !previous.trim() && !afterNext.trim()
+
+    return (
+        hasBreathingRoom &&
+        /^[ivxlcdm]+\.?$/i.test(roman) &&
+        title.length > 3 &&
+        title.length <= 96 &&
+        /[A-Za-z]/.test(title) &&
+        !/[.!?]$/.test(title) &&
+        !/\.{2,}|\s{3,}\d+$/.test(title)
+    )
+}
+
+function isLikelyPreformattedBlock(lines: string[]) {
+    if (lines.length <= 1) return false
+
+    const nonEmptyLines = lines.filter((line) => line.trim())
+    if (nonEmptyLines.length <= 1) return false
+
+    const indentedLines = nonEmptyLines.filter((line) => /^\s{2,}/.test(line))
+    const shortLines = nonEmptyLines.filter((line) => line.trim().length <= 52)
+    const tableLikeLines = nonEmptyLines.filter((line) =>
+        /\s{3,}\S/.test(line.trimEnd())
+    )
+    const uppercaseLines = nonEmptyLines.filter((line) => {
+        const trimmed = line.trim()
+        return (
+            trimmed.length >= 3 &&
+            trimmed.length <= 64 &&
+            trimmed === trimmed.toUpperCase() &&
+            /[A-Z]/.test(trimmed)
+        )
+    })
+
+    return (
+        indentedLines.length / nonEmptyLines.length >= 0.35 ||
+        shortLines.length / nonEmptyLines.length >= 0.75 ||
+        tableLikeLines.length >= 2 ||
+        uppercaseLines.length >= 2
+    )
+}
+
+function parseReaderBlocks(sectionId: string, text: string): ReaderBlock[] {
+    const blocks: ReaderBlock[] = []
+    const normalized = text.replace(/\n{3,}/g, "\n\n")
+    const chunks = normalized.split(/\n\s*\n/)
+
+    chunks.forEach((chunk) => {
+        const lines = chunk.replace(/\s+$/g, "").split("\n")
+        const isPreformatted = isLikelyPreformattedBlock(lines)
+        const text = isPreformatted
+            ? lines.join("\n")
+            : lines
+                  .map((line) => line.trim())
+                  .join(" ")
+                  .replace(/\s+/g, " ")
+
+        if (!text.trim()) return
+
+        blocks.push({
+            id: createBlockId(sectionId, blocks.length),
+            type: isPreformatted ? "pre" : "paragraph",
+            text,
+        })
+    })
+
+    return blocks
 }
 
 function parseBookSections(text: string) {
@@ -140,31 +215,48 @@ function parseBookSections(text: string) {
         if (!body && !currentTitle) return
 
         const title = currentTitle || "Opening"
+        const id = createSectionId(title, sectionIndex)
         sections.push({
-            id: createSectionId(title, sectionIndex),
+            id,
             title,
-            body,
+            blocks: parseReaderBlocks(id, body),
             includeInToc: Boolean(currentTitle),
         })
         sectionIndex += 1
     }
 
-    lines.forEach((line, index) => {
+    for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index] ?? ""
         const previous = lines[index - 1] ?? ""
         const next = lines[index + 1] ?? ""
+        const afterNext = lines[index + 2] ?? ""
+        const isSplitRomanHeading =
+            !contentsLineIndexes.has(index) &&
+            !contentsLineIndexes.has(index + 1) &&
+            isLikelySplitRomanHeading(line, previous, next, afterNext)
         const isHeading =
             !contentsLineIndexes.has(index) &&
             isLikelySectionHeading(line, previous, next)
+
+        if (isSplitRomanHeading) {
+            pushCurrentSection()
+            currentTitle = `${line.trim().replace(/\.$/, "")}. ${next
+                .trim()
+                .replace(/\s+/g, " ")}`
+            currentLines = []
+            index += 1
+            continue
+        }
 
         if (isHeading) {
             pushCurrentSection()
             currentTitle = line.trim().replace(/\s+/g, " ")
             currentLines = []
-            return
+            continue
         }
 
         currentLines.push(line)
-    })
+    }
 
     pushCurrentSection()
 
@@ -175,7 +267,7 @@ function parseBookSections(text: string) {
                 {
                     id: "full-text",
                     title: "Full Text",
-                    body: text,
+                    blocks: parseReaderBlocks("full-text", text),
                     includeInToc: false,
                 },
             ],
@@ -264,116 +356,49 @@ export default async function BookReaderPage({
     const bookText = textUrl ? await getBookText(textUrl) : null
     const parsedBook = bookText ? parseBookSections(bookText) : null
 
-    return (
+    return parsedBook ? (
+        <ReaderShell
+            bookId={book.id}
+            title={book.title}
+            authorName={authorName}
+            languages={book.languages}
+            isPublicDomain={book.copyright === false}
+            sections={parsedBook.sections}
+            tocItems={parsedBook.tocItems}
+        />
+    ) : (
         <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-6">
-                <Button asChild variant="link" className="w-fit gap-2 px-0">
-                    <Link href={`/book/${book.id}`}>
-                        <ArrowLeft01Icon
-                            className="size-4"
-                            aria-hidden="true"
-                        />
-                        Book Details
-                    </Link>
-                </Button>
-
-                <header className="flex flex-col gap-4 border-b border-border pb-6 retina:border-b-[0.5px]">
-                    <div className="flex flex-wrap gap-2">
-                        {book.languages.map((lang) => (
-                            <Badge key={lang} variant="secondary">
-                                {lang.toUpperCase()}
-                            </Badge>
-                        ))}
-                        {book.copyright === false && (
-                            <Badge variant="outline">Public Domain</Badge>
-                        )}
-                    </div>
-                    <div>
-                        <h1 className="font-heading text-3xl tracking-tight text-balance break-words md:text-5xl">
-                            {book.title}
-                        </h1>
-                        <p className="mt-2 text-lg text-muted-foreground">
-                            {authorName}
-                        </p>
-                    </div>
-                </header>
-            </div>
-
-            {parsedBook ? (
-                <>
-                    <ReaderTocMinimap items={parsedBook.tocItems} />
-                    <article
-                        className="mx-auto flex w-full max-w-3xl flex-col gap-12"
-                        data-reader-content
-                    >
-                        {parsedBook.sections.map((section, index) => (
-                            <section
-                                key={section.id}
-                                id={section.id}
-                                className="scroll-mt-28"
-                            >
-                                {section.includeInToc && (
-                                    <h2 className="mb-5 border-b border-border pb-3 font-heading text-2xl tracking-tight text-body-strong sm:text-3xl retina:border-b-[0.5px]">
-                                        {section.title}
-                                    </h2>
-                                )}
-                                <pre
-                                    className="font-sans text-base leading-8 break-words whitespace-pre-wrap text-body-strong sm:text-lg sm:leading-9"
-                                    aria-label={
-                                        parsedBook.tocItems.length > 0
-                                            ? undefined
-                                            : index === 0
-                                              ? "Book text"
-                                              : undefined
-                                    }
-                                >
-                                    {section.body}
-                                </pre>
-                            </section>
-                        ))}
-                    </article>
-                </>
-            ) : (
-                <div className="flex min-h-[45svh] flex-col items-center justify-center gap-5 rounded-xl border border-border bg-card px-6 py-16 text-center">
-                    <BookOpen01Icon
-                        className="size-12 text-muted-foreground"
-                        aria-hidden="true"
-                    />
-                    <div className="flex max-w-md flex-col gap-2">
-                        <h2 className="font-heading text-2xl">
-                            Online text is not available
-                        </h2>
-                        <p className="text-sm leading-relaxed text-muted-foreground">
-                            This title does not include a plain text edition in
-                            Gutendex. You can still read it in the original
-                            reader when an HTML edition is available.
-                        </p>
-                    </div>
-                    {onlineUrl && (
-                        <Button asChild>
-                            <a
-                                href={onlineUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Open original reader
-                                <ArrowUpRight03Icon
-                                    className="size-4"
-                                    aria-hidden="true"
-                                />
-                            </a>
-                        </Button>
-                    )}
+            <div className="flex min-h-[45svh] flex-col items-center justify-center gap-5 rounded-xl border border-border bg-card px-6 py-16 text-center">
+                <BookOpen01Icon
+                    className="size-12 text-muted-foreground"
+                    aria-hidden="true"
+                />
+                <div className="flex max-w-md flex-col gap-2">
+                    <h2 className="font-heading text-2xl">
+                        Online text is not available
+                    </h2>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                        This title does not include a plain text edition in
+                        Gutendex. You can still read it in the original reader
+                        when an HTML edition is available.
+                    </p>
                 </div>
-            )}
-
-            <BookChatAssistant
-                bookId={book.id}
-                title={book.title}
-                launcherLabel="Ask AI"
-                launcherTone="reader"
-                enableSelectionAsk
-            />
+                {onlineUrl && (
+                    <Button asChild>
+                        <a
+                            href={onlineUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Open original reader
+                            <ArrowUpRight03Icon
+                                className="size-4"
+                                aria-hidden="true"
+                            />
+                        </a>
+                    </Button>
+                )}
+            </div>
         </div>
     )
 }
