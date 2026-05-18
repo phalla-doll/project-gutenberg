@@ -31,6 +31,8 @@ export const metadata: Metadata = {
     },
 }
 
+export const maxDuration = 180
+
 export interface BrowseTopic {
     slug: string
     label: string

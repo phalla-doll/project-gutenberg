@@ -49,7 +49,7 @@ async function fetchWithRetry(
         try {
             const res = await fetch(url, {
                 ...init,
-                signal: AbortSignal.timeout(8000),
+                signal: AbortSignal.timeout(150000),
             })
             if (res.ok || (res.status >= 400 && res.status < 500)) return res
             lastError = new Error(`Upstream ${res.status}`)
