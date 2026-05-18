@@ -3,50 +3,101 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Button } from "@/components/ui/button"
-import type { Book, PaginatedResponse } from "@/lib/gutendex"
 import { getPopularBooks } from "@/lib/gutendex"
+import type { Book } from "@/lib/gutendex"
 import { getCached, setCache } from "@/lib/book-cache"
 
 interface HomeBookGridProps {
-    initialData: PaginatedResponse<Book>
     currentPage: number
 }
 
-export function HomeBookGrid({ initialData, currentPage }: HomeBookGridProps) {
+export function HomeBookGrid({ currentPage }: HomeBookGridProps) {
     const sentinelRef = useRef<HTMLDivElement | null>(null)
-    const [books, setBooks] = useState(initialData.results)
+    const [state, setState] = useState<{
+        books: Book[]
+        hasNext: boolean
+        initialLoading: boolean
+        error: Error | null
+    }>(() => {
+        const key = `page:${currentPage}`
+        const cached = getCached(key)
+        if (cached) {
+            return {
+                books: cached.results,
+                hasNext: cached.next !== null,
+                initialLoading: false,
+                error: null,
+            }
+        }
+        return { books: [], hasNext: false, initialLoading: true, error: null }
+    })
     const [nextPage, setNextPage] = useState(currentPage + 1)
-    const [hasNext, setHasNext] = useState(initialData.next !== null)
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<Error | null>(null)
+    const fetchedRef = useRef(false)
+
+    const { books, hasNext, initialLoading, error } = state
 
     useEffect(() => {
-        setCache(`page:${currentPage}`, initialData)
-    }, [currentPage, initialData])
+        if (!initialLoading || fetchedRef.current) return
+        fetchedRef.current = true
+
+        let cancelled = false
+        const key = `page:${currentPage}`
+
+        getPopularBooks(currentPage)
+            .then((data) => {
+                if (cancelled) return
+                setCache(key, data)
+                setState({
+                    books: data.results,
+                    hasNext: data.next !== null,
+                    initialLoading: false,
+                    error: null,
+                })
+            })
+            .catch((err) => {
+                if (cancelled) return
+                setState((prev) => ({
+                    ...prev,
+                    initialLoading: false,
+                    error: err instanceof Error ? err : new Error(String(err)),
+                }))
+            })
+
+        return () => {
+            cancelled = true
+        }
+    }, [currentPage, initialLoading])
 
     const loadMore = useCallback(async () => {
         if (loading || !hasNext) return
 
         setLoading(true)
-        setError(null)
+        setState((prev) => ({ ...prev, error: null }))
 
         try {
             const key = `page:${nextPage}`
             const data = getCached(key) ?? (await getPopularBooks(nextPage))
 
             setCache(key, data)
-            setBooks((currentBooks) => {
-                const bookIds = new Set(currentBooks.map((book) => book.id))
+            setState((prev) => {
+                const bookIds = new Set(prev.books.map((book) => book.id))
                 const newBooks = data.results.filter(
                     (book) => !bookIds.has(book.id)
                 )
 
-                return [...currentBooks, ...newBooks]
+                return {
+                    ...prev,
+                    books: [...prev.books, ...newBooks],
+                    hasNext: data.next !== null,
+                }
             })
-            setHasNext(data.next !== null)
             setNextPage((page) => page + 1)
         } catch (err) {
-            setError(err instanceof Error ? err : new Error(String(err)))
+            setState((prev) => ({
+                ...prev,
+                error: err instanceof Error ? err : new Error(String(err)),
+            }))
         } finally {
             setLoading(false)
         }
@@ -54,7 +105,7 @@ export function HomeBookGrid({ initialData, currentPage }: HomeBookGridProps) {
 
     useEffect(() => {
         const sentinel = sentinelRef.current
-        if (!sentinel || !hasNext) return
+        if (!sentinel || !hasNext || initialLoading) return
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -68,7 +119,27 @@ export function HomeBookGrid({ initialData, currentPage }: HomeBookGridProps) {
         observer.observe(sentinel)
 
         return () => observer.disconnect()
-    }, [hasNext, loadMore])
+    }, [hasNext, loadMore, initialLoading])
+
+    if (initialLoading) {
+        return <BookGridSkeleton />
+    }
+
+    if (error && books.length === 0) {
+        return (
+            <div className="flex flex-col items-center gap-4 py-16 text-center">
+                <p className="text-sm text-muted-foreground">
+                    Failed to load books. Please try again.
+                </p>
+                <Button
+                    onClick={() => window.location.reload()}
+                    variant="outline"
+                >
+                    Retry
+                </Button>
+            </div>
+        )
+    }
 
     return (
         <>

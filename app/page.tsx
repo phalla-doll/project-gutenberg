@@ -1,4 +1,3 @@
-import { getPopularBooks } from "@/lib/gutendex"
 import { HomeBookGrid } from "./home-book-grid"
 
 export default async function HomePage({
@@ -8,7 +7,6 @@ export default async function HomePage({
 }) {
     const params = await searchParams
     const page = Number(params.page) || 1
-    const data = await getPopularBooks(page)
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -20,7 +18,7 @@ export default async function HomePage({
                     The most downloaded free books on Project Sonam
                 </p>
             </div>
-            <HomeBookGrid key={page} initialData={data} currentPage={page} />
+            <HomeBookGrid currentPage={page} />
         </div>
     )
 }
