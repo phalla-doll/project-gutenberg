@@ -155,7 +155,7 @@ export function BrowseFilters({
                         <>
                             <div
                                 aria-hidden
-                                className="pointer-events-none absolute inset-y-0 left-0 w-14 rounded-tl-2xl bg-gradient-to-r from-card from-50% to-transparent"
+                                className="pointer-events-none absolute inset-y-0 left-0 w-14 rounded-tl-2xl bg-linear-to-r from-card from-50% to-transparent"
                             />
                             <button
                                 type="button"
@@ -179,7 +179,7 @@ export function BrowseFilters({
                         <>
                             <div
                                 aria-hidden
-                                className="pointer-events-none absolute inset-y-0 right-0 w-14 rounded-tr-2xl bg-gradient-to-l from-card from-50% to-transparent"
+                                className="pointer-events-none absolute inset-y-0 right-0 w-14 rounded-tr-2xl bg-linear-to-l from-card from-50% to-transparent"
                             />
                             <button
                                 type="button"
