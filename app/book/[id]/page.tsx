@@ -48,6 +48,10 @@ export async function generateMetadata({
         const authorNames = book.authors.map(formatAuthorName)
         const title = `${book.title} - ${siteName}`
         const url = `/book/${book.id}`
+        const coverUrl = getCoverUrl(book)
+        const ogImage = coverUrl
+            ? { url: coverUrl, alt: book.title }
+            : defaultOgImage
 
         return {
             title: book.title,
@@ -69,13 +73,13 @@ export async function generateMetadata({
                 type: "book",
                 authors: authorNames.length ? authorNames : undefined,
                 tags: book.subjects.slice(0, 8),
-                images: [defaultOgImage],
+                images: [ogImage],
             },
             twitter: {
                 card: "summary_large_image",
                 title,
                 description,
-                images: [defaultOgImage.url],
+                images: [ogImage.url],
             },
         }
     } catch {
