@@ -39,6 +39,31 @@ export interface BookFilters {
     ids?: number[]
 }
 
+async function fetchWithRetry(
+    url: string,
+    init: RequestInit & { next?: { revalidate?: number } },
+    retries = 2
+): Promise<Response> {
+    let lastError: unknown
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            const res = await fetch(url, {
+                ...init,
+                signal: AbortSignal.timeout(8000),
+            })
+            if (res.ok || (res.status >= 400 && res.status < 500)) return res
+            lastError = new Error(`Upstream ${res.status}`)
+        } catch (err) {
+            lastError = err
+        }
+        if (attempt < retries) {
+            const delay = 200 * 2 ** attempt + Math.random() * 150
+            await new Promise((r) => setTimeout(r, delay))
+        }
+    }
+    throw lastError
+}
+
 function buildUrl(
     endpoint: string,
     params?: Record<string, string | number | string[] | number[] | undefined>
@@ -61,7 +86,7 @@ export async function getPopularBooks(
     page = 1
 ): Promise<PaginatedResponse<Book>> {
     const url = buildUrl("/books", { sort: "popular", page })
-    const res = await fetch(url, { next: { revalidate: 3600 } })
+    const res = await fetchWithRetry(url, { next: { revalidate: 3600 } })
     if (!res.ok) throw new Error(`Failed to fetch books: ${res.status}`)
     return res.json()
 }
@@ -87,14 +112,14 @@ export async function searchBooks(
         author_year_end,
         sort: sort || "popular",
     })
-    const res = await fetch(url, { next: { revalidate: 3600 } })
+    const res = await fetchWithRetry(url, { next: { revalidate: 3600 } })
     if (!res.ok) throw new Error(`Failed to search books: ${res.status}`)
     return res.json()
 }
 
 export async function getBookById(id: number): Promise<Book> {
     const url = buildUrl(`/books/${id}`)
-    const res = await fetch(url, { next: { revalidate: 86400 } })
+    const res = await fetchWithRetry(url, { next: { revalidate: 86400 } })
     if (!res.ok) throw new Error(`Failed to fetch book ${id}: ${res.status}`)
     const data = await res.json()
     return data
@@ -108,7 +133,7 @@ export async function getBooksByTopic(
     sort: BrowseSort = "popular"
 ): Promise<PaginatedResponse<Book>> {
     const url = buildUrl("/books", { topic, page, sort })
-    const res = await fetch(url, { next: { revalidate: 3600 } })
+    const res = await fetchWithRetry(url, { next: { revalidate: 3600 } })
     if (!res.ok)
         throw new Error(`Failed to fetch books by topic: ${res.status}`)
     return res.json()
