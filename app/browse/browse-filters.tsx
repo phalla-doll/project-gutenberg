@@ -1,55 +1,38 @@
 "use client"
 
-import {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-    useTransition,
-} from "react"
+import { useEffect, useMemo, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
-import { Button } from "@/components/ui/button"
-import { getBooksByTopic, type BrowseSort } from "@/lib/gutendex"
-import type { PaginatedResponse, Book } from "@/lib/gutendex"
-import { getCached, setCache } from "@/lib/book-cache"
+import type { BrowseSort } from "@/lib/gutendex"
 import type { BrowseTopicGroup } from "./page"
-
-interface BrowseContentProps {
-    topicGroups: BrowseTopicGroup[]
-    activeTopicSlug: string
-    currentPage: number
-    initialSort: BrowseSort
-    initialData: PaginatedResponse<Book>
-    initialKey: string
-}
 
 const SORT_OPTIONS: { value: BrowseSort; label: string }[] = [
     { value: "popular", label: "Popular" },
     { value: "descending", label: "Recently added" },
 ]
 
-export function BrowseContent({
+interface BrowseFiltersProps {
+    topicGroups: BrowseTopicGroup[]
+    activeTopicSlug: string
+    activeSort: BrowseSort
+}
+
+export function BrowseFilters({
     topicGroups,
     activeTopicSlug,
-    currentPage,
-    initialSort,
-    initialData,
-    initialKey,
-}: BrowseContentProps) {
+    activeSort,
+}: BrowseFiltersProps) {
     const router = useRouter()
-    const sentinelRef = useRef<HTMLDivElement | null>(null)
-    const reloadRequestRef = useRef(0)
-    const [books, setBooks] = useState(initialData.results)
-    const [nextPage, setNextPage] = useState(currentPage + 1)
-    const [hasNext, setHasNext] = useState(initialData.next !== null)
-    const [loading, setLoading] = useState(false)
-    const [reloading, setReloading] = useState(false)
-    const [error, setError] = useState<Error | null>(null)
-    const [selectedSlug, setSelectedSlug] = useState(activeTopicSlug)
-    const [sort, setSort] = useState<BrowseSort>(initialSort)
     const [, startTransition] = useTransition()
+    const [selectedSlug, setSelectedSlug] = useState(activeTopicSlug)
+    const [sort, setSort] = useState<BrowseSort>(activeSort)
+
+    useEffect(() => {
+        setSelectedSlug(activeTopicSlug)
+    }, [activeTopicSlug])
+
+    useEffect(() => {
+        setSort(activeSort)
+    }, [activeSort])
 
     const topicBySlug = useMemo(
         () =>
@@ -70,61 +53,6 @@ export function BrowseContent({
         topicGroups.find((g) => g.heading === activeGroupHeading) ??
         topicGroups[0]
 
-    useEffect(() => {
-        setCache(initialKey, initialData)
-    }, [initialData, initialKey])
-
-    const loadMore = useCallback(async () => {
-        if (loading || reloading || !hasNext) return
-
-        const topic = topicBySlug.get(selectedSlug)
-        if (!topic) return
-
-        setLoading(true)
-        setError(null)
-
-        try {
-            const key = `${selectedSlug}|${nextPage}|${sort}`
-            const data =
-                getCached(key) ??
-                (await getBooksByTopic(topic.query, nextPage, sort))
-
-            setCache(key, data)
-            setBooks((currentBooks) => {
-                const bookIds = new Set(currentBooks.map((book) => book.id))
-                const newBooks = data.results.filter(
-                    (book) => !bookIds.has(book.id)
-                )
-
-                return [...currentBooks, ...newBooks]
-            })
-            setHasNext(data.next !== null)
-            setNextPage((page) => page + 1)
-        } catch (err) {
-            setError(err instanceof Error ? err : new Error(String(err)))
-        } finally {
-            setLoading(false)
-        }
-    }, [hasNext, loading, nextPage, selectedSlug, sort, reloading, topicBySlug])
-
-    useEffect(() => {
-        const sentinel = sentinelRef.current
-        if (!sentinel || reloading || !hasNext) return
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry?.isIntersecting) {
-                    void loadMore()
-                }
-            },
-            { rootMargin: "480px 0px" }
-        )
-
-        observer.observe(sentinel)
-
-        return () => observer.disconnect()
-    }, [hasNext, loadMore, reloading])
-
     function pushUrl(slug: string, nextSort: BrowseSort) {
         const params = new URLSearchParams()
         params.set("topic", slug)
@@ -132,41 +60,10 @@ export function BrowseContent({
         router.push(`/browse?${params.toString()}`)
     }
 
-    async function reload(slug: string, nextSort: BrowseSort) {
-        const topic = topicBySlug.get(slug)
-        if (!topic) return
-
-        const requestId = reloadRequestRef.current + 1
-        reloadRequestRef.current = requestId
-        setReloading(true)
-        setError(null)
-
-        try {
-            const key = `${slug}|1|${nextSort}`
-            const data =
-                getCached(key) ?? (await getBooksByTopic(topic.query, 1, nextSort))
-
-            if (reloadRequestRef.current !== requestId) return
-
-            setCache(key, data)
-            setBooks(data.results)
-            setNextPage(2)
-            setHasNext(data.next !== null)
-        } catch (err) {
-            if (reloadRequestRef.current !== requestId) return
-            setError(err instanceof Error ? err : new Error(String(err)))
-        } finally {
-            if (reloadRequestRef.current === requestId) {
-                setReloading(false)
-            }
-        }
-    }
-
     function handleTopicChange(slug: string) {
         if (slug === selectedSlug) return
         setSelectedSlug(slug)
         startTransition(() => pushUrl(slug, sort))
-        void reload(slug, sort)
         window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
@@ -174,12 +71,11 @@ export function BrowseContent({
         if (nextSort === sort) return
         setSort(nextSort)
         startTransition(() => pushUrl(selectedSlug, nextSort))
-        void reload(selectedSlug, nextSort)
         window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <>
             <section
                 aria-label="Browse filters"
                 className="rounded-2xl border border-border/70 bg-card/40"
@@ -285,39 +181,6 @@ export function BrowseContent({
                     </div>
                 </div>
             </div>
-
-            {reloading ? (
-                <div aria-live="polite">
-                    <BookGridSkeleton />
-                </div>
-            ) : (
-                <BookGrid books={books} />
-            )}
-            <div ref={sentinelRef} className="flex justify-center py-8">
-                {!reloading && loading && (
-                    <div className="w-full" aria-live="polite">
-                        <BookGridSkeleton />
-                    </div>
-                )}
-                {!reloading && error && (
-                    <div className="flex flex-col items-center gap-4 text-center">
-                        <p className="text-sm text-muted-foreground">
-                            Failed to load more books. Please try again.
-                        </p>
-                        <Button
-                            onClick={() => void loadMore()}
-                            variant="outline"
-                        >
-                            Retry
-                        </Button>
-                    </div>
-                )}
-                {!reloading && !hasNext && !loading && !error && (
-                    <p className="text-sm text-muted-foreground">
-                        You have reached the end of the list.
-                    </p>
-                )}
-            </div>
-        </div>
+        </>
     )
 }

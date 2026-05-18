@@ -8,14 +8,7 @@ export default function BrowseLoading() {
                 <Skeleton className="h-12 w-64" />
                 <Skeleton className="mt-3 h-6 w-96" />
             </div>
-            <div className="flex flex-col gap-6">
-                <div className="flex flex-wrap gap-1.5">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <Skeleton key={i} className="h-8 w-20 rounded-md" />
-                    ))}
-                </div>
-                <BookGridSkeleton />
-            </div>
+            <BookGridSkeleton />
         </div>
     )
 }

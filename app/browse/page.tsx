@@ -1,5 +1,6 @@
 import { Suspense } from "react"
-import { BrowseContent } from "./browse-content"
+import { BrowseFilters } from "./browse-filters"
+import { BrowseBookList } from "./browse-book-list"
 import { BookGridSkeleton } from "@/components/book-grid"
 import { getBooksByTopic, type BrowseSort } from "@/lib/gutendex"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
@@ -170,6 +171,32 @@ function parseSort(value: string | undefined): BrowseSort {
     return value === "descending" ? "descending" : "popular"
 }
 
+async function BrowseBookListLoader({
+    topicSlug,
+    topicQuery,
+    page,
+    sort,
+    initialKey,
+}: {
+    topicSlug: string
+    topicQuery: string
+    page: number
+    sort: BrowseSort
+    initialKey: string
+}) {
+    const initialData = await getBooksByTopic(topicQuery, page, sort)
+    return (
+        <BrowseBookList
+            topicSlug={topicSlug}
+            topicQuery={topicQuery}
+            initialPage={page}
+            sort={sort}
+            initialData={initialData}
+            initialKey={initialKey}
+        />
+    )
+}
+
 export default async function BrowsePage({
     searchParams,
 }: {
@@ -182,8 +209,7 @@ export default async function BrowsePage({
     const activeTopic = TOPIC_BY_SLUG.get(topicSlug)!
     const page = Number(params.page) || 1
     const sort = parseSort(params.sort)
-
-    const initialData = await getBooksByTopic(activeTopic.query, page, sort)
+    const initialKey = `${topicSlug}|${page}|${sort}`
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -195,17 +221,22 @@ export default async function BrowsePage({
                     Explore free ebooks organized by subject and category
                 </p>
             </div>
-            <Suspense fallback={<BookGridSkeleton />}>
-                <BrowseContent
-                    key={`${topicSlug}|${page}|${sort}`}
+            <div className="flex flex-col gap-8">
+                <BrowseFilters
                     topicGroups={TOPIC_GROUPS}
                     activeTopicSlug={topicSlug}
-                    currentPage={page}
-                    initialSort={sort}
-                    initialData={initialData}
-                    initialKey={`${topicSlug}|${page}|${sort}`}
+                    activeSort={sort}
                 />
-            </Suspense>
+                <Suspense key={initialKey} fallback={<BookGridSkeleton />}>
+                    <BrowseBookListLoader
+                        topicSlug={topicSlug}
+                        topicQuery={activeTopic.query}
+                        page={page}
+                        sort={sort}
+                        initialKey={initialKey}
+                    />
+                </Suspense>
+            </div>
         </div>
     )
 }
