@@ -100,11 +100,14 @@ export async function getBookById(id: number): Promise<Book> {
     return data
 }
 
+export type BrowseSort = "popular" | "descending"
+
 export async function getBooksByTopic(
     topic: string,
-    page = 1
+    page = 1,
+    sort: BrowseSort = "popular"
 ): Promise<PaginatedResponse<Book>> {
-    const url = buildUrl("/books", { topic, page, sort: "popular" })
+    const url = buildUrl("/books", { topic, page, sort })
     const res = await fetch(url, { next: { revalidate: 3600 } })
     if (!res.ok)
         throw new Error(`Failed to fetch books by topic: ${res.status}`)
