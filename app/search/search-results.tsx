@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Pagination } from "@/components/pagination"
 import { searchBooks } from "@/lib/gutendex"
+import type { PaginatedResponse, Book } from "@/lib/gutendex"
 import { Search01Icon, Cancel01Icon } from "hugeicons-react"
 import { usePaginatedBooks } from "@/hooks/use-paginated-books"
 
@@ -41,6 +42,8 @@ interface SearchResultsProps {
     topic: string
     lang: string
     currentPage: number
+    initialData?: PaginatedResponse<Book>
+    initialKey?: string
 }
 
 export function SearchResults({
@@ -48,6 +51,8 @@ export function SearchResults({
     topic,
     lang,
     currentPage,
+    initialData,
+    initialKey,
 }: SearchResultsProps) {
     const router = useRouter()
     const [inputQuery, setInputQuery] = useState(query)
@@ -88,6 +93,8 @@ export function SearchResults({
 
     const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key, {
         enabled: hasSearch,
+        initialData,
+        initialKey,
     })
 
     function handleSearch(e: React.FormEvent) {

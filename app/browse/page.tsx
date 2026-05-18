@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import { BrowseContent } from "./browse-content"
 import { BookGridSkeleton } from "@/components/book-grid"
+import { getBooksByTopic } from "@/lib/gutendex"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
 
@@ -61,6 +62,8 @@ export default async function BrowsePage({
     const topic = params.topic || "fiction"
     const page = Number(params.page) || 1
 
+    const initialData = await getBooksByTopic(topic, page)
+
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -77,6 +80,8 @@ export default async function BrowsePage({
                     topics={TOPICS}
                     activeTopic={topic}
                     currentPage={page}
+                    initialData={initialData}
+                    initialKey={`${topic}|${page}`}
                 />
             </Suspense>
         </div>

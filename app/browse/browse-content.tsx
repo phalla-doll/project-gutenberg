@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Button } from "@/components/ui/button"
 import { getBooksByTopic } from "@/lib/gutendex"
-import type { Book } from "@/lib/gutendex"
+import type { PaginatedResponse, Book } from "@/lib/gutendex"
 import { getCached, setCache } from "@/lib/book-cache"
 
 interface Topic {
@@ -17,81 +17,38 @@ interface BrowseContentProps {
     topics: Topic[]
     activeTopic: string
     currentPage: number
+    initialData: PaginatedResponse<Book>
+    initialKey: string
 }
 
 export function BrowseContent({
     topics,
     activeTopic,
     currentPage,
+    initialData,
+    initialKey,
 }: BrowseContentProps) {
     const router = useRouter()
     const sentinelRef = useRef<HTMLDivElement | null>(null)
     const topicRequestRef = useRef(0)
-    const [state, setState] = useState<{
-        books: Book[]
-        hasNext: boolean
-        initialLoading: boolean
-        error: Error | null
-    }>(() => {
-        const key = `${activeTopic}|${currentPage}`
-        const cached = getCached(key)
-        if (cached) {
-            return {
-                books: cached.results,
-                hasNext: cached.next !== null,
-                initialLoading: false,
-                error: null,
-            }
-        }
-        return { books: [], hasNext: false, initialLoading: true, error: null }
-    })
+    const [books, setBooks] = useState(initialData.results)
     const [nextPage, setNextPage] = useState(currentPage + 1)
+    const [hasNext, setHasNext] = useState(initialData.next !== null)
     const [loading, setLoading] = useState(false)
     const [topicLoading, setTopicLoading] = useState(false)
+    const [error, setError] = useState<Error | null>(null)
     const [selectedTopic, setSelectedTopic] = useState(activeTopic)
     const [, startTransition] = useTransition()
-    const fetchedRef = useRef(false)
-
-    const { books, hasNext, initialLoading, error } = state
 
     useEffect(() => {
-        if (!initialLoading || fetchedRef.current) return
-        fetchedRef.current = true
-
-        let cancelled = false
-        const key = `${activeTopic}|${currentPage}`
-
-        getBooksByTopic(activeTopic, currentPage)
-            .then((data) => {
-                if (cancelled) return
-                setCache(key, data)
-                setState({
-                    books: data.results,
-                    hasNext: data.next !== null,
-                    initialLoading: false,
-                    error: null,
-                })
-                setNextPage(currentPage + 1)
-            })
-            .catch((err) => {
-                if (cancelled) return
-                setState((prev) => ({
-                    ...prev,
-                    initialLoading: false,
-                    error: err instanceof Error ? err : new Error(String(err)),
-                }))
-            })
-
-        return () => {
-            cancelled = true
-        }
-    }, [activeTopic, currentPage, initialLoading])
+        setCache(initialKey, initialData)
+    }, [initialData, initialKey])
 
     const loadMore = useCallback(async () => {
         if (loading || topicLoading || !hasNext) return
 
         setLoading(true)
-        setState((prev) => ({ ...prev, error: null }))
+        setError(null)
 
         try {
             const key = `${selectedTopic}|${nextPage}`
@@ -100,24 +57,18 @@ export function BrowseContent({
                 (await getBooksByTopic(selectedTopic, nextPage))
 
             setCache(key, data)
-            setState((prev) => {
-                const bookIds = new Set(prev.books.map((book) => book.id))
+            setBooks((currentBooks) => {
+                const bookIds = new Set(currentBooks.map((book) => book.id))
                 const newBooks = data.results.filter(
                     (book) => !bookIds.has(book.id)
                 )
 
-                return {
-                    ...prev,
-                    books: [...prev.books, ...newBooks],
-                    hasNext: data.next !== null,
-                }
+                return [...currentBooks, ...newBooks]
             })
+            setHasNext(data.next !== null)
             setNextPage((page) => page + 1)
         } catch (err) {
-            setState((prev) => ({
-                ...prev,
-                error: err instanceof Error ? err : new Error(String(err)),
-            }))
+            setError(err instanceof Error ? err : new Error(String(err)))
         } finally {
             setLoading(false)
         }
@@ -125,7 +76,7 @@ export function BrowseContent({
 
     useEffect(() => {
         const sentinel = sentinelRef.current
-        if (!sentinel || topicLoading || !hasNext || initialLoading) return
+        if (!sentinel || topicLoading || !hasNext) return
 
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -139,7 +90,7 @@ export function BrowseContent({
         observer.observe(sentinel)
 
         return () => observer.disconnect()
-    }, [hasNext, loadMore, topicLoading, initialLoading])
+    }, [hasNext, loadMore, topicLoading])
 
     function handleTopicChange(topic: string) {
         if (topic === selectedTopic) return
@@ -148,7 +99,7 @@ export function BrowseContent({
         topicRequestRef.current = requestId
         setSelectedTopic(topic)
         setTopicLoading(true)
-        setState((prev) => ({ ...prev, error: null }))
+        setError(null)
         startTransition(() => {
             router.push(`/browse?topic=${encodeURIComponent(topic)}`)
         })
@@ -164,28 +115,19 @@ export function BrowseContent({
             if (topicRequestRef.current !== requestId) return
 
             setCache(key, data)
-            setState({
-                books: data.results,
-                hasNext: data.next !== null,
-                initialLoading: false,
-                error: null,
-            })
+            setBooks(data.results)
             setNextPage(2)
+            setHasNext(data.next !== null)
         } catch (err) {
             if (topicRequestRef.current !== requestId) return
 
-            setState((prev) => ({
-                ...prev,
-                error: err instanceof Error ? err : new Error(String(err)),
-            }))
+            setError(err instanceof Error ? err : new Error(String(err)))
         } finally {
             if (topicRequestRef.current === requestId) {
                 setTopicLoading(false)
             }
         }
     }
-
-    const isLoading = initialLoading || topicLoading
 
     return (
         <div className="flex flex-col gap-6">
@@ -211,7 +153,7 @@ export function BrowseContent({
                 ))}
             </div>
 
-            {isLoading ? (
+            {topicLoading ? (
                 <div aria-live="polite">
                     <BookGridSkeleton />
                 </div>
@@ -219,12 +161,12 @@ export function BrowseContent({
                 <BookGrid books={books} />
             )}
             <div ref={sentinelRef} className="flex justify-center py-8">
-                {!isLoading && loading && (
+                {!topicLoading && loading && (
                     <div className="w-full" aria-live="polite">
                         <BookGridSkeleton />
                     </div>
                 )}
-                {!isLoading && error && (
+                {!topicLoading && error && (
                     <div className="flex flex-col items-center gap-4 text-center">
                         <p className="text-sm text-muted-foreground">
                             Failed to load more books. Please try again.
@@ -237,7 +179,7 @@ export function BrowseContent({
                         </Button>
                     </div>
                 )}
-                {!isLoading && !hasNext && !loading && !error && (
+                {!topicLoading && !hasNext && !loading && !error && (
                     <p className="text-sm text-muted-foreground">
                         You have reached the end of the list.
                     </p>
