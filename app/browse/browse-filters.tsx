@@ -25,15 +25,19 @@ export function BrowseFilters({
     const router = useRouter()
     const [, startTransition] = useTransition()
     const [selectedSlug, setSelectedSlug] = useState(activeTopicSlug)
-    const [sort, setSort] = useState<BrowseSort>(activeSort)
-
-    useEffect(() => {
+    const [prevActiveTopicSlug, setPrevActiveTopicSlug] =
+        useState(activeTopicSlug)
+    if (activeTopicSlug !== prevActiveTopicSlug) {
+        setPrevActiveTopicSlug(activeTopicSlug)
         setSelectedSlug(activeTopicSlug)
-    }, [activeTopicSlug])
+    }
 
-    useEffect(() => {
+    const [sort, setSort] = useState<BrowseSort>(activeSort)
+    const [prevActiveSort, setPrevActiveSort] = useState(activeSort)
+    if (activeSort !== prevActiveSort) {
+        setPrevActiveSort(activeSort)
         setSort(activeSort)
-    }, [activeSort])
+    }
 
     const topicBySlug = useMemo(
         () =>
@@ -106,14 +110,14 @@ export function BrowseFilters({
         <>
             <section
                 aria-label="Browse filters"
-                className="rounded-2xl overflow-x-hidden border border-border/70 bg-card/40"
+                className="overflow-x-hidden rounded-2xl border border-border/70 bg-card/40"
             >
                 <div className="relative border-b border-border/60">
                     <div
                         ref={tablistRef}
                         role="tablist"
                         aria-label="Category group"
-                        className="scrollbar-none flex gap-1 overflow-x-auto scroll-smooth px-3 py-2 sm:px-4"
+                        className="flex scrollbar-none gap-1 overflow-x-auto scroll-smooth px-3 py-2 sm:px-4"
                     >
                         {topicGroups.map((group) => {
                             const isActive =
