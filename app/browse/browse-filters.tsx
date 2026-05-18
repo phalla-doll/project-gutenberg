@@ -99,7 +99,7 @@ export function BrowseFilters({
                                 onClick={() =>
                                     setActiveGroupHeading(group.heading)
                                 }
-                                className={`relative shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 font-heading text-sm tracking-wide transition-colors ${
+                                className={`relative shrink-0 rounded-md px-3 py-1.5 font-heading text-sm tracking-wide whitespace-nowrap transition-colors ${
                                     isActive
                                         ? "bg-background text-foreground shadow-xs"
                                         : "text-muted-foreground hover:text-foreground"
@@ -144,7 +144,7 @@ export function BrowseFilters({
 
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border/60 pb-4">
                 <div className="flex flex-col gap-1">
-                    <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    <span className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
                         {activeGroup.heading}
                     </span>
                     <p className="font-heading text-2xl text-foreground">
@@ -156,7 +156,7 @@ export function BrowseFilters({
                     role="group"
                     aria-label="Sort books"
                 >
-                    <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    <span className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
                         Sort
                     </span>
                     <div className="inline-flex items-center rounded-full border border-border/70 bg-background/60 p-0.5">
