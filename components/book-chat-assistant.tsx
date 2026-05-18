@@ -283,25 +283,58 @@ export function BookChatAssistant({
                 </Button>
             )}
 
-            <div className="fixed right-4 bottom-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:right-6 sm:bottom-6">
+            <div
+                className={cn(
+                    "fixed right-4 z-50 flex max-w-[calc(100vw-2rem)] flex-col items-end gap-3 sm:right-6 sm:bottom-6",
+                    launcherTone === "reader" ? "bottom-20" : "bottom-4"
+                )}
+            >
                 {isOpen && (
                     <section
-                        className="flex h-[min(620px,calc(100svh-7rem))] w-[min(390px,calc(100vw-2rem))] flex-col overflow-hidden border border-border bg-background shadow-2xl shadow-foreground/15"
+                        className={cn(
+                            "flex h-[min(620px,calc(100svh-7rem))] w-[min(390px,calc(100vw-2rem))] flex-col overflow-hidden border border-border bg-background shadow-2xl shadow-foreground/15",
+                            launcherTone === "reader" &&
+                                "border-[#d8d0c3] bg-[#fbfaf7] text-[#2c2a26] shadow-black/30"
+                        )}
                         aria-label={`The Librarian for ${title}`}
                     >
-                        <div className="flex items-start justify-between gap-4 border-b border-border bg-surface-soft px-4 py-3">
+                        <div
+                            className={cn(
+                                "flex items-start justify-between gap-4 border-b border-border bg-surface-soft px-4 py-3",
+                                launcherTone === "reader" &&
+                                    "border-[#ded6c9] bg-[#f2eee6] text-[#2c2a26]"
+                            )}
+                        >
                             <div className="flex min-w-0 gap-3">
-                                <div className="flex size-9 shrink-0 items-center justify-center bg-primary/10 text-primary ring-1 ring-primary/20">
+                                <div
+                                    className={cn(
+                                        "flex size-9 shrink-0 items-center justify-center bg-primary/10 text-primary ring-1 ring-primary/20",
+                                        launcherTone === "reader" &&
+                                            "bg-[#eadbd1] text-[#a65f4c] ring-[#d8b9aa]"
+                                    )}
+                                >
                                     <Robot01Icon
                                         className="size-5"
                                         aria-hidden="true"
                                     />
                                 </div>
                                 <div className="min-w-0">
-                                    <h2 className="font-heading text-lg leading-5">
+                                    <h2
+                                        className={cn(
+                                            "font-heading text-lg leading-5",
+                                            launcherTone === "reader" &&
+                                                "text-[#2c2a26]"
+                                        )}
+                                    >
                                         The Librarian
                                     </h2>
-                                    <p className="truncate text-xs text-muted-foreground">
+                                    <p
+                                        className={cn(
+                                            "truncate text-xs text-muted-foreground",
+                                            launcherTone === "reader" &&
+                                                "text-[#6f6960]"
+                                        )}
+                                    >
                                         {title}
                                     </p>
                                 </div>
@@ -312,6 +345,10 @@ export function BookChatAssistant({
                                     variant="ghost"
                                     size="icon-sm"
                                     aria-label="Start a new chat"
+                                    className={cn(
+                                        launcherTone === "reader" &&
+                                            "text-[#6f6960] hover:bg-[#e7dfd3] hover:text-[#2c2a26]"
+                                    )}
                                     onClick={startNewChat}
                                     disabled={isSending}
                                 >
@@ -325,6 +362,10 @@ export function BookChatAssistant({
                                     variant="ghost"
                                     size="icon-sm"
                                     aria-label="Close The Librarian"
+                                    className={cn(
+                                        launcherTone === "reader" &&
+                                            "text-[#6f6960] hover:bg-[#e7dfd3] hover:text-[#2c2a26]"
+                                    )}
                                     onClick={() => setIsOpen(false)}
                                 >
                                     <Cancel01Icon
@@ -337,7 +378,10 @@ export function BookChatAssistant({
 
                         <div
                             ref={messagesRef}
-                            className="flex flex-1 scrollbar-none flex-col gap-3 overflow-y-auto px-4 py-4"
+                            className={cn(
+                                "flex flex-1 scrollbar-none flex-col gap-3 overflow-y-auto px-4 py-4",
+                                launcherTone === "reader" && "bg-[#fbfaf7]"
+                            )}
                         >
                             {messages.map((message, index) => (
                                 <div
@@ -346,7 +390,11 @@ export function BookChatAssistant({
                                         "flex max-w-[88%] flex-col gap-1.5 px-3 py-2 text-sm leading-relaxed whitespace-pre-wrap",
                                         message.role === "user"
                                             ? "ml-auto bg-primary text-primary-foreground"
-                                            : "mr-auto bg-card text-body-strong"
+                                            : "mr-auto bg-card text-body-strong",
+                                        launcherTone === "reader" &&
+                                            (message.role === "user"
+                                                ? "bg-[#b96f5f] text-white"
+                                                : "bg-[#eee8dd] text-[#2c2a26]")
                                     )}
                                 >
                                     {message.role === "user" &&
@@ -366,7 +414,13 @@ export function BookChatAssistant({
                                             message.content
                                         )
                                     ) : (
-                                        <span className="text-muted-foreground">
+                                        <span
+                                            className={cn(
+                                                "text-muted-foreground",
+                                                launcherTone === "reader" &&
+                                                    "text-[#6f6960]"
+                                            )}
+                                        >
                                             Reading...
                                         </span>
                                     )}
@@ -381,7 +435,11 @@ export function BookChatAssistant({
                                             type="button"
                                             variant="outline"
                                             size="sm"
-                                            className="h-auto justify-start py-2 text-left normal-case"
+                                            className={cn(
+                                                "h-auto justify-start py-2 text-left normal-case",
+                                                launcherTone === "reader" &&
+                                                    "border-[#ddd3c6] bg-[#fbfaf7] text-[#3b3832] hover:bg-[#eee8dd] hover:text-[#2c2a26]"
+                                            )}
                                             onClick={() =>
                                                 sendMessage(question)
                                             }
@@ -395,13 +453,29 @@ export function BookChatAssistant({
 
                         <form
                             onSubmit={handleSubmit}
-                            className="border-t border-border bg-surface-soft px-4 py-3"
+                            className={cn(
+                                "border-t border-border bg-surface-soft px-4 py-3",
+                                launcherTone === "reader" &&
+                                    "border-[#ded6c9] bg-[#f2eee6] text-[#2c2a26]"
+                            )}
                         >
                             <div className="flex items-end gap-3">
                                 <div className="flex flex-1 flex-col">
                                     {pendingSelectedWordCount > 0 && (
-                                        <div className="mb-2 flex items-center justify-between gap-2 border border-border bg-background px-2.5 py-1.5">
-                                            <span className="text-[11px] leading-none font-semibold tracking-normal text-muted-foreground normal-case">
+                                        <div
+                                            className={cn(
+                                                "mb-2 flex items-center justify-between gap-2 border border-border bg-background px-2.5 py-1.5",
+                                                launcherTone === "reader" &&
+                                                    "border-[#ddd3c6] bg-[#fbfaf7]"
+                                            )}
+                                        >
+                                            <span
+                                                className={cn(
+                                                    "text-[11px] leading-none font-semibold tracking-normal text-muted-foreground normal-case",
+                                                    launcherTone === "reader" &&
+                                                        "text-[#6f6960]"
+                                                )}
+                                            >
                                                 Selected{" "}
                                                 {pendingSelectedWordCount} words
                                             </span>
@@ -409,7 +483,11 @@ export function BookChatAssistant({
                                                 type="button"
                                                 variant="ghost"
                                                 size="icon-xs"
-                                                className="-my-1 -mr-1"
+                                                className={cn(
+                                                    "-my-1 -mr-1",
+                                                    launcherTone === "reader" &&
+                                                        "text-[#6f6960] hover:bg-[#e7dfd3] hover:text-[#2c2a26]"
+                                                )}
                                                 aria-label="Clear selected text"
                                                 onClick={() =>
                                                     setPendingSelectedText("")
@@ -449,7 +527,11 @@ export function BookChatAssistant({
                                         aria-label="Ask about this book"
                                         rows={1}
                                         disabled={isSending}
-                                        className="max-h-28 min-h-10 py-2"
+                                        className={cn(
+                                            "max-h-28 min-h-10 py-2",
+                                            launcherTone === "reader" &&
+                                                "border-b-[#cfc5b8] text-[#2c2a26] placeholder:text-[#6f6960] focus-visible:border-b-[#a65f4c]"
+                                        )}
                                     />
                                 </div>
                                 <Button
@@ -461,6 +543,10 @@ export function BookChatAssistant({
                                             !pendingSelectedText.trim()) ||
                                         isSending
                                     }
+                                    className={cn(
+                                        launcherTone === "reader" &&
+                                            "bg-[#c78373] text-white hover:bg-[#b96f5f]"
+                                    )}
                                 >
                                     <ArrowUpBigIcon
                                         className="size-4"
@@ -479,7 +565,7 @@ export function BookChatAssistant({
                     className={cn(
                         "gap-2",
                         launcherTone === "reader"
-                            ? "h-10 bg-background/95 shadow-lg shadow-foreground/10 backdrop-blur"
+                            ? "h-10 border-[#d8d0c3] bg-[#f2eee6]/95 text-[#2c2a26] shadow-lg shadow-black/20 backdrop-blur hover:bg-[#e7dfd3] max-sm:size-10 max-sm:px-0"
                             : "h-12 shadow-xl shadow-foreground/20"
                     )}
                     aria-expanded={isOpen}
@@ -492,7 +578,13 @@ export function BookChatAssistant({
                         className="size-4"
                         aria-hidden="true"
                     />
-                    {launcherLabel}
+                    {launcherTone === "reader" ? (
+                        <span className="hidden sm:inline">
+                            {launcherLabel}
+                        </span>
+                    ) : (
+                        launcherLabel
+                    )}
                 </Button>
             </div>
         </>
