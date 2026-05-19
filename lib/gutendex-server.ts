@@ -8,7 +8,7 @@ import type {
     Person,
 } from "@/lib/gutendex"
 
-const PAGE_SIZE = 32
+const PAGE_SIZE = 36
 
 type BookRow = {
     id: number
