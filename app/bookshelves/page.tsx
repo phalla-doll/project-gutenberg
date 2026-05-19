@@ -1,6 +1,9 @@
 import Link from "next/link"
 import { getBookshelves } from "@/lib/gutendex-server"
-import { classifyBookshelf } from "./bookshelf-collections"
+import {
+    classifyBookshelf,
+    displayBookshelfName,
+} from "./bookshelf-collections"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import { ArrowRight01Icon } from "hugeicons-react"
 import type { Metadata } from "next"
@@ -73,7 +76,7 @@ export default async function BookshelvesPage() {
 
             <nav
                 aria-label="Jump to section"
-                className="scrollbar-none -mx-4 mb-10 overflow-x-auto px-4 `mask-[linear-gradient(to_right,transparent,black_1.5rem,black_calc(100%-1.5rem),transparent)]"
+                className="`mask-[linear-gradient(to_right,transparent,black_1.5rem,black_calc(100%-1.5rem),transparent)] -mx-4 mb-10 scrollbar-none overflow-x-auto px-4"
             >
                 <div className="inline-flex items-center rounded-full border border-border/70 bg-background/60 p-0.5">
                     {groupOrder.map((heading) => (
@@ -124,14 +127,15 @@ export default async function BookshelvesPage() {
                                             className="absolute inset-y-3 left-0 w-0.75 rounded-r-full bg-primary/20 transition-all group-hover:inset-y-2 group-hover:bg-primary"
                                         />
                                         <span className="line-clamp-2 font-heading text-base leading-snug tracking-tight text-foreground transition-colors group-hover:text-primary">
-                                            {shelf.name}
+                                            {displayBookshelfName(shelf.name)}
                                         </span>
                                         <div className="flex items-end justify-between gap-2">
                                             <span className="text-xs text-muted-foreground tabular-nums">
                                                 <span className="font-medium text-foreground/80 transition-colors group-hover:text-foreground">
                                                     {shelf.count.toLocaleString()}
                                                 </span>{" "}
-                                                book{shelf.count === 1 ? "" : "s"}
+                                                book
+                                                {shelf.count === 1 ? "" : "s"}
                                             </span>
                                             <ArrowRight01Icon
                                                 className="size-4 -translate-x-1 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0 group-hover:text-foreground group-hover:opacity-100"

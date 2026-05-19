@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { getBookshelves, getBooksByBookshelf } from "@/lib/gutendex-server"
 import { BookshelfBookList } from "./bookshelf-book-list"
+import { displayBookshelfName } from "../bookshelf-collections"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import { ArrowLeft01Icon, Bookshelf01Icon } from "hugeicons-react"
 import type { BrowseSort } from "@/lib/gutendex"
@@ -23,11 +24,12 @@ export async function generateMetadata({
     const shelf = shelves.find((s) => s.slug === slug)
     if (!shelf) return { title: "Reading List" }
 
-    const title = `${shelf.name} - Reading Lists`
-    const description = `Browse ${shelf.count} free ebooks in the "${shelf.name}" reading list`
+    const displayName = displayBookshelfName(shelf.name)
+    const title = `${displayName} - Reading Lists`
+    const description = `Browse ${shelf.count} free ebooks in the "${displayName}" reading list`
 
     return {
-        title: shelf.name,
+        title: displayName,
         description,
         alternates: {
             canonical: `/bookshelves/${slug}`,
@@ -97,7 +99,7 @@ export default async function BookshelfSlugPage({
                         </span>
                     </div>
                     <h1 className="font-heading text-3xl tracking-tight md:text-4xl">
-                        {shelf.name}
+                        {displayBookshelfName(shelf.name)}
                     </h1>
                     <p className="mt-1 text-muted-foreground">
                         {shelf.count} book{shelf.count !== 1 ? "s" : ""}

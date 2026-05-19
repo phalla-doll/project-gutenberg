@@ -93,3 +93,7 @@ export function classifyBookshelf(name: string): {
     }
     return { heading: "Other", index: BOOKSHELF_COLLECTIONS.length }
 }
+
+export function displayBookshelfName(name: string): string {
+    return name.replace(/^Category:\s*/i, "")
+}
