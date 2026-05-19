@@ -34,6 +34,12 @@ project-sonam/
 │   ├── browse/
 │   │   ├── page.tsx            # Browse page — topic-based browsing
 │   │   └── browse-content.tsx  # Client component — topic badges + book grid
+│   ├── bookshelves/
+│   │   ├── page.tsx                  # Reading Lists index — Gutenberg bookshelves grouped by collection
+│   │   ├── bookshelf-collections.ts  # Heuristic shelf → collection heading classifier
+│   │   └── [slug]/
+│   │       ├── page.tsx              # Per-shelf detail page (popular | recently added sort)
+│   │       └── bookshelf-book-list.tsx # Client component — paginated shelf book grid
 │   ├── search/
 │   │   ├── page.tsx            # Search page — query/topic/language filters
 │   │   └── search-results.tsx  # Client component — search form + results
@@ -99,6 +105,12 @@ Displays the most downloaded books in a responsive grid with infinite loading, d
 ### `/browse` — Browse by Topic
 Browse books across 20 curated topics (Fiction, Science Fiction, Fantasy, Mystery, Romance, Adventure, History, Philosophy, Science, Poetry, and more). Topic selection via badge filters.
 
+### `/bookshelves` — Reading Lists
+Index of every Project Gutenberg bookshelf (the volunteer-curated collections that appear on each book's detail page), grouped under higher-level headings (Animals & Nature, Fiction — Genre, History & War, etc.) via the heuristic classifier in `app/bookshelves/bookshelf-collections.ts`. Includes a jump-to-section chip nav with edge-fade mask and per-section list/book counts.
+
+### `/bookshelves/[slug]` — Bookshelf Detail
+Paginated view of every book belonging to one bookshelf. Supports `?sort=popular` (default) and `?sort=descending` (recently added). Statically pre-rendered via `generateStaticParams` over the full shelf list. Each shelf chip on a book detail page links back here.
+
 ### `/search` — Search Books
 Full-text search with filters:
 - **Query** — search by title or author
@@ -129,7 +141,7 @@ Streams concise, book-scoped assistant responses for the detail and reader pages
 - Returns a plain text streaming response with `Cache-Control: no-store`
 
 ### `/api/books` — Client read API
-JSON proxy used by client components (home grid, search results, browse list). Query params: `?mode=popular|search|topic&page=...&search=...&topic=...&languages=en,fr&sort=...`. Same `PaginatedResponse<Book>` shape Gutendex returned, so the response contract is unchanged from the previous architecture.
+JSON proxy used by client components (home grid, search results, browse list, bookshelf list). Query params: `?mode=popular|search|topic|bookshelf-list|bookshelf&page=...&search=...&topic=...&shelf=...&languages=en,fr&sort=...`. Same `PaginatedResponse<Book>` shape Gutendex returned, so the response contract is unchanged from the previous architecture. The `bookshelf-list` mode returns `BookshelfEntry[]` (`{ name, slug, count }`) instead.
 
 ### `/api/sync` — Gutendex → Postgres sync
 Cron-triggered route that pulls metadata from Gutendex and upserts into Postgres. Two modes:
@@ -158,10 +170,12 @@ The four read functions are split across two modules so the Neon client never le
 | `getPopularBooks(page)` | `lib/gutendex-server.ts` | Server pages, `/api/books` |
 | `searchBooks(filters)` | `lib/gutendex-server.ts` | Server pages, `/api/books` |
 | `getBooksByTopic(topic, page, sort)` | `lib/gutendex-server.ts` | Server pages, `/api/books` |
+| `getBookshelves()` | `lib/gutendex-server.ts` | `/bookshelves`, `/api/books` (`mode=bookshelf-list`) |
+| `getBooksByBookshelf(shelf, page, sort)` | `lib/gutendex-server.ts` | `/bookshelves/[slug]`, `/api/books` (`mode=bookshelf`) |
 | `getBookById(id)` | `lib/gutendex-server.ts` | Server pages, `/api/book-chat` |
-| `getPopularBooks`, `searchBooks`, `getBooksByTopic` | `lib/gutendex-client.ts` | Client components — call `/api/books` over fetch |
+| `getPopularBooks`, `searchBooks`, `getBooksByTopic`, `getBookshelves`, `getBooksByBookshelf` | `lib/gutendex-client.ts` | Client components — call `/api/books` over fetch |
 
-`lib/gutendex.ts` itself contains only types (`Book`, `Person`, `PaginatedResponse`, `BookFilters`, `BrowseSort`) and pure helpers (`getCoverUrl`, `getReadableTextUrl`, `getOnlineReadUrl`, `getFormatLabel`, `formatAuthorName`, `formatDownloadCount`) and is safe to import from anywhere.
+`lib/gutendex.ts` itself contains only types (`Book`, `Person`, `PaginatedResponse`, `BookFilters`, `BrowseSort`, `BookshelfEntry`) and pure helpers (`getCoverUrl`, `getReadableTextUrl`, `getOnlineReadUrl`, `getFormatLabel`, `formatAuthorName`, `formatDownloadCount`) and is safe to import from anywhere.
 
 ### What still hits gutenberg.org directly
 

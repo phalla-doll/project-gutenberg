@@ -3,6 +3,7 @@ import { sql } from "@/lib/db/client"
 import type {
     Book,
     BookFilters,
+    BookshelfEntry,
     BrowseSort,
     PaginatedResponse,
     Person,
@@ -170,6 +171,48 @@ export async function getBooksByTopic(
         SELECT count(*)::int AS count FROM books
         WHERE EXISTS (SELECT 1 FROM unnest(subjects) s WHERE s ILIKE ${pattern})
            OR EXISTS (SELECT 1 FROM unnest(bookshelves) b WHERE b ILIKE ${pattern})
+    `) as { count: number }[]
+    return paginated(rows, count, page)
+}
+
+export async function getBookshelves(): Promise<BookshelfEntry[]> {
+    const rows = (await sql`
+        SELECT shelf, count(*)::int AS count
+        FROM books, unnest(bookshelves) AS shelf
+        GROUP BY shelf
+        ORDER BY shelf ASC
+    `) as { shelf: string; count: number }[]
+    return rows.map((r) => ({
+        name: r.shelf,
+        slug: r.shelf
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, ""),
+        count: r.count,
+    }))
+}
+
+export async function getBooksByBookshelf(
+    shelf: string,
+    page = 1,
+    sort: BrowseSort = "popular"
+): Promise<PaginatedResponse<Book>> {
+    const offset = (page - 1) * PAGE_SIZE
+    const orderBy =
+        sort === "descending"
+            ? sql`ORDER BY id DESC`
+            : sql`ORDER BY download_count DESC, id ASC`
+    const rows = (await sql`
+        SELECT id, title, authors, translators, subjects, bookshelves,
+               languages, summaries, copyright, media_type, formats, download_count
+        FROM books
+        WHERE bookshelves @> ARRAY[${shelf}]
+        ${orderBy}
+        LIMIT ${PAGE_SIZE} OFFSET ${offset}
+    `) as BookRow[]
+    const [{ count }] = (await sql`
+        SELECT count(*)::int AS count FROM books
+        WHERE bookshelves @> ARRAY[${shelf}]
     `) as { count: number }[]
     return paginated(rows, count, page)
 }

@@ -17,11 +17,13 @@ import {
     Menu01Icon,
     Search01Icon,
     LibraryIcon,
+    Bookshelf01Icon,
 } from "hugeicons-react"
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home01Icon },
     { href: "/browse", label: "Browse", icon: LibraryIcon },
+    { href: "/bookshelves", label: "Reading Lists", icon: Bookshelf01Icon },
     { href: "/search", label: "Search", icon: Search01Icon },
 ]
 

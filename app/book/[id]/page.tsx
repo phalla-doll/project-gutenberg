@@ -31,6 +31,13 @@ function formatBookshelfName(shelf: string) {
     return formatMetadataLabel(shelf.replace(/^Category:\s*/i, ""))
 }
 
+function bookshelfSlug(shelf: string) {
+    return shelf
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+}
+
 function formatMetadataLabel(label: string) {
     return label.replace(/\s*--\s*/g, " — ")
 }
@@ -241,9 +248,12 @@ export default async function BookDetailPage({
                             <ul className="flex min-w-0 flex-wrap gap-2">
                                 {book.bookshelves.map((shelf) => (
                                     <li key={shelf} className="max-w-full">
-                                        <span className="inline-flex max-w-full rounded-md bg-muted px-2.5 py-1.5 text-sm leading-snug wrap-break-word whitespace-normal text-muted-foreground">
+                                        <Link
+                                            href={`/bookshelves/${bookshelfSlug(shelf)}`}
+                                            className="inline-flex max-w-full rounded-md bg-muted px-2.5 py-1.5 text-sm leading-snug wrap-break-word whitespace-normal text-muted-foreground transition-colors hover:bg-foreground hover:text-background"
+                                        >
                                             {formatBookshelfName(shelf)}
-                                        </span>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

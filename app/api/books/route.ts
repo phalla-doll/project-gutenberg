@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import {
+    getBookshelves,
+    getBooksByBookshelf,
     getBooksByTopic,
     getPopularBooks,
     searchBooks,
@@ -21,6 +23,16 @@ export async function GET(req: NextRequest) {
             const topic = sp.get("topic") || ""
             const sort = (sp.get("sort") as BrowseSort) || "popular"
             return NextResponse.json(await getBooksByTopic(topic, page, sort))
+        }
+        if (mode === "bookshelf-list") {
+            return NextResponse.json(await getBookshelves())
+        }
+        if (mode === "bookshelf") {
+            const shelf = sp.get("shelf") || ""
+            const sort = (sp.get("sort") as BrowseSort) || "popular"
+            return NextResponse.json(
+                await getBooksByBookshelf(shelf, page, sort)
+            )
         }
         if (mode === "search") {
             const languages = sp.get("languages")

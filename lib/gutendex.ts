@@ -39,6 +39,12 @@ export interface BookFilters {
 
 export type BrowseSort = "popular" | "descending"
 
+export interface BookshelfEntry {
+    name: string
+    slug: string
+    count: number
+}
+
 export function getCoverUrl(book: Book): string | null {
     return book.formats["image/jpeg"] || null
 }

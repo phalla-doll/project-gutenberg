@@ -1,6 +1,7 @@
 import type {
     Book,
     BookFilters,
+    BookshelfEntry,
     BrowseSort,
     PaginatedResponse,
 } from "@/lib/gutendex"
@@ -41,6 +42,25 @@ export function getBooksByTopic(
     const qs = new URLSearchParams({
         mode: "topic",
         topic,
+        page: String(page),
+        sort,
+    })
+    return fetchJson(`/api/books?${qs}`)
+}
+
+export function getBookshelves(): Promise<BookshelfEntry[]> {
+    const qs = new URLSearchParams({ mode: "bookshelf-list" })
+    return fetchJson(`/api/books?${qs}`)
+}
+
+export function getBooksByBookshelf(
+    shelf: string,
+    page = 1,
+    sort: BrowseSort = "popular"
+): Promise<PaginatedResponse<Book>> {
+    const qs = new URLSearchParams({
+        mode: "bookshelf",
+        shelf,
         page: String(page),
         sort,
     })
