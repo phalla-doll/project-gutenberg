@@ -50,7 +50,7 @@ interface ReaderShellProps {
 }
 
 type ReaderTheme = "light" | "sepia" | "dark"
-type ReaderFont = "satoshi" | "sentient" | "pally"
+type ReaderFont = "satoshi" | "sentient" | "quicksand"
 
 interface ReaderPreferences {
     fontSize: number
@@ -87,7 +87,7 @@ const defaultPreferences: ReaderPreferences = {
 const readerFontFamilies: Record<ReaderFont, string> = {
     satoshi: "var(--font-reader-sans)",
     sentient: "var(--font-reader-serif)",
-    pally: "var(--font-reader-soft)",
+    quicksand: "var(--font-reader-soft)",
 }
 
 const themeStyles: Record<ReaderTheme, CSSProperties> = {
@@ -138,7 +138,12 @@ function clamp(value: number, min: number, max: number) {
 }
 
 function isReaderFont(value: unknown): value is ReaderFont {
-    return value === "satoshi" || value === "sentient" || value === "pally"
+    return value === "satoshi" || value === "sentient" || value === "quicksand"
+}
+
+function getReaderFont(value: unknown) {
+    if (value === "pally") return "quicksand"
+    return isReaderFont(value) ? value : defaultPreferences.readerFont
 }
 
 function escapeSearchQuery(query: string) {
@@ -257,9 +262,7 @@ export function ReaderShell({
                         38,
                         64
                     ),
-                    readerFont: isReaderFont(storedPreferences.readerFont)
-                        ? storedPreferences.readerFont
-                        : defaultPreferences.readerFont,
+                    readerFont: getReaderFont(storedPreferences.readerFont),
                     theme:
                         storedPreferences.theme === "sepia" ||
                         storedPreferences.theme === "dark"
@@ -1010,7 +1013,10 @@ function ReaderPreferencesSheet({
                             >
                                 Classic
                             </ToggleGroupItem>
-                            <ToggleGroupItem value="pally" className="flex-1">
+                            <ToggleGroupItem
+                                value="quicksand"
+                                className="flex-1"
+                            >
                                 Soft
                             </ToggleGroupItem>
                         </ToggleGroup>
