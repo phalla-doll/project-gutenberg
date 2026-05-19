@@ -62,7 +62,7 @@ export default async function SearchPage({
                     Search Books
                 </h1>
                 <p className="mt-3 text-lg text-muted-foreground">
-                    Find your next great read from over 70,000 free ebooks
+                    Find your next great read from over 75,000 free ebooks
                 </p>
             </div>
             <SearchResults
