@@ -35,14 +35,12 @@ export default async function SearchPage({
         q?: string
         topic?: string
         lang?: string
-        page?: string
     }>
 }) {
     const params = await searchParams
     const query = params.q || ""
     const topic = params.topic || ""
     const lang = params.lang || ""
-    const page = Number(params.page) || 1
 
     const hasSearch = !!(query || topic)
 
@@ -51,13 +49,11 @@ export default async function SearchPage({
               search: query || undefined,
               topic: topic || undefined,
               languages: lang ? [lang] : undefined,
-              page,
+              page: 1,
           })
         : undefined
 
-    const initialKey = hasSearch
-        ? `${query}|${topic}|${lang}|${page}`
-        : undefined
+    const initialKey = hasSearch ? `${query}|${topic}|${lang}|1` : undefined
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -73,7 +69,6 @@ export default async function SearchPage({
                 query={query}
                 topic={topic}
                 lang={lang}
-                currentPage={page}
                 initialData={initialData}
                 initialKey={initialKey}
             />

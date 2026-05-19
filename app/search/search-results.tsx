@@ -1,15 +1,19 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
-import { Pagination } from "@/components/pagination"
 import { searchBooks } from "@/lib/gutendex-client"
 import type { PaginatedResponse, Book } from "@/lib/gutendex"
-import { Search01Icon, Cancel01Icon } from "hugeicons-react"
-import { usePaginatedBooks } from "@/hooks/use-paginated-books"
+import {
+    Search01Icon,
+    Cancel01Icon,
+    FileSearchIcon,
+    SearchRemoveIcon,
+} from "hugeicons-react"
+import { getCached, setCache } from "@/lib/book-cache"
 
 const LANGUAGES = [
     { code: "en", label: "English" },
@@ -41,7 +45,6 @@ interface SearchResultsProps {
     query: string
     topic: string
     lang: string
-    currentPage: number
     initialData?: PaginatedResponse<Book>
     initialKey?: string
 }
@@ -50,7 +53,6 @@ export function SearchResults({
     query,
     topic,
     lang,
-    currentPage,
     initialData,
     initialKey,
 }: SearchResultsProps) {
@@ -78,24 +80,144 @@ export function SearchResults({
     }
 
     const hasSearch = !!(query || topic)
-    const key = `${query}|${topic}|${lang}|${currentPage}`
 
-    const fetchFn = useCallback(
-        () =>
-            searchBooks({
-                search: query || undefined,
-                topic: topic || undefined,
-                languages: lang ? [lang] : undefined,
-                page: currentPage,
-            }),
-        [query, topic, lang, currentPage]
+    const sentinelRef = useRef<HTMLDivElement | null>(null)
+    const [books, setBooks] = useState(initialData?.results ?? [])
+    const [nextPage, setNextPage] = useState(2)
+    const [hasNext, setHasNext] = useState(initialData?.next !== null)
+    const [loading, setLoading] = useState(false)
+    const [initialLoading, setInitialLoading] = useState(
+        hasSearch && !initialData
     )
+    const [error, setError] = useState<Error | null>(null)
 
-    const { data, loading, error, retry } = usePaginatedBooks(fetchFn, key, {
-        enabled: hasSearch,
-        initialData,
-        initialKey,
-    })
+    useEffect(() => {
+        if (initialData && initialKey) {
+            setCache(initialKey, initialData)
+        }
+    }, [initialData, initialKey])
+
+    const searchKey = `${query}|${topic}|${lang}`
+    const [prevSearchKey, setPrevSearchKey] = useState(searchKey)
+
+    if (prevSearchKey !== searchKey) {
+        setPrevSearchKey(searchKey)
+        if (!hasSearch) {
+            setBooks([])
+            setHasNext(false)
+            setInitialLoading(false)
+            setError(null)
+        } else if (!initialData || initialKey !== `${searchKey}|1`) {
+            setBooks([])
+            setHasNext(false)
+            setInitialLoading(true)
+            setError(null)
+        } else {
+            setBooks(initialData.results)
+            setHasNext(initialData.next !== null)
+            setNextPage(2)
+            setInitialLoading(false)
+            setError(null)
+        }
+    }
+
+    useEffect(() => {
+        if (!hasSearch) return
+
+        if (books.length > 0 || initialLoading === false) return
+
+        let cancelled = false
+
+        async function fetchInitial() {
+            setError(null)
+
+            try {
+                const key = `${query}|${topic}|${lang}|1`
+                const data =
+                    getCached(key) ??
+                    (await searchBooks({
+                        search: query || undefined,
+                        topic: topic || undefined,
+                        languages: lang ? [lang] : undefined,
+                        page: 1,
+                    }))
+
+                if (!cancelled) {
+                    setCache(key, data)
+                    setBooks(data.results)
+                    setHasNext(data.next !== null)
+                    setNextPage(2)
+                    setInitialLoading(false)
+                }
+            } catch (err) {
+                if (!cancelled) {
+                    setError(
+                        err instanceof Error ? err : new Error(String(err))
+                    )
+                    setInitialLoading(false)
+                }
+            }
+        }
+
+        void fetchInitial()
+
+        return () => {
+            cancelled = true
+        }
+    }, [books.length, hasSearch, initialLoading, query, topic, lang])
+
+    const loadMore = useCallback(async () => {
+        if (loading || !hasNext || !hasSearch) return
+
+        setLoading(true)
+        setError(null)
+
+        try {
+            const key = `${query}|${topic}|${lang}|${nextPage}`
+            const data =
+                getCached(key) ??
+                (await searchBooks({
+                    search: query || undefined,
+                    topic: topic || undefined,
+                    languages: lang ? [lang] : undefined,
+                    page: nextPage,
+                }))
+
+            setCache(key, data)
+            setBooks((currentBooks) => {
+                const bookIds = new Set(currentBooks.map((book) => book.id))
+                const newBooks = data.results.filter(
+                    (book) => !bookIds.has(book.id)
+                )
+
+                return [...currentBooks, ...newBooks]
+            })
+            setHasNext(data.next !== null)
+            setNextPage((page) => page + 1)
+        } catch (err) {
+            setError(err instanceof Error ? err : new Error(String(err)))
+        } finally {
+            setLoading(false)
+        }
+    }, [hasNext, loading, nextPage, query, topic, lang, hasSearch])
+
+    useEffect(() => {
+        const sentinel = sentinelRef.current
+        if (!sentinel || !hasNext) return
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry?.isIntersecting) {
+                    void loadMore()
+                }
+            },
+            { rootMargin: "480px 0px" }
+        )
+
+        observer.observe(sentinel)
+
+        return () => observer.disconnect()
+    }, [hasNext, loadMore])
 
     function handleSearch(e: React.FormEvent) {
         e.preventDefault()
@@ -111,16 +233,6 @@ export function SearchResults({
         setSelectedLang("")
         setSelectedTopic("")
         router.push("/search")
-    }
-
-    function handlePageChange(page: number) {
-        const params = new URLSearchParams()
-        if (query) params.set("q", query)
-        if (topic) params.set("topic", topic)
-        if (lang) params.set("lang", lang)
-        params.set("page", page.toString())
-        router.push(`/search?${params.toString()}`)
-        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     const hasActiveFilters = query || topic || lang
@@ -225,34 +337,74 @@ export function SearchResults({
                 </div>
             </form>
 
-            {error && (
+            {error && !initialLoading && (
                 <div className="flex flex-col items-center gap-4 py-16 text-center">
                     <p className="text-lg text-muted-foreground">
                         Failed to load search results. Please try again.
                     </p>
-                    <Button onClick={retry} variant="outline">
+                    <Button
+                        onClick={() => {
+                            setError(null)
+                            setInitialLoading(true)
+                            setBooks([])
+                            setNextPage(2)
+                            void (async () => {
+                                try {
+                                    const key = `${query}|${topic}|${lang}|1`
+                                    const data =
+                                        getCached(key) ??
+                                        (await searchBooks({
+                                            search: query || undefined,
+                                            topic: topic || undefined,
+                                            languages: lang
+                                                ? [lang]
+                                                : undefined,
+                                            page: 1,
+                                        }))
+                                    setCache(key, data)
+                                    setBooks(data.results)
+                                    setHasNext(data.next !== null)
+                                    setInitialLoading(false)
+                                } catch (err) {
+                                    setError(
+                                        err instanceof Error
+                                            ? err
+                                            : new Error(String(err))
+                                    )
+                                    setInitialLoading(false)
+                                }
+                            })()
+                        }}
+                        variant="outline"
+                    >
                         Retry
                     </Button>
                 </div>
             )}
 
-            {!error && loading && <BookGridSkeleton />}
+            {initialLoading && <BookGridSkeleton />}
 
-            {!error && !loading && data && (
+            {!error && !initialLoading && hasSearch && books.length > 0 && (
                 <>
-                    <BookGrid books={data.results} />
-                    <Pagination
-                        currentPage={currentPage}
-                        hasNext={data.next !== null}
-                        hasPrev={data.previous !== null}
-                        onPageChange={handlePageChange}
-                        totalResults={data.count}
-                    />
+                    <BookGrid books={books} />
+                    <div ref={sentinelRef} className="flex justify-center py-8">
+                        {loading && (
+                            <div className="w-full" aria-live="polite">
+                                <BookGridSkeleton />
+                            </div>
+                        )}
+                        {!hasNext && !loading && (
+                            <p className="text-sm text-muted-foreground">
+                                You have reached the end of the list.
+                            </p>
+                        )}
+                    </div>
                 </>
             )}
 
-            {!error && !loading && !hasSearch && (
-                <div className="py-16 text-center">
+            {!error && !initialLoading && !hasSearch && (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <FileSearchIcon className="size-12 text-muted-foreground/40" />
                     <p className="text-lg text-muted-foreground">
                         Search for books by title, author, or filter by topic
                         and language
@@ -260,8 +412,9 @@ export function SearchResults({
                 </div>
             )}
 
-            {!error && !loading && data && data.results.length === 0 && (
-                <div className="py-16 text-center">
+            {!error && !initialLoading && hasSearch && books.length === 0 && (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <SearchRemoveIcon className="size-12 text-muted-foreground/40" />
                     <p className="text-lg text-muted-foreground">
                         No books found. Try adjusting your search or filters.
                     </p>
