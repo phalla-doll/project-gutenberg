@@ -73,7 +73,7 @@ export default async function BookshelvesPage() {
 
             <nav
                 aria-label="Jump to section"
-                className="scrollbar-none -mx-4 mb-10 overflow-x-auto px-4 [mask-image:linear-gradient(to_right,transparent,black_1.5rem,black_calc(100%-1.5rem),transparent)]"
+                className="scrollbar-none -mx-4 mb-10 overflow-x-auto px-4 `mask-[linear-gradient(to_right,transparent,black_1.5rem,black_calc(100%-1.5rem),transparent)]"
             >
                 <div className="inline-flex items-center rounded-full border border-border/70 bg-background/60 p-0.5">
                     {groupOrder.map((heading) => (
@@ -121,7 +121,7 @@ export default async function BookshelvesPage() {
                                     >
                                         <span
                                             aria-hidden="true"
-                                            className="absolute inset-y-3 left-0 w-[3px] rounded-r-full bg-primary/20 transition-all group-hover:inset-y-2 group-hover:bg-primary"
+                                            className="absolute inset-y-3 left-0 w-0.75 rounded-r-full bg-primary/20 transition-all group-hover:inset-y-2 group-hover:bg-primary"
                                         />
                                         <span className="line-clamp-2 font-heading text-base leading-snug tracking-tight text-foreground transition-colors group-hover:text-primary">
                                             {shelf.name}
