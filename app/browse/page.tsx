@@ -1,7 +1,5 @@
-import { Suspense } from "react"
 import { BrowseFilters } from "./browse-filters"
 import { BrowseBookList } from "./browse-book-list"
-import { BookGridSkeleton } from "@/components/book-grid"
 import { getBooksByTopic } from "@/lib/gutendex-server"
 import { type BrowseSort } from "@/lib/gutendex"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
@@ -422,32 +420,6 @@ function parseSort(value: string | undefined): BrowseSort {
     return value === "descending" ? "descending" : "popular"
 }
 
-async function BrowseBookListLoader({
-    topicSlug,
-    topicQuery,
-    page,
-    sort,
-    initialKey,
-}: {
-    topicSlug: string
-    topicQuery: string
-    page: number
-    sort: BrowseSort
-    initialKey: string
-}) {
-    const initialData = await getBooksByTopic(topicQuery, page, sort)
-    return (
-        <BrowseBookList
-            topicSlug={topicSlug}
-            topicQuery={topicQuery}
-            initialPage={page}
-            sort={sort}
-            initialData={initialData}
-            initialKey={initialKey}
-        />
-    )
-}
-
 export default async function BrowsePage({
     searchParams,
 }: {
@@ -461,7 +433,8 @@ export default async function BrowsePage({
     const activeTopic = TOPIC_BY_SLUG.get(topicSlug)!
     const page = Number(params.page) || 1
     const sort = parseSort(params.sort)
-    const initialKey = `${topicSlug}|${page}|${sort}`
+    const initialData = await getBooksByTopic(activeTopic.query, page, sort)
+    const key = `${topicSlug}|${page}|${sort}`
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -479,15 +452,14 @@ export default async function BrowsePage({
                     activeTopicSlug={topicSlug}
                     activeSort={sort}
                 />
-                <Suspense key={initialKey} fallback={<BookGridSkeleton />}>
-                    <BrowseBookListLoader
-                        topicSlug={topicSlug}
-                        topicQuery={activeTopic.query}
-                        page={page}
-                        sort={sort}
-                        initialKey={initialKey}
-                    />
-                </Suspense>
+                <BrowseBookList
+                    key={key}
+                    topicSlug={topicSlug}
+                    topicQuery={activeTopic.query}
+                    initialPage={page}
+                    sort={sort}
+                    initialData={initialData}
+                />
             </div>
         </div>
     )

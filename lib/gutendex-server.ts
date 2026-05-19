@@ -156,17 +156,20 @@ export async function getBooksByTopic(
         sort === "descending"
             ? sql`ORDER BY id DESC`
             : sql`ORDER BY download_count DESC, id ASC`
+    const pattern = `%${topic}%`
     const rows = (await sql`
         SELECT id, title, authors, translators, subjects, bookshelves,
                languages, summaries, copyright, media_type, formats, download_count
         FROM books
-        WHERE ${topic} ILIKE ANY(subjects) OR ${topic} ILIKE ANY(bookshelves)
+        WHERE EXISTS (SELECT 1 FROM unnest(subjects) s WHERE s ILIKE ${pattern})
+           OR EXISTS (SELECT 1 FROM unnest(bookshelves) b WHERE b ILIKE ${pattern})
         ${orderBy}
         LIMIT ${PAGE_SIZE} OFFSET ${offset}
     `) as BookRow[]
     const [{ count }] = (await sql`
         SELECT count(*)::int AS count FROM books
-        WHERE ${topic} ILIKE ANY(subjects) OR ${topic} ILIKE ANY(bookshelves)
+        WHERE EXISTS (SELECT 1 FROM unnest(subjects) s WHERE s ILIKE ${pattern})
+           OR EXISTS (SELECT 1 FROM unnest(bookshelves) b WHERE b ILIKE ${pattern})
     `) as { count: number }[]
     return paginated(rows, count, page)
 }

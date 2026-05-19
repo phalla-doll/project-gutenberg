@@ -10,6 +10,7 @@ import {
     type PaginatedResponse,
 } from "@/lib/gutendex"
 import { getCached, setCache } from "@/lib/book-cache"
+import { SearchRemoveIcon } from "hugeicons-react"
 
 interface BrowseBookListProps {
     topicSlug: string
@@ -17,7 +18,6 @@ interface BrowseBookListProps {
     initialPage: number
     sort: BrowseSort
     initialData: PaginatedResponse<Book>
-    initialKey: string
 }
 
 export function BrowseBookList({
@@ -26,7 +26,6 @@ export function BrowseBookList({
     initialPage,
     sort,
     initialData,
-    initialKey,
 }: BrowseBookListProps) {
     const sentinelRef = useRef<HTMLDivElement | null>(null)
     const [books, setBooks] = useState(initialData.results)
@@ -34,10 +33,6 @@ export function BrowseBookList({
     const [hasNext, setHasNext] = useState(initialData.next !== null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null>(null)
-
-    useEffect(() => {
-        setCache(initialKey, initialData)
-    }, [initialData, initialKey])
 
     const loadMore = useCallback(async () => {
         if (loading || !hasNext) return
@@ -89,32 +84,46 @@ export function BrowseBookList({
 
     return (
         <>
-            <BookGrid books={books} />
-            <div ref={sentinelRef} className="flex justify-center py-8">
-                {loading && (
-                    <div className="w-full" aria-live="polite">
-                        <BookGridSkeleton />
+            {books.length > 0 ? (
+                <>
+                    <BookGrid books={books} />
+                    <div
+                        ref={sentinelRef}
+                        className="flex justify-center py-8"
+                    >
+                        {loading && (
+                            <div className="w-full" aria-live="polite">
+                                <BookGridSkeleton />
+                            </div>
+                        )}
+                        {error && (
+                            <div className="flex flex-col items-center gap-4 text-center">
+                                <p className="text-sm text-muted-foreground">
+                                    Failed to load more books. Please try again.
+                                </p>
+                                <Button
+                                    onClick={() => void loadMore()}
+                                    variant="outline"
+                                >
+                                    Retry
+                                </Button>
+                            </div>
+                        )}
+                        {!hasNext && !loading && !error && (
+                            <p className="text-sm text-muted-foreground">
+                                You have reached the end of the list.
+                            </p>
+                        )}
                     </div>
-                )}
-                {error && (
-                    <div className="flex flex-col items-center gap-4 text-center">
-                        <p className="text-sm text-muted-foreground">
-                            Failed to load more books. Please try again.
-                        </p>
-                        <Button
-                            onClick={() => void loadMore()}
-                            variant="outline"
-                        >
-                            Retry
-                        </Button>
-                    </div>
-                )}
-                {!hasNext && !loading && !error && (
-                    <p className="text-sm text-muted-foreground">
-                        You have reached the end of the list.
+                </>
+            ) : (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <SearchRemoveIcon className="size-12 text-muted-foreground/40" />
+                    <p className="text-lg text-muted-foreground">
+                        No books found for this topic.
                     </p>
-                )}
-            </div>
+                </div>
+            )}
         </>
     )
 }
