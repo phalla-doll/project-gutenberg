@@ -26,7 +26,6 @@ const navLinks = [
     { href: "/", label: "Home", icon: Home01Icon },
     { href: "/browse", label: "Browse", icon: LibraryIcon },
     { href: "/bookshelves", label: "Reading Lists", icon: Bookshelf01Icon },
-    { href: "/search", label: "Search", icon: Search01Icon },
 ]
 
 export function Header() {
@@ -50,8 +49,7 @@ export function Header() {
                     className="flex items-center gap-2 font-heading text-lg"
                 >
                     <Logo className="size-6 text-primary" />
-                    <span className="hidden sm:inline">Project Sonam</span>
-                    <span className="sm:hidden">PS</span>
+                    <span>Project Sonam</span>
                 </Link>
 
                 <nav
@@ -76,7 +74,7 @@ export function Header() {
 
                 <form
                     onSubmit={handleSearch}
-                    className="ml-auto flex max-w-sm flex-1 items-center"
+                    className="ml-auto hidden max-w-sm flex-1 items-center sm:flex"
                     role="search"
                 >
                     <div className="relative w-full">
@@ -96,6 +94,18 @@ export function Header() {
                         />
                     </div>
                 </form>
+
+                <Button
+                    asChild
+                    variant="ghost"
+                    size="icon"
+                    className="ml-auto sm:hidden"
+                    aria-label="Search books"
+                >
+                    <Link href="/search">
+                        <Search01Icon className="size-5" aria-hidden="true" />
+                    </Link>
+                </Button>
 
                 <Drawer direction="bottom">
                     <DrawerTrigger asChild>
