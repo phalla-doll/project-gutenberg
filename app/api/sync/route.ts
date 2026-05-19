@@ -109,7 +109,8 @@ async function runSync(mode: "incremental" | "full") {
     const deadline = Date.now() + 280_000 // leave 20s buffer before 300s timeout
     let pagesDone = 0
     let totalUpserts = 0
-    let nextUrl: string | null = `https://gutendex.com/books?sort=popular&page=1`
+    let nextUrl: string | null =
+        `https://gutendex.com/books?sort=popular&page=1`
     let lastError: string | null = null
 
     try {

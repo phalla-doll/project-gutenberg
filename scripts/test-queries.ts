@@ -10,7 +10,10 @@ import {
 
 const pop = await getPopularBooks(1)
 console.log("popular page 1:", pop.count, "total,", pop.results.length, "rows")
-console.log("  top 3:", pop.results.slice(0, 3).map((b) => b.title))
+console.log(
+    "  top 3:",
+    pop.results.slice(0, 3).map((b) => b.title)
+)
 
 const search = await searchBooks({ search: "frankenstein" })
 console.log("search 'frankenstein':", search.count, "total")

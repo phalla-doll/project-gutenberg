@@ -11,9 +11,7 @@ async function fetchJson<T>(url: string): Promise<T> {
     return res.json() as Promise<T>
 }
 
-export function getPopularBooks(
-    page = 1
-): Promise<PaginatedResponse<Book>> {
+export function getPopularBooks(page = 1): Promise<PaginatedResponse<Book>> {
     const qs = new URLSearchParams({ mode: "popular", page: String(page) })
     return fetchJson(`/api/books?${qs}`)
 }

@@ -20,9 +20,7 @@ export async function GET(req: NextRequest) {
         if (mode === "topic") {
             const topic = sp.get("topic") || ""
             const sort = (sp.get("sort") as BrowseSort) || "popular"
-            return NextResponse.json(
-                await getBooksByTopic(topic, page, sort)
-            )
+            return NextResponse.json(await getBooksByTopic(topic, page, sort))
         }
         if (mode === "search") {
             const languages = sp.get("languages")
@@ -37,10 +35,10 @@ export async function GET(req: NextRequest) {
                     author_year_start: ays ? Number(ays) : undefined,
                     author_year_end: aye ? Number(aye) : undefined,
                     sort:
-                        (sp.get(
-                            "sort"
-                        ) as "popular" | "ascending" | "descending") ||
-                        undefined,
+                        (sp.get("sort") as
+                            | "popular"
+                            | "ascending"
+                            | "descending") || undefined,
                 })
             )
         }
