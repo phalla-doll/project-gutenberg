@@ -50,11 +50,13 @@ interface ReaderShellProps {
 }
 
 type ReaderTheme = "light" | "sepia" | "dark"
+type ReaderFont = "satoshi" | "sentient" | "pally"
 
 interface ReaderPreferences {
     fontSize: number
     lineHeight: number
     contentWidth: number
+    readerFont: ReaderFont
     theme: ReaderTheme
     focusMode: boolean
 }
@@ -77,8 +79,15 @@ const defaultPreferences: ReaderPreferences = {
     fontSize: 18,
     lineHeight: 1.85,
     contentWidth: 38,
+    readerFont: "satoshi",
     theme: "light",
     focusMode: false,
+}
+
+const readerFontFamilies: Record<ReaderFont, string> = {
+    satoshi: "var(--font-reader-sans)",
+    sentient: "var(--font-reader-serif)",
+    pally: "var(--font-reader-soft)",
 }
 
 const themeStyles: Record<ReaderTheme, CSSProperties> = {
@@ -126,6 +135,10 @@ function readJson<T>(key: string) {
 
 function clamp(value: number, min: number, max: number) {
     return Math.min(max, Math.max(min, value))
+}
+
+function isReaderFont(value: unknown): value is ReaderFont {
+    return value === "satoshi" || value === "sentient" || value === "pally"
 }
 
 function escapeSearchQuery(query: string) {
@@ -239,10 +252,14 @@ export function ReaderShell({
                         2.15
                     ),
                     contentWidth: clamp(
-                        Number(storedPreferences.contentWidth) || 48,
+                        Number(storedPreferences.contentWidth) ||
+                            defaultPreferences.contentWidth,
                         38,
                         64
                     ),
+                    readerFont: isReaderFont(storedPreferences.readerFont)
+                        ? storedPreferences.readerFont
+                        : defaultPreferences.readerFont,
                     theme:
                         storedPreferences.theme === "sepia" ||
                         storedPreferences.theme === "dark"
@@ -474,6 +491,7 @@ export function ReaderShell({
         "--reader-font-size": `${preferences.fontSize}px`,
         "--reader-line-height": preferences.lineHeight,
         "--reader-width": `${preferences.contentWidth}rem`,
+        "--reader-content-font": readerFontFamilies[preferences.readerFont],
     } as CSSProperties
 
     return (
@@ -628,7 +646,7 @@ export function ReaderShell({
 
                 <article
                     ref={readerRef}
-                    className="mx-auto flex w-full max-w-[var(--reader-width)] flex-col gap-12"
+                    className="mx-auto flex w-full max-w-[var(--reader-width)] flex-col gap-12 [font-family:var(--reader-content-font)]"
                     data-reader-content
                 >
                     {sections.map((section, sectionIndex) => (
@@ -657,7 +675,7 @@ export function ReaderShell({
                                         <pre
                                             key={block.id}
                                             id={block.id}
-                                            className="overflow-x-auto font-sans text-[length:var(--reader-font-size)] leading-[var(--reader-line-height)] break-words whitespace-pre-wrap text-[var(--reader-text)]"
+                                            className="overflow-x-auto [font-family:inherit] text-[length:var(--reader-font-size)] leading-[var(--reader-line-height)] break-words whitespace-pre-wrap text-[var(--reader-text)]"
                                         >
                                             {renderBlockText(block)}
                                         </pre>
@@ -969,6 +987,34 @@ function ReaderPreferencesSheet({
                         suffix="rem"
                         onChange={(contentWidth) => onChange({ contentWidth })}
                     />
+                    <div className="flex flex-col gap-3">
+                        <div className="text-sm font-semibold">Font face</div>
+                        <ToggleGroup
+                            type="single"
+                            value={preferences.readerFont}
+                            onValueChange={(readerFont) => {
+                                if (isReaderFont(readerFont)) {
+                                    onChange({ readerFont })
+                                }
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                        >
+                            <ToggleGroupItem value="satoshi" className="flex-1">
+                                Default
+                            </ToggleGroupItem>
+                            <ToggleGroupItem
+                                value="sentient"
+                                className="flex-1"
+                            >
+                                Classic
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="pally" className="flex-1">
+                                Soft
+                            </ToggleGroupItem>
+                        </ToggleGroup>
+                    </div>
                     <div className="flex flex-col gap-3">
                         <div className="text-sm font-semibold">Theme</div>
                         <ToggleGroup
