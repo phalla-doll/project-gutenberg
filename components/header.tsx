@@ -4,13 +4,15 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
-    Sheet,
-    SheetContent,
-    SheetTrigger,
-    SheetTitle,
-} from "@/components/ui/sheet"
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Input } from "@/components/ui/input"
 import { Logo } from "@/components/logo"
 import {
     Home01Icon,
@@ -95,8 +97,8 @@ export function Header() {
                     </div>
                 </form>
 
-                <Sheet>
-                    <SheetTrigger asChild>
+                <Drawer direction="bottom">
+                    <DrawerTrigger asChild>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -105,16 +107,19 @@ export function Header() {
                         >
                             <Menu01Icon className="size-5" aria-hidden="true" />
                         </Button>
-                    </SheetTrigger>
-                    <SheetContent side="right">
-                        <SheetTitle>Navigation</SheetTitle>
+                    </DrawerTrigger>
+                    <DrawerContent>
+                        <DrawerHeader>
+                            <DrawerTitle>Navigation</DrawerTitle>
+                        </DrawerHeader>
                         <nav
-                            className="mt-6 flex flex-col gap-2"
+                            className="flex flex-col gap-2 px-4 pb-6"
                             aria-label="Mobile navigation"
                         >
                             {navLinks.map(({ href, label, icon: Icon }) => (
-                                <Link key={href} href={href}>
+                                <DrawerClose key={href} asChild>
                                     <Button
+                                        asChild
                                         variant={
                                             pathname === href
                                                 ? "secondary"
@@ -122,17 +127,19 @@ export function Header() {
                                         }
                                         className="w-full justify-start gap-2"
                                     >
-                                        <Icon
-                                            className="size-4"
-                                            aria-hidden="true"
-                                        />
-                                        {label}
+                                        <Link href={href}>
+                                            <Icon
+                                                className="size-4"
+                                                aria-hidden="true"
+                                            />
+                                            {label}
+                                        </Link>
                                     </Button>
-                                </Link>
+                                </DrawerClose>
                             ))}
                         </nav>
-                    </SheetContent>
-                </Sheet>
+                    </DrawerContent>
+                </Drawer>
             </div>
         </header>
     )
