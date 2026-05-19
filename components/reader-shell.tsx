@@ -50,7 +50,7 @@ interface ReaderShellProps {
 }
 
 type ReaderTheme = "light" | "sepia" | "dark"
-type ReaderFont = "satoshi" | "sentient" | "quicksand"
+type ReaderFont = "satoshi" | "sentient" | "synonym"
 
 interface ReaderPreferences {
     fontSize: number
@@ -87,7 +87,7 @@ const defaultPreferences: ReaderPreferences = {
 const readerFontFamilies: Record<ReaderFont, string> = {
     satoshi: "var(--font-reader-sans)",
     sentient: "var(--font-reader-serif)",
-    quicksand: "var(--font-reader-soft)",
+    synonym: "var(--font-reader-soft)",
 }
 
 const themeStyles: Record<ReaderTheme, CSSProperties> = {
@@ -138,11 +138,11 @@ function clamp(value: number, min: number, max: number) {
 }
 
 function isReaderFont(value: unknown): value is ReaderFont {
-    return value === "satoshi" || value === "sentient" || value === "quicksand"
+    return value === "satoshi" || value === "sentient" || value === "synonym"
 }
 
 function getReaderFont(value: unknown) {
-    if (value === "pally") return "quicksand"
+    if (value === "pally" || value === "quicksand") return "synonym"
     return isReaderFont(value) ? value : defaultPreferences.readerFont
 }
 
@@ -1013,10 +1013,7 @@ function ReaderPreferencesSheet({
                             >
                                 Classic
                             </ToggleGroupItem>
-                            <ToggleGroupItem
-                                value="quicksand"
-                                className="flex-1"
-                            >
+                            <ToggleGroupItem value="synonym" className="flex-1">
                                 Soft
                             </ToggleGroupItem>
                         </ToggleGroup>

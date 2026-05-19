@@ -64,7 +64,7 @@ export default function RootLayout({
             <head>
                 <link rel="preconnect" href="https://cdn.fontshare.com" />
                 <link
-                    href="https://api.fontshare.com/v2/css?f[]=familjen-grotesk&f[]=quicksand&f[]=satoshi&f[]=sentient&display=swap"
+                    href="https://api.fontshare.com/v2/css?f[]=familjen-grotesk&f[]=satoshi&f[]=sentient&f[]=synonym&display=swap"
                     rel="stylesheet"
                 />
                 <link
