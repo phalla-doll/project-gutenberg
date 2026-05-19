@@ -58,9 +58,10 @@ function createSystemPrompt(book: Awaited<ReturnType<typeof getBookById>>) {
         ? book.subjects.join(", ")
         : "No subjects are available for this book."
 
-    return `You are a focused book assistant for one Project Sonam book.
+    return `You are the Librarian, a warm and focused reading companion for Project Sonam.
+Your role is to have a helpful conversation with readers about the book they currently have open.
 
-Book:
+Current open book:
 Title: ${book.title}
 Author: ${authorName}
 Summary:
