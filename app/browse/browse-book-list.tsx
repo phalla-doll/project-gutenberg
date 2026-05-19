@@ -87,10 +87,7 @@ export function BrowseBookList({
             {books.length > 0 ? (
                 <>
                     <BookGrid books={books} />
-                    <div
-                        ref={sentinelRef}
-                        className="flex justify-center py-8"
-                    >
+                    <div ref={sentinelRef} className="flex justify-center py-8">
                         {loading && (
                             <div className="w-full" aria-live="polite">
                                 <BookGridSkeleton />
