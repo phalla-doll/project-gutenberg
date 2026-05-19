@@ -1,6 +1,4 @@
-import { Suspense } from "react"
 import { SearchResults } from "./search-results"
-import { BookGridSkeleton } from "@/components/book-grid"
 import { searchBooks } from "@/lib/gutendex-server"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
@@ -71,16 +69,14 @@ export default async function SearchPage({
                     Find your next great read from over 70,000 free ebooks
                 </p>
             </div>
-            <Suspense fallback={<BookGridSkeleton />}>
-                <SearchResults
-                    query={query}
-                    topic={topic}
-                    lang={lang}
-                    currentPage={page}
-                    initialData={initialData}
-                    initialKey={initialKey}
-                />
-            </Suspense>
+            <SearchResults
+                query={query}
+                topic={topic}
+                lang={lang}
+                currentPage={page}
+                initialData={initialData}
+                initialKey={initialKey}
+            />
         </div>
     )
 }
