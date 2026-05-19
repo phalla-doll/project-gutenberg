@@ -26,7 +26,12 @@ const navLinks = [
     { href: "/", label: "Home", icon: Home01Icon },
     { href: "/browse", label: "Browse", icon: LibraryIcon },
     { href: "/bookshelves", label: "Reading Lists", icon: Bookshelf01Icon },
+    { href: "/search", label: "Search", icon: Search01Icon },
 ]
+
+const desktopNavLinks = navLinks.filter(
+    (link) => link.href !== "/" && link.href !== "/search"
+)
 
 export function Header() {
     const pathname = usePathname()
@@ -56,7 +61,7 @@ export function Header() {
                     className="hidden items-center gap-1 md:flex"
                     aria-label="Main navigation"
                 >
-                    {navLinks.map(({ href, label, icon: Icon }) => (
+                    {desktopNavLinks.map(({ href, label, icon: Icon }) => (
                         <Link key={href} href={href}>
                             <Button
                                 variant={
