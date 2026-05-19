@@ -5,7 +5,6 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
 import {
     Sheet,
     SheetContent,
@@ -699,12 +698,12 @@ export function ReaderShell({
             </div>
 
             <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--reader-border)] bg-[var(--reader-background)]/95 px-3 py-2 backdrop-blur sm:hidden">
-                <div className="mx-auto flex max-w-md items-center gap-2">
-                    <div className="min-w-0 flex-1">
-                        <Progress value={readingProgress} />
-                        <p className="mt-1 text-xs font-semibold tracking-normal text-[var(--reader-muted)] tabular-nums">
+                <div className="mx-auto flex max-w-md items-center gap-3">
+                    <div className="flex min-w-0 flex-1 items-center gap-2 text-xs font-semibold tracking-normal text-[var(--reader-muted)] tabular-nums">
+                        <ReaderProgressCircle value={readingProgress} />
+                        <span className="min-w-8">
                             {formatProgress(readingProgress)}
-                        </p>
+                        </span>
                     </div>
                     <Button
                         type="button"
