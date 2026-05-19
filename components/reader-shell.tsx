@@ -76,7 +76,7 @@ const preferenceStorageKey = "project-sonam:reader:v1"
 const defaultPreferences: ReaderPreferences = {
     fontSize: 18,
     lineHeight: 1.85,
-    contentWidth: 48,
+    contentWidth: 38,
     theme: "light",
     focusMode: false,
 }
