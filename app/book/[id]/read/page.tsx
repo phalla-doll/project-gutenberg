@@ -2,8 +2,8 @@ import { cache } from "react"
 import { notFound } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ReaderShell } from "@/components/reader-shell"
+import { getBookById as _getBookById } from "@/lib/gutendex-server"
 import {
-    getBookById as _getBookById,
     getOnlineReadUrl,
     getReadableTextUrl,
     formatAuthorName,

@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import { SearchResults } from "./search-results"
 import { BookGridSkeleton } from "@/components/book-grid"
-import { searchBooks } from "@/lib/gutendex"
+import { searchBooks } from "@/lib/gutendex-server"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
 

@@ -1,4 +1,5 @@
-import { getPopularBooks, getReadableTextUrl } from "@/lib/gutendex"
+import { getPopularBooks } from "@/lib/gutendex-server"
+import { getReadableTextUrl } from "@/lib/gutendex"
 import { siteUrl } from "@/lib/site-metadata"
 import type { MetadataRoute } from "next"
 

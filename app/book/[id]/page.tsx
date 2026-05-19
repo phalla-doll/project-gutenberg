@@ -7,8 +7,8 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { DownloadLinks } from "@/components/download-links"
 import { BookChatAssistant } from "@/components/book-chat-assistant"
+import { getBookById as _getBookById } from "@/lib/gutendex-server"
 import {
-    getBookById as _getBookById,
     getCoverUrl,
     getOnlineReadUrl,
     getReadableTextUrl,

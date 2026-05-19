@@ -1,4 +1,4 @@
-import { getPopularBooks } from "@/lib/gutendex"
+import { getPopularBooks } from "@/lib/gutendex-server"
 import { HomeBookGrid } from "./home-book-grid"
 
 export default async function HomePage({

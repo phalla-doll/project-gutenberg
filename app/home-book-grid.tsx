@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Button } from "@/components/ui/button"
 import type { Book, PaginatedResponse } from "@/lib/gutendex"
-import { getPopularBooks } from "@/lib/gutendex"
+import { getPopularBooks } from "@/lib/gutendex-client"
 import { getCached, setCache } from "@/lib/book-cache"
 
 interface HomeBookGridProps {

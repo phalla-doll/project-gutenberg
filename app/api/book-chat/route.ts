@@ -1,5 +1,6 @@
 import OpenAI from "openai"
-import { getBookById, formatAuthorName } from "@/lib/gutendex"
+import { getBookById } from "@/lib/gutendex-server"
+import { formatAuthorName } from "@/lib/gutendex"
 
 export const runtime = "nodejs"
 

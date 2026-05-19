@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { BookGrid, BookGridSkeleton } from "@/components/book-grid"
 import { Button } from "@/components/ui/button"
+import { getBooksByTopic } from "@/lib/gutendex-client"
 import {
-    getBooksByTopic,
     type Book,
     type BrowseSort,
     type PaginatedResponse,

@@ -67,7 +67,6 @@ export default function RootLayout({
                     href="https://api.fontshare.com/v2/css?f[]=familjen-grotesk&f[]=satoshi&display=swap"
                     rel="stylesheet"
                 />
-                <link rel="preconnect" href="https://gutendex.com" />
                 <link
                     rel="preconnect"
                     href="https://www.gutenberg.org"
