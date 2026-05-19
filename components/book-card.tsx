@@ -59,24 +59,24 @@ export function BookCard({ book }: BookCardProps) {
         <Link href={`/book/${book.id}`} className="block h-full">
             <Card className="group h-full gap-0 overflow-visible rounded-md bg-transparent py-0 shadow-none ring-0">
                 <div
-                    className="mx-auto w-full max-w-[196px] pt-1"
+                    className="mx-auto w-full max-w-49 pt-1"
                     style={{ perspective: 900 }}
                 >
                     <div
-                        className="relative aspect-[49/60] transition-transform duration-300 ease-out group-hover:rotate-x-2 group-hover:-rotate-y-10"
+                        className="relative aspect-49/60 transition-transform duration-300 ease-out group-hover:rotate-x-2 group-hover:-rotate-y-10"
                         style={{
                             transformStyle: "preserve-3d",
                         }}
                     >
-                        <div className="absolute inset-x-[8%] -bottom-[3.2%] h-[8%] rounded-[50%] bg-foreground/14 blur-[14px] transition-all duration-300 group-hover:translate-x-[1.5%] group-hover:bg-foreground/18" />
+                        <div className="absolute inset-x-[8%] bottom-[-3.2%] h-[8%] rounded-[50%] bg-foreground/14 blur-[14px] transition-all duration-300 group-hover:translate-x-[1.5%] group-hover:bg-foreground/18" />
                         <div
-                            className="absolute inset-[2px] translate-x-[1.5%] translate-y-[1.2%] rounded-l-md rounded-r-sm bg-[var(--book-paper)] shadow-[0_4px_8px_rgba(20,20,19,0.08)]"
+                            className="absolute inset-0.5 translate-x-[1.5%] translate-y-[1.2%] rounded-l-md rounded-r-sm bg-(--book-paper) shadow-[0_4px_8px_rgba(20,20,19,0.08)]"
                             style={{
                                 transform: "translateZ(-3px)",
                             }}
                         />
                         <div
-                            className="[container-type:inline-size] relative size-full overflow-hidden rounded-l-md rounded-r-sm bg-[var(--book-paper)] shadow-[0_16px_26px_rgba(20,20,19,0.14),0_2px_5px_rgba(20,20,19,0.08)] ring-1 ring-foreground/10"
+                            className="@container relative size-full overflow-hidden rounded-l-md rounded-r-sm bg-(--book-paper) shadow-[0_16px_26px_rgba(20,20,19,0.14),0_2px_5px_rgba(20,20,19,0.08)] ring-1 ring-foreground/10"
                             style={bookStyle}
                         >
                             {coverUrl ? (
@@ -89,7 +89,7 @@ export function BookCard({ book }: BookCardProps) {
                                         sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 15vw"
                                         aria-hidden="true"
                                     />
-                                    <div className="absolute inset-0 bg-[var(--book-paper)]/65" />
+                                    <div className="absolute inset-0 bg-(--book-paper)/65" />
                                     <Image
                                         src={coverUrl}
                                         alt={book.title}
@@ -100,7 +100,7 @@ export function BookCard({ book }: BookCardProps) {
                                 </>
                             ) : (
                                 <div className="flex size-full flex-col overflow-hidden">
-                                    <div className="relative flex-1 overflow-hidden bg-[var(--book-cover)]">
+                                    <div className="relative flex-1 overflow-hidden bg-(--book-cover)">
                                         <div className="absolute inset-y-0 left-0 w-[8.2%] bg-foreground/20 mix-blend-overlay" />
                                         <div className="absolute inset-0 flex items-center justify-center opacity-90">
                                             <BookOpen01Icon
@@ -109,7 +109,7 @@ export function BookCard({ book }: BookCardProps) {
                                             />
                                         </div>
                                     </div>
-                                    <div className="relative flex flex-[1.35] flex-col justify-between bg-[var(--book-lower)] p-[6.1%] pl-[14.3%]">
+                                    <div className="relative flex flex-[1.35] flex-col justify-between bg-(--book-lower) p-[6.1%] pl-[14.3%]">
                                         <div className="absolute inset-y-0 left-0 w-[8.2%] bg-foreground/10" />
                                         <h3
                                             className="line-clamp-4 text-[10.5cqw] leading-tight font-semibold text-balance"
@@ -144,7 +144,7 @@ export function BookCard({ book }: BookCardProps) {
                             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[10%] bg-[linear-gradient(0deg,rgba(20,20,19,0.08),transparent)] mix-blend-multiply" />
                             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.08)_32%,transparent_44%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                         </div>
-                        <div className="absolute top-[4px] right-[-3.8%] h-[calc(100%-8px)] w-[6%] origin-left rotate-y-90 rounded-r-sm bg-[linear-gradient(90deg,var(--book-paper),oklch(0.98_0.006_94)_60%,oklch(0.91_0.012_84))] opacity-70 shadow-[inset_1px_0_rgba(20,20,19,0.05)]" />
+                        <div className="absolute top-1 right-[-3.8%] h-[calc(100%-8px)] w-[6%] origin-left rotate-y-90 rounded-r-sm bg-[linear-gradient(90deg,var(--book-paper),oklch(0.98_0.006_94)_60%,oklch(0.91_0.012_84))] opacity-70 shadow-[inset_1px_0_rgba(20,20,19,0.05)]" />
                     </div>
                 </div>
                 <CardContent className="p-0 pt-3">

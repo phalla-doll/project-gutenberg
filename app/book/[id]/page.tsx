@@ -170,7 +170,7 @@ export default async function BookDetailPage({
 
                 <div className="flex min-w-0 flex-col gap-6">
                     <div>
-                        <h1 className="font-heading text-3xl tracking-tight text-balance break-words md:text-4xl">
+                        <h1 className="font-heading text-3xl tracking-tight text-balance wrap-break-word md:text-4xl">
                             {book.title}
                         </h1>
                         <p className="mt-2 text-lg text-muted-foreground">
@@ -223,7 +223,7 @@ export default async function BookDetailPage({
                             <ul className="flex min-w-0 flex-wrap gap-2">
                                 {book.subjects.map((subject) => (
                                     <li key={subject} className="max-w-full">
-                                        <span className="inline-flex max-w-full rounded-md border border-hairline-soft bg-surface-soft px-2.5 py-1.5 text-sm leading-snug break-words whitespace-normal text-body-text">
+                                        <span className="inline-flex max-w-full rounded-md border border-hairline-soft bg-surface-soft px-2.5 py-1.5 text-sm leading-snug wrap-break-word whitespace-normal text-body-text">
                                             {formatMetadataLabel(subject)}
                                         </span>
                                     </li>
@@ -241,7 +241,7 @@ export default async function BookDetailPage({
                             <ul className="flex min-w-0 flex-wrap gap-2">
                                 {book.bookshelves.map((shelf) => (
                                     <li key={shelf} className="max-w-full">
-                                        <span className="inline-flex max-w-full rounded-md bg-muted px-2.5 py-1.5 text-sm leading-snug break-words whitespace-normal text-muted-foreground">
+                                        <span className="inline-flex max-w-full rounded-md bg-muted px-2.5 py-1.5 text-sm leading-snug wrap-break-word whitespace-normal text-muted-foreground">
                                             {formatBookshelfName(shelf)}
                                         </span>
                                     </li>

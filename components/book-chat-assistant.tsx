@@ -266,7 +266,7 @@ export function BookChatAssistant({
                 <Button
                     type="button"
                     size="sm"
-                    className="fixed z-[60] h-9 gap-1.5 px-3 shadow-xl shadow-foreground/20"
+                    className="fixed z-60 h-9 gap-1.5 px-3 shadow-xl shadow-foreground/20"
                     style={{
                         top: selectionPosition.top,
                         left: selectionPosition.left,
