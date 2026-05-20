@@ -11,6 +11,7 @@ import {
 } from "@/lib/site-metadata"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
+import "../public/fonts/fonts.css"
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
@@ -62,11 +63,6 @@ export default function RootLayout({
             className={`${jetbrainsMono.variable} font-sans antialiased`}
         >
             <head>
-                <link rel="preconnect" href="https://cdn.fontshare.com" />
-                <link
-                    href="https://api.fontshare.com/v2/css?f[]=familjen-grotesk&f[]=satoshi&f[]=sentient&f[]=synonym&display=swap"
-                    rel="stylesheet"
-                />
                 <link
                     rel="preconnect"
                     href="https://www.gutenberg.org"
