@@ -29,9 +29,7 @@ const navLinks = [
     { href: "/search", label: "Search", icon: Search01Icon },
 ]
 
-const desktopNavLinks = navLinks.filter(
-    (link) => link.href !== "/" && link.href !== "/search"
-)
+const desktopNavLinks = navLinks.filter((link) => link.href !== "/search")
 
 export function Header() {
     const pathname = usePathname()
