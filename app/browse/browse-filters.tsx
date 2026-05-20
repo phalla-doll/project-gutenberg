@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft01Icon, ArrowRight01Icon } from "hugeicons-react"
 import type { BrowseSort } from "@/lib/gutendex"
 import type { BrowseTopicGroup } from "./page"
 
@@ -106,6 +105,15 @@ export function BrowseFilters({
         window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
+    const maskImage =
+        overflow.left && overflow.right
+            ? "linear-gradient(to right, transparent, black 1.5rem, black calc(100% - 1.5rem), transparent)"
+            : overflow.left
+              ? "linear-gradient(to right, transparent, black 1.5rem)"
+              : overflow.right
+                ? "linear-gradient(to right, black calc(100% - 1.5rem), transparent)"
+                : undefined
+
     return (
         <>
             <section
@@ -118,6 +126,10 @@ export function BrowseFilters({
                         role="tablist"
                         aria-label="Category group"
                         className="flex scrollbar-none gap-1 overflow-x-auto scroll-smooth px-3 py-2 sm:px-4"
+                        style={{
+                            maskImage,
+                            WebkitMaskImage: maskImage,
+                        }}
                     >
                         {topicGroups.map((group) => {
                             const isActive =
@@ -151,54 +163,6 @@ export function BrowseFilters({
                             )
                         })}
                     </div>
-                    {overflow.left && (
-                        <>
-                            <div
-                                aria-hidden
-                                className="pointer-events-none absolute inset-y-0 left-0 w-14 rounded-tl-2xl bg-linear-to-r from-card from-50% to-transparent"
-                            />
-                            <button
-                                type="button"
-                                aria-label="Scroll categories left"
-                                onClick={() =>
-                                    tablistRef.current?.scrollBy({
-                                        left: -240,
-                                        behavior: "smooth",
-                                    })
-                                }
-                                className="absolute top-1/2 left-1 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full text-foreground hover:text-foreground/70"
-                            >
-                                <ArrowLeft01Icon
-                                    className="size-4"
-                                    aria-hidden
-                                />
-                            </button>
-                        </>
-                    )}
-                    {overflow.right && (
-                        <>
-                            <div
-                                aria-hidden
-                                className="pointer-events-none absolute inset-y-0 right-0 w-14 rounded-tr-2xl bg-linear-to-l from-card from-50% to-transparent"
-                            />
-                            <button
-                                type="button"
-                                aria-label="Scroll categories right"
-                                onClick={() =>
-                                    tablistRef.current?.scrollBy({
-                                        left: 240,
-                                        behavior: "smooth",
-                                    })
-                                }
-                                className="absolute top-1/2 right-1 z-10 grid size-8 -translate-y-1/2 place-items-center rounded-full text-foreground hover:text-foreground/70"
-                            >
-                                <ArrowRight01Icon
-                                    className="size-4"
-                                    aria-hidden
-                                />
-                            </button>
-                        </>
-                    )}
                 </div>
                 <div
                     className="flex flex-wrap gap-1.5 px-5 py-5 sm:px-6"
