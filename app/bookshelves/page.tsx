@@ -4,6 +4,7 @@ import {
     classifyBookshelf,
     displayBookshelfName,
 } from "./bookshelf-collections"
+import { BookshelfSectionNav } from "./bookshelf-section-nav"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import { ArrowRight01Icon } from "hugeicons-react"
 import type { Metadata } from "next"
@@ -57,6 +58,10 @@ export default async function BookshelvesPage() {
     }
 
     const totalBooks = allShelves.reduce((sum, s) => sum + s.count, 0)
+    const sections = groupOrder.map((heading) => ({
+        heading,
+        id: slugify(heading),
+    }))
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -74,22 +79,7 @@ export default async function BookshelvesPage() {
                 </p>
             </div>
 
-            <nav
-                aria-label="Jump to section"
-                className="`mask-[linear-gradient(to_right,transparent,black_1.5rem,black_calc(100%-1.5rem),transparent)] -mx-4 mb-10 scrollbar-none overflow-x-auto px-4"
-            >
-                <div className="inline-flex items-center rounded-full border border-border/70 bg-background/60 p-0.5">
-                    {groupOrder.map((heading) => (
-                        <a
-                            key={heading}
-                            href={`#${slugify(heading)}`}
-                            className="rounded-full px-3.5 py-1 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                            {heading}
-                        </a>
-                    ))}
-                </div>
-            </nav>
+            <BookshelfSectionNav sections={sections} />
 
             <div className="flex flex-col gap-12">
                 {groupOrder.map((heading) => {
