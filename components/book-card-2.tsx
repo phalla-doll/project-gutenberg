@@ -58,10 +58,12 @@ interface BookProps {
     textured?: boolean
     coverUrl?: string | null
     coverAlt?: string
+    priority?: boolean
 }
 
 interface BookCardProps {
     book: GutendexBook
+    priority?: boolean
 }
 
 const coverThemes = [
@@ -93,6 +95,7 @@ export const Book = ({
     textured = false,
     coverUrl,
     coverAlt = "",
+    priority = false,
 }: BookProps) => {
     const _width = useResponsive(width) ?? 196
     const _color = color
@@ -129,6 +132,7 @@ export const Book = ({
                                 aria-hidden="true"
                                 className="scale-[1.12] object-cover opacity-[0.22] blur-md saturate-75"
                                 sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 196px"
+                                priority={priority}
                             />
                             <div className="absolute inset-0 bg-background-200/45" />
                             <div className="absolute inset-y-[2.2%] right-[3.4%] left-[9.8%] overflow-hidden rounded-[2px] shadow-[0_1px_1px_rgba(20,20,19,0.2),0_0_0_1px_rgba(255,255,255,0.36)]">
@@ -138,6 +142,7 @@ export const Book = ({
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 196px"
+                                    priority={priority}
                                 />
                             </div>
                             <div className="pointer-events-none absolute inset-y-[2.2%] right-[3.4%] left-[9.8%] rounded-[2px] bg-[linear-gradient(90deg,rgba(255,255,255,0.12),transparent_16%,transparent_78%,rgba(20,20,19,0.08)),linear-gradient(180deg,rgba(255,255,255,0.2),transparent_14%,transparent_82%,rgba(20,20,19,0.12))]" />
@@ -270,7 +275,7 @@ export const Book = ({
     )
 }
 
-export function BookCard({ book }: BookCardProps) {
+export function BookCard({ book, priority = false }: BookCardProps) {
     const coverUrl = getCoverUrl(book)
     const author = book.authors[0]
     const authorName = author ? formatAuthorName(author) : "Unknown Author"
@@ -288,6 +293,7 @@ export function BookCard({ book }: BookCardProps) {
                         coverUrl={coverUrl}
                         coverAlt={book.title}
                         textured
+                        priority={priority}
                     />
                 </div>
                 <CardContent className="p-0 pt-3">
