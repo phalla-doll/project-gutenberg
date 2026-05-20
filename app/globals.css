@@ -8,6 +8,10 @@
     }
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     color-scheme: light;
     --background: oklch(0.982 0.005 95.1);
