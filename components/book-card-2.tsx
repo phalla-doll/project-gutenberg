@@ -298,7 +298,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
                 </div>
                 <CardContent className="p-0 pt-3">
                     <div className="min-w-0 border-l-2 border-primary/40 px-3 pb-1">
-                        <h3 className="line-clamp-2 text-sm leading-tight font-medium">
+                        <p className="line-clamp-2 text-sm leading-tight font-medium">
                             {languages ? (
                                 <span className="font-mono text-[0.68rem] text-muted-foreground">
                                     [{languages}]
@@ -307,7 +307,7 @@ export function BookCard({ book, priority = false }: BookCardProps) {
                             <span className={languages ? "ml-1" : undefined}>
                                 {book.title}
                             </span>
-                        </h3>
+                        </p>
                         <p className="mt-1 line-clamp-1 text-xs text-body-text">
                             {authorName}
                         </p>
