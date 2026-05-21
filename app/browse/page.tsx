@@ -1,7 +1,9 @@
+import { Suspense } from "react"
 import { BrowseFilters } from "./browse-filters"
 import { BrowseBookList } from "./browse-book-list"
 import { getBooksByTopic } from "@/lib/gutendex-server"
 import { type BrowseSort } from "@/lib/gutendex"
+import { BookGridSkeleton } from "@/components/book-grid"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
 
@@ -433,7 +435,6 @@ export default async function BrowsePage({
     const activeTopic = TOPIC_BY_SLUG.get(topicSlug)!
     const page = Number(params.page) || 1
     const sort = parseSort(params.sort)
-    const initialData = await getBooksByTopic(activeTopic.query, page, sort)
     const key = `${topicSlug}|${page}|${sort}`
 
     return (
@@ -452,15 +453,38 @@ export default async function BrowsePage({
                     activeTopicSlug={topicSlug}
                     activeSort={sort}
                 />
-                <BrowseBookList
-                    key={key}
-                    topicSlug={topicSlug}
-                    topicQuery={activeTopic.query}
-                    initialPage={page}
-                    sort={sort}
-                    initialData={initialData}
-                />
+                <Suspense key={key} fallback={<BookGridSkeleton />}>
+                    <BrowseBooks
+                        topicSlug={topicSlug}
+                        topicQuery={activeTopic.query}
+                        page={page}
+                        sort={sort}
+                    />
+                </Suspense>
             </div>
         </div>
+    )
+}
+
+async function BrowseBooks({
+    topicSlug,
+    topicQuery,
+    page,
+    sort,
+}: {
+    topicSlug: string
+    topicQuery: string
+    page: number
+    sort: BrowseSort
+}) {
+    const initialData = await getBooksByTopic(topicQuery, page, sort)
+    return (
+        <BrowseBookList
+            topicSlug={topicSlug}
+            topicQuery={topicQuery}
+            initialPage={page}
+            sort={sort}
+            initialData={initialData}
+        />
     )
 }

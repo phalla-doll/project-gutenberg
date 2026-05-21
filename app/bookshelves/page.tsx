@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Link from "next/link"
 import { getBookshelves } from "@/lib/gutendex-server"
 import {
@@ -5,6 +6,7 @@ import {
     displayBookshelfName,
 } from "./bookshelf-collections"
 import { BookshelfSectionNav } from "./bookshelf-section-nav"
+import { Skeleton } from "@/components/ui/skeleton"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import { ArrowRight01Icon } from "hugeicons-react"
 import type { Metadata } from "next"
@@ -42,7 +44,48 @@ export const metadata: Metadata = {
     },
 }
 
-export default async function BookshelvesPage() {
+export default function BookshelvesPage() {
+    return (
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mb-10">
+                <h1 className="font-heading text-4xl tracking-tight text-balance md:text-5xl">
+                    Reading Lists
+                </h1>
+                <p className="mt-3 text-lg text-muted-foreground">
+                    Hand-picked by Project Gutenberg volunteers
+                </p>
+            </div>
+
+            <Suspense fallback={<BookshelvesSkeleton />}>
+                <BookshelvesContent />
+            </Suspense>
+        </div>
+    )
+}
+
+function BookshelvesSkeleton() {
+    return (
+        <div className="flex flex-col gap-12">
+            {Array.from({ length: 3 }).map((_, i) => (
+                <section key={i}>
+                    <div className="mb-4 border-b border-border/60 pb-2">
+                        <Skeleton className="h-6 w-40" />
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {Array.from({ length: 8 }).map((_, j) => (
+                            <Skeleton
+                                key={j}
+                                className="h-20 rounded-xl"
+                            />
+                        ))}
+                    </div>
+                </section>
+            ))}
+        </div>
+    )
+}
+
+async function BookshelvesContent() {
     const allShelves = await getBookshelves()
 
     const grouped = new Map<string, typeof allShelves>()
@@ -64,20 +107,15 @@ export default async function BookshelvesPage() {
     }))
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-10">
-                <h1 className="font-heading text-4xl tracking-tight text-balance md:text-5xl">
-                    Reading Lists
-                </h1>
-                <p className="mt-3 text-lg text-muted-foreground">
-                    <span className="tabular-nums">{allShelves.length}</span>{" "}
-                    collections ·{" "}
-                    <span className="tabular-nums">
-                        {totalBooks.toLocaleString()}
-                    </span>{" "}
-                    books · hand-picked by Project Gutenberg volunteers
-                </p>
-            </div>
+        <>
+            <p className="mb-6 text-sm text-muted-foreground">
+                <span className="tabular-nums">{allShelves.length}</span>{" "}
+                collections ·{" "}
+                <span className="tabular-nums">
+                    {totalBooks.toLocaleString()}
+                </span>{" "}
+                books
+            </p>
 
             <BookshelfSectionNav sections={sections} />
 
@@ -139,6 +177,6 @@ export default async function BookshelvesPage() {
                     )
                 })}
             </div>
-        </div>
+        </>
     )
 }
