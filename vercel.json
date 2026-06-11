@@ -1,6 +1,0 @@
-{
-  "crons": [
-    { "path": "/api/sync?mode=incremental", "schedule": "0 4 * * *" },
-    { "path": "/api/sync?mode=full", "schedule": "0 5 * * 0" }
-  ]
-}

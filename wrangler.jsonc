@@ -1,0 +1,33 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "project-sonam",
+    "account_id": "e63e1c513f59ba1e5c5a83d2931cf61b",
+    "main": "custom-worker.ts",
+    "compatibility_date": "2026-06-09",
+    // nodejs_compat: every API route runs on the Node.js runtime.
+    // global_fetch_strictly_public: required by OpenNext so outbound fetch()
+    // hits the public internet instead of looping back into the worker.
+    "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+    "assets": {
+        "directory": ".open-next/assets",
+        "binding": "ASSETS"
+    },
+    "observability": {
+        "enabled": true
+    },
+    // Persists the Next.js incremental/fetch cache. Create with:
+    //   npx wrangler r2 bucket create project-sonam-cache
+    "r2_buckets": [
+        {
+            "binding": "NEXT_INC_CACHE_R2_BUCKET",
+            "bucket_name": "project-sonam-cache"
+        }
+    ],
+    // Replaces the old vercel.json crons. UTC. Mapped to /api/sync in custom-worker.ts:
+    //   0 4 * * *    -> incremental (daily 04:00 UTC)
+    //   0 5 * * SUN  -> full        (Sundays 05:00 UTC)
+    // NB: Cloudflare day-of-week is 1-7/SUN-SAT (not 0-6 like Vercel), so "0" is invalid.
+    "triggers": {
+        "crons": ["0 4 * * *", "0 5 * * SUN"]
+    }
+}

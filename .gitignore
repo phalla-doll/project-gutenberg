@@ -30,6 +30,12 @@ pnpm-debug.log*
 
 # env files
 .env*.local
+.dev.vars
+
+# cloudflare / opennext
+/.open-next/
+/.wrangler/
+cloudflare-env.d.ts
 
 # typescript
 *.tsbuildinfo

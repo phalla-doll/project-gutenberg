@@ -18,9 +18,9 @@ A modern web application for browsing, searching, and downloading free public do
 | Linting | ESLint (next/core-web-vitals + typescript) |
 | Formatting | Prettier + tailwindcss plugin |
 | AI Provider | NVIDIA API endpoint through the OpenAI SDK |
-| Database | [Neon](https://neon.tech) Postgres via Vercel Marketplace, [@neondatabase/serverless](https://www.npmjs.com/package/@neondatabase/serverless) HTTP driver |
+| Database | [Neon](https://neon.tech) Postgres, [@neondatabase/serverless](https://www.npmjs.com/package/@neondatabase/serverless) HTTP driver |
 | Data Source | [Gutendex](https://gutendex.com) (sync only — daily/weekly cron mirrors metadata into Postgres) |
-| Hosting | [Vercel](https://vercel.com) (Fluid Compute, Cron Jobs) |
+| Hosting | [Cloudflare Workers](https://workers.cloudflare.com) via [OpenNext](https://opennext.js.org/cloudflare) (R2 incremental cache, Cron Triggers) |
 
 ## Project Structure
 
@@ -88,7 +88,9 @@ project-sonam/
 │   └── peek.ts                 # Quick DB row sampler
 ├── public/
 ├── next.config.mjs
-├── vercel.json                 # Cron jobs (daily incremental + weekly full sync)
+├── wrangler.jsonc              # Cloudflare Worker config (bindings, R2 cache, cron triggers)
+├── open-next.config.ts         # OpenNext adapter config (R2 incremental cache)
+├── custom-worker.ts            # Worker entry — Next.js fetch handler + cron scheduled() handler
 ├── eslint.config.mjs
 ├── postcss.config.mjs
 ├── tsconfig.json
@@ -149,7 +151,7 @@ Cron-triggered route that pulls metadata from Gutendex and upserts into Postgres
 - `?mode=incremental` (daily, 04:00 UTC) — re-scans the first ~50 popular pages to catch new books and download-count changes
 - `?mode=full` (weekly, Sun 05:00 UTC) — full walk of all ~75k books
 
-Authentication accepts either `Authorization: Bearer ${CRON_SECRET}` (auto-set by Vercel Cron) or `Authorization: Bearer ${GUTENDEX_SYNC_TOKEN}` for manual triggers. Each run is logged to the `sync_runs` table.
+The Cloudflare cron triggers (`wrangler.jsonc`) fire the Worker's `scheduled()` handler in `custom-worker.ts`, which invokes this route in-process with the `CRON_SECRET` bearer (weekly trigger → full, otherwise incremental). Authentication accepts either `Authorization: Bearer ${CRON_SECRET}` or `Authorization: Bearer ${GUTENDEX_SYNC_TOKEN}` (manual triggers). Each run is logged to the `sync_runs` table.
 
 ## Data Layer
 
@@ -237,13 +239,7 @@ interface PaginatedResponse<T> {
 
 ### Environment
 
-A linked Neon Postgres database is required for all read paths. Provision via Vercel Marketplace (Storage → Create → Neon Postgres), then pull the connection strings locally:
-
-```bash
-vercel env pull .env.local
-```
-
-This injects (among others):
+A Neon Postgres database is required for all read paths. Create one at [neon.tech](https://neon.tech), then put its connection strings in `.env.local`:
 
 ```bash
 DATABASE_URL=...           # pooled connection used by the app
@@ -254,8 +250,12 @@ You also need:
 
 ```bash
 NVIDIA_API_KEY=...           # AI book assistant
-GUTENDEX_SYNC_TOKEN=...      # bearer token for manual sync triggers (Vercel Cron uses CRON_SECRET automatically)
+GUTENDEX_SYNC_TOKEN=...      # bearer token for manual sync triggers
+CRON_SECRET=...              # bearer token used by the scheduled cron handler (openssl rand -hex 32)
+NEXT_PUBLIC_GA_MEASUREMENT_ID=...  # Google Analytics (optional)
 ```
+
+`next build` reads `.env.local`. The Cloudflare Worker runtime does **not** — it reads `.dev.vars` locally (`pnpm preview`) and Worker secrets in production (set via `wrangler secret put`). Mirror the runtime secrets (`DATABASE_URL`, `NVIDIA_API_KEY`, `GUTENDEX_SYNC_TOKEN`, `CRON_SECRET`) into `.dev.vars` for local preview.
 
 ### Install
 
@@ -277,7 +277,7 @@ pnpm tsx scripts/peek.ts
 pnpm tsx scripts/test-queries.ts
 ```
 
-After deployment, the daily/weekly cron in `vercel.json` keeps the mirror fresh automatically.
+After deployment, the daily/weekly Cloudflare cron triggers in `wrangler.jsonc` keep the mirror fresh automatically.
 
 ### Development
 
@@ -292,6 +292,27 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 pnpm build
 ```
+
+### Deployment (Cloudflare Workers)
+
+Hosted on Cloudflare Workers via the [OpenNext](https://opennext.js.org/cloudflare) adapter.
+
+First-time setup (once per Cloudflare account):
+
+```bash
+wrangler login                                      # authenticate
+wrangler r2 bucket create project-sonam-cache       # incremental cache bucket
+wrangler secret put DATABASE_URL                     # + NVIDIA_API_KEY, GUTENDEX_SYNC_TOKEN, CRON_SECRET
+```
+
+Preview locally on the Workers runtime, then deploy:
+
+```bash
+pnpm preview    # opennextjs-cloudflare build + local preview
+pnpm run deploy # build + deploy to Cloudflare (sets cron triggers)
+```
+
+> Cloudflare cron uses day-of-week `1-7`/`SUN-SAT` (not Vercel's `0-6`), so the weekly trigger is `0 5 * * SUN`.
 
 ### Lint & Format
 

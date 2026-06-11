@@ -1,5 +1,5 @@
 export const siteName = "Project Sonam"
-export const siteUrl = "https://sonam.manthaa.dev"
+export const siteUrl = "https://project-sonam.manthaa.workers.dev"
 
 export const defaultDescription =
     "Browse and search thousands of free ebooks with Project Sonam"
