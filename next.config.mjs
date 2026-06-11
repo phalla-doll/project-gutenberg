@@ -17,3 +17,7 @@ const nextConfig = {
 }
 
 export default nextConfig
+
+// Makes Cloudflare bindings (R2, env vars, etc.) available during `next dev`.
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare"
+initOpenNextCloudflareForDev()

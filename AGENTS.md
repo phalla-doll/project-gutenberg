@@ -9,6 +9,8 @@ pnpm build            # production build
 pnpm lint             # ESLint (next/core-web-vitals + typescript)
 pnpm format           # Prettier (writes in-place)
 pnpm typecheck        # tsc --noEmit
+pnpm preview          # build + run on the Cloudflare Workers runtime locally
+pnpm run deploy       # build + deploy to Cloudflare Workers (sets cron triggers)
 ```
 
 No test runner is configured. There are no tests.
@@ -37,10 +39,10 @@ No test runner is configured. There are no tests.
 | `DATABASE_URL_UNPOOLED` | Neon Postgres (direct, used by sync script) |
 | `NVIDIA_API_KEY` | Book chat LLM endpoint |
 | `GUTENDEX_SYNC_TOKEN` | Manual sync auth (`/api/sync`) |
-| `CRON_SECRET` | Auto-set by Vercel Cron |
+| `CRON_SECRET` | Bearer token used by the cron `scheduled()` handler in `custom-worker.ts` |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics measurement ID |
 
-Cron: daily incremental + weekly full sync, configured in `vercel.json`.
+`next build` reads `.env.local`; the Worker runtime reads `.dev.vars` (local) / `wrangler secret put` (prod). Cron: daily incremental + weekly full sync, configured as Cloudflare cron triggers in `wrangler.jsonc`.
 
 ## Module split (must respect to keep DB out of client bundle)
 
@@ -82,7 +84,9 @@ Adding a new read path? Put the SQL in `lib/gutendex-server.ts`, expose it throu
 | `app/api/books/route.ts` | JSON read API consumed by client components |
 | `app/api/book-chat/route.ts` | LLM chat endpoint (NVIDIA/OpenAI SDK, streaming, nodejs runtime) |
 | `app/api/sync/route.ts` | Cron-triggered Gutendex → Postgres sync |
-| `vercel.json` | Cron schedule for `/api/sync` |
+| `wrangler.jsonc` | Cloudflare Worker config: bindings, R2 cache, cron triggers |
+| `open-next.config.ts` | OpenNext adapter config (R2 incremental cache) |
+| `custom-worker.ts` | Worker entry: Next.js fetch handler + cron `scheduled()` → `/api/sync` |
 | `scripts/backfill-gutendex.ts` | One-off full mirror (re-runnable) |
 | `scripts/apply-schema.ts` | Apply `schema.sql` to Neon |
 | `components/ui/` | shadcn/ui primitives — do not hand-edit these |
