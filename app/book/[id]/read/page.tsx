@@ -282,8 +282,23 @@ function parseBookSections(text: string) {
     }
 }
 
+// Project Gutenberg's `/ebooks/{id}.txt.utf-8` alias 302-redirects through an
+// insecure `http://` hop before reaching the real file. Cloudflare Workers'
+// fetch (with `global_fetch_strictly_public`) refuses that downgrade, so the
+// request fails in production while working locally under Node. Rewrite the
+// alias to the canonical cache URL it points at, which responds 200 directly.
+function normalizeBookTextUrl(url: string) {
+    const match = url.match(
+        /^https?:\/\/(?:www\.)?gutenberg\.org\/ebooks\/(\d+)\.txt\.utf-8$/i
+    )
+    if (!match) return url
+    return `https://www.gutenberg.org/cache/epub/${match[1]}/pg${match[1]}.txt`
+}
+
 async function getBookText(url: string) {
-    const res = await fetch(url, { next: { revalidate: 86400 } })
+    const res = await fetch(normalizeBookTextUrl(url), {
+        next: { revalidate: 86400 },
+    })
     if (!res.ok) throw new Error(`Failed to fetch book text: ${res.status}`)
     return trimProjectGutenbergText(await res.text())
 }
@@ -353,7 +368,16 @@ export default async function BookReaderPage({
     const onlineUrl = getOnlineReadUrl(book)
     const author = book.authors[0]
     const authorName = author ? formatAuthorName(author) : "Unknown Author"
-    const bookText = textUrl ? await getBookText(textUrl) : null
+    let bookText: string | null = null
+    if (textUrl) {
+        try {
+            bookText = await getBookText(textUrl)
+        } catch {
+            // Fall through to the "online text not available" view rather than
+            // crashing the whole render when the upstream text fetch fails.
+            bookText = null
+        }
+    }
     const parsedBook = bookText ? parseBookSections(bookText) : null
 
     return parsedBook ? (
