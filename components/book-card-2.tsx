@@ -104,24 +104,24 @@ export const Book = ({
           ? "var(--ds-background-200)"
           : "var(--ds-amber-600)"
     const _illustration = illustration ? illustration : DefaultIllustration
-    const _perspective = (_width / 196) * 900
 
     return (
         <div
-            className="inline-block w-fit"
-            style={{ perspective: _perspective }}
+            className="book-scene inline-block w-fit"
+            style={
+                {
+                    "--book-width": `${_width}px`,
+                    "--book-color": _color,
+                } as React.CSSProperties
+            }
         >
             <div
-                className="book-rotate relative aspect-[2/3] w-fit rotate-0 duration-[250ms]"
-                style={{
-                    transformStyle: "preserve-3d",
-                    minWidth: _width,
-                    containerType: "inline-size",
-                }}
+                className="book-rotate relative aspect-[2/3] w-fit"
+                style={{ minWidth: _width, containerType: "inline-size" }}
             >
                 <div
                     className="book-cover relative flex h-full flex-col overflow-hidden bg-background-200 shadow-book"
-                    style={{ width: _width }}
+                    style={{ width: _width, transform: "translateZ(0)" }}
                 >
                     {coverUrl ? (
                         <Image
@@ -208,23 +208,18 @@ export const Book = ({
                     <div className="book-hinge pointer-events-none absolute inset-0" />
                     <div className="book-sheen book-cover pointer-events-none absolute inset-0" />
                 </div>
-                <div
-                    className="absolute top-[3px] h-[calc(100%_-_2_*_3px)] w-[calc(29cqw_-_2px)]"
-                    style={{
-                        background:
-                            "repeating-linear-gradient(180deg, rgba(20,20,19,0.08) 0 1px, transparent 1px 4px), linear-gradient(90deg, #e8e1d1, #fffdf6 38%, #ddd3bd 100%)",
-                        transform: `translateX(calc(${_width} * 1px - 29cqw / 2 - 3px)) rotateY(90deg) translateX(calc(29cqw / 2))`,
-                    }}
-                />
-                <div
-                    className="absolute top-0 left-0 h-full rounded-l-md rounded-r bg-gray-200"
-                    style={{
-                        background:
-                            "linear-gradient(90deg, rgba(20,20,19,0.08), transparent 14%), linear-gradient(180deg, #eee8db, #d7cdb9)",
-                        width: _width,
-                        transform: "translateZ(calc(-1 * 29cqw))",
-                    }}
-                />
+                <div className="book-pages" aria-hidden="true" />
+                <div className="book-back" aria-hidden="true">
+                    {coverUrl ? (
+                        <Image
+                            src={coverUrl}
+                            alt=""
+                            fill
+                            className="scale-x-[-1] object-cover blur-[2px]"
+                            sizes="196px"
+                        />
+                    ) : null}
+                </div>
             </div>
         </div>
     )
