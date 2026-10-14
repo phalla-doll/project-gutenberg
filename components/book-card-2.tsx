@@ -4,7 +4,6 @@ import React from "react"
 import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
 import { useResponsive } from "@/components/ui/use-responsive"
 import {
     type Book as GutendexBook,
@@ -254,44 +253,37 @@ export const Book = ({
 
 export function BookCard({ book, priority = false }: BookCardProps) {
     const coverUrl = getCoverUrl(book)
+    const theme = coverThemes[book.id % coverThemes.length]
     const author = book.authors[0]
     const authorName = author ? formatAuthorName(author) : "Unknown Author"
-    const theme = coverThemes[book.id % coverThemes.length]
-    const languages = book.languages.slice(0, 2).join(" / ").toUpperCase()
 
     return (
         <Link
             href={`/book/${book.id}`}
-            className="shelf-cell block h-full outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label={`${book.title} by ${authorName}`}
+            title={book.title}
+            className="shelf-cell group block outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-            <Card className="group h-full gap-0 overflow-visible rounded-md bg-transparent py-0 shadow-none ring-0">
-                <div className="shelf-wall flex justify-center px-2 pt-8">
-                    <Book
-                        title={book.title}
-                        width={150}
-                        color={theme.cover}
-                        textColor={theme.text}
-                        coverUrl={coverUrl}
-                        coverAlt={book.title}
-                        textured
-                        priority={priority}
-                    />
-                </div>
-                <div className="shelf-plank" aria-hidden="true" />
-                <CardContent className="px-3 pt-4 pb-2 text-center">
-                    <p className="line-clamp-2 text-sm leading-tight font-medium text-balance decoration-primary/50 underline-offset-4 group-hover:underline">
-                        {book.title}
-                    </p>
-                    <p className="mt-1.5 line-clamp-1 text-xs text-body-text">
-                        {languages ? (
-                            <span className="font-mono text-[0.68rem] text-muted-foreground">
-                                {languages} ·{" "}
-                            </span>
-                        ) : null}
-                        {authorName}
-                    </p>
-                </CardContent>
-            </Card>
+            <div className="flex h-(--shelf-bay) items-end justify-center">
+                <Book
+                    title={book.title}
+                    width={150}
+                    color={theme.cover}
+                    textColor={theme.text}
+                    coverUrl={coverUrl}
+                    coverAlt=""
+                    textured
+                    priority={priority}
+                />
+            </div>
+            <div className="shelf-label">
+                <span className="font-mono text-[0.6rem] tracking-[0.14em] text-shelf-call">
+                    PG {String(book.id).padStart(4, "0")}
+                </span>
+                <span className="mt-0.5 truncate text-xs font-semibold text-shelf-ink decoration-shelf-call/50 underline-offset-2 group-hover:underline">
+                    {book.title}
+                </span>
+            </div>
         </Link>
     )
 }
