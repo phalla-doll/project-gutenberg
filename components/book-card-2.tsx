@@ -115,6 +115,7 @@ export const Book = ({
                 } as React.CSSProperties
             }
         >
+            <div className="book-shadow" aria-hidden="true" />
             <div
                 className="book-rotate relative aspect-[2/3] w-fit"
                 style={{ minWidth: _width, containerType: "inline-size" }}
@@ -207,6 +208,7 @@ export const Book = ({
                     ) : null}
                     <div className="book-hinge pointer-events-none absolute inset-0" />
                     <div className="book-sheen book-cover pointer-events-none absolute inset-0" />
+                    <div className="book-glare pointer-events-none absolute inset-0" />
                 </div>
                 <div className="book-pages" aria-hidden="true" />
                 <div className="book-back" aria-hidden="true">
