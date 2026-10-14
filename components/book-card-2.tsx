@@ -235,11 +235,15 @@ export function BookCard({ book, priority = false }: BookCardProps) {
     const languages = book.languages.slice(0, 2).join(" / ").toUpperCase()
 
     return (
-        <Link href={`/book/${book.id}`} className="block h-full">
+        <Link
+            href={`/book/${book.id}`}
+            className="shelf-cell block h-full outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
             <Card className="group h-full gap-0 overflow-visible rounded-md bg-transparent py-0 shadow-none ring-0">
-                <div className="mx-auto w-full max-w-[196px] pt-1">
+                <div className="shelf-wall flex justify-center px-2 pt-8">
                     <Book
                         title={book.title}
+                        width={150}
                         color={theme.cover}
                         textColor={theme.text}
                         coverUrl={coverUrl}
@@ -248,22 +252,19 @@ export function BookCard({ book, priority = false }: BookCardProps) {
                         priority={priority}
                     />
                 </div>
-                <CardContent className="p-0 pt-3">
-                    <div className="min-w-0 border-l-2 border-primary/40 px-3 pb-1">
-                        <p className="line-clamp-2 text-sm leading-tight font-medium">
-                            {languages ? (
-                                <span className="font-mono text-[0.68rem] text-muted-foreground">
-                                    [{languages}]
-                                </span>
-                            ) : null}
-                            <span className={languages ? "ml-1" : undefined}>
-                                {book.title}
+                <div className="shelf-plank" aria-hidden="true" />
+                <CardContent className="px-3 pt-4 pb-2 text-center">
+                    <p className="line-clamp-2 text-sm leading-tight font-medium text-balance decoration-primary/50 underline-offset-4 group-hover:underline">
+                        {book.title}
+                    </p>
+                    <p className="mt-1.5 line-clamp-1 text-xs text-body-text">
+                        {languages ? (
+                            <span className="font-mono text-[0.68rem] text-muted-foreground">
+                                {languages} ·{" "}
                             </span>
-                        </p>
-                        <p className="mt-1 line-clamp-1 text-xs text-body-text">
-                            {authorName}
-                        </p>
-                    </div>
+                        ) : null}
+                        {authorName}
+                    </p>
                 </CardContent>
             </Card>
         </Link>
