@@ -54,8 +54,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 export default function RootLayout({
     children,
+    modal,
 }: Readonly<{
     children: React.ReactNode
+    modal: React.ReactNode
 }>) {
     return (
         <html
@@ -108,6 +110,7 @@ export default function RootLayout({
                         </div>
                     </div>
                 </footer>
+                {modal}
             </body>
             <GoogleAnalytics
                 gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!}
