@@ -75,6 +75,7 @@ html {
 @theme inline {
     --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
     --font-heading: "Familjen Grotesk", serif;
+    --font-serif: var(--font-garamond), Georgia, serif;
     --color-shelf-ink: #3a3226;
     --color-shelf-call: #8f4524;
     --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -307,6 +308,69 @@ input[type="search"]::-moz-search-clear-button {
             transform: translate(-7%, 30%) scale(1.08, 1.3);
             opacity: 0.75;
         }
+    }
+
+    .sign-board {
+        position: relative;
+        border-radius: 6px;
+        background:
+            var(--grain-h) 40px 0 / 750px 150px,
+            linear-gradient(180deg, #eedfc4, #dbc199);
+        box-shadow:
+            0 16px 24px -14px rgba(90, 60, 25, 0.5),
+            0 2px 3px rgba(90, 60, 25, 0.18),
+            inset 0 0 0 1px rgba(150, 110, 60, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6),
+            inset 0 -3px 0 rgba(120, 85, 40, 0.22);
+    }
+
+    .sign-board::before,
+    .sign-board::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 7px;
+        height: 7px;
+        margin-top: -3.5px;
+        border-radius: 50%;
+        background:
+            linear-gradient(
+                45deg,
+                transparent 42%,
+                rgba(70, 45, 15, 0.55) 42% 58%,
+                transparent 58%
+            ),
+            radial-gradient(circle at 35% 30%, #f3dc9c, #b88f45 70%);
+        box-shadow:
+            0 1px 1px rgba(60, 40, 15, 0.45),
+            inset 0 0 0 0.5px rgba(70, 45, 15, 0.4);
+    }
+
+    .sign-board::before {
+        left: 8px;
+    }
+
+    .sign-board::after {
+        right: 8px;
+    }
+
+    .sign-divider {
+        background: rgba(122, 79, 38, 0.35);
+        box-shadow: 1px 0 0 rgba(255, 249, 235, 0.6);
+    }
+
+    .sign-engrave {
+        color: #3b2a17;
+        text-shadow:
+            0 1px 0 rgba(255, 249, 235, 0.7),
+            0 -1px 0 rgba(70, 45, 20, 0.22);
+    }
+
+    .sign-burn {
+        color: #a14a24;
+        text-shadow:
+            0 1px 0 rgba(255, 249, 235, 0.6),
+            0 0 6px rgba(161, 74, 36, 0.18);
     }
 
     .bookcase {

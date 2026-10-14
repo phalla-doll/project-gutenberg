@@ -1,5 +1,5 @@
 import { GoogleAnalytics } from "@next/third-parties/google"
-import { JetBrains_Mono } from "next/font/google"
+import { EB_Garamond, JetBrains_Mono } from "next/font/google"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Logo } from "@/components/logo"
@@ -52,6 +52,12 @@ const jetbrainsMono = JetBrains_Mono({
     variable: "--font-mono",
 })
 
+const ebGaramond = EB_Garamond({
+    subsets: ["latin"],
+    style: ["italic"],
+    variable: "--font-garamond",
+})
+
 export default function RootLayout({
     children,
     modal,
@@ -62,7 +68,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
-            className={`${jetbrainsMono.variable} font-sans antialiased`}
+            className={`${jetbrainsMono.variable} ${ebGaramond.variable} font-sans antialiased`}
         >
             <head>
                 <link

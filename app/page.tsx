@@ -3,6 +3,7 @@ import { getCoverUrl } from "@/lib/gutendex"
 import { getPopularBooks } from "@/lib/gutendex-server"
 import { BookGridSkeleton } from "@/components/book-grid"
 import { HomeBookGrid } from "./home-book-grid"
+import { PageHeading } from "@/components/page-heading"
 
 export default async function HomePage({
     searchParams,
@@ -14,14 +15,12 @@ export default async function HomePage({
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-10">
-                <h1 className="font-heading text-4xl tracking-tight text-balance md:text-5xl">
-                    Popular Books
-                </h1>
-                <p className="mt-3 text-lg text-muted-foreground">
-                    Discover the most downloaded picks from 75,000+ free books
-                </p>
-            </div>
+            <PageHeading
+                mark="01"
+                markLabel="Most read"
+                title="Popular Books"
+                description="Discover the most downloaded picks from 75,000+ free books"
+            />
             <Suspense key={page} fallback={<BookGridSkeleton />}>
                 <HomeBooks page={page} />
             </Suspense>

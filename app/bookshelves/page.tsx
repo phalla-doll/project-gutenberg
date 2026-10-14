@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import { ArrowRight01Icon } from "hugeicons-react"
 import type { Metadata } from "next"
+import { PageHeading } from "@/components/page-heading"
 
 function slugify(name: string) {
     return name
@@ -47,14 +48,12 @@ export const metadata: Metadata = {
 export default function BookshelvesPage() {
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-10">
-                <h1 className="font-heading text-4xl tracking-tight text-balance md:text-5xl">
-                    Reading Lists
-                </h1>
-                <p className="mt-3 text-lg text-muted-foreground">
-                    Hand-picked by Project Gutenberg volunteers
-                </p>
-            </div>
+            <PageHeading
+                mark="03"
+                markLabel="Collections"
+                title="Reading Lists"
+                description="Hand-picked by Project Gutenberg volunteers"
+            />
 
             <Suspense fallback={<BookshelvesSkeleton />}>
                 <BookshelvesContent />
@@ -73,10 +72,7 @@ function BookshelvesSkeleton() {
                     </div>
                     <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {Array.from({ length: 8 }).map((_, j) => (
-                            <Skeleton
-                                key={j}
-                                className="h-20 rounded-xl"
-                            />
+                            <Skeleton key={j} className="h-20 rounded-xl" />
                         ))}
                     </div>
                 </section>

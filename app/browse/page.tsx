@@ -6,6 +6,7 @@ import { type BrowseSort } from "@/lib/gutendex"
 import { BookGridSkeleton } from "@/components/book-grid"
 import { defaultOgImage, siteName } from "@/lib/site-metadata"
 import type { Metadata } from "next"
+import { PageHeading } from "@/components/page-heading"
 
 export const metadata: Metadata = {
     title: "Browse",
@@ -439,14 +440,12 @@ export default async function BrowsePage({
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-10">
-                <h1 className="font-heading text-4xl tracking-tight text-balance md:text-5xl">
-                    Browse by Topic
-                </h1>
-                <p className="mt-3 text-lg text-muted-foreground">
-                    Explore free ebooks organized by subject and category
-                </p>
-            </div>
+            <PageHeading
+                mark="02"
+                markLabel="Subjects"
+                title="Browse by Topic"
+                description="Explore free ebooks organized by subject and category"
+            />
             <div className="flex flex-col gap-8">
                 <BrowseFilters
                     topicGroups={TOPIC_GROUPS}
