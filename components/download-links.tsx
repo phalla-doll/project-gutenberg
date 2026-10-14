@@ -28,8 +28,8 @@ interface DownloadLinksProps {
     book: Book
 }
 
-export function DownloadLinks({ book }: DownloadLinksProps) {
-    const formats = Object.entries(book.formats)
+export function getDownloadFormats(book: Book) {
+    return Object.entries(book.formats)
         .filter(
             ([mime]) =>
                 !mime.startsWith("image/") && mime !== "application/rdf+xml"
@@ -43,17 +43,25 @@ export function DownloadLinks({ book }: DownloadLinksProps) {
             )
             return aIdx - bIdx
         })
+        .map(([mimeType, url]) => ({
+            mimeType,
+            url,
+            Icon: getFormatIcon(mimeType),
+            label: mimeType.startsWith("text/html")
+                ? "Read official page"
+                : getFormatLabel(mimeType),
+        }))
+}
+
+export function DownloadLinks({ book }: DownloadLinksProps) {
+    const formats = getDownloadFormats(book)
 
     return (
         <div className="flex flex-col gap-3">
             <h3 className="font-heading text-lg">Download</h3>
             <Separator />
             <div className="flex flex-wrap gap-2">
-                {formats.map(([mimeType, url], index) => {
-                    const Icon = getFormatIcon(mimeType)
-                    const label = mimeType.startsWith("text/html")
-                        ? "Read official page"
-                        : getFormatLabel(mimeType)
+                {formats.map(({ mimeType, url, Icon, label }, index) => {
                     return (
                         <Button
                             key={mimeType}

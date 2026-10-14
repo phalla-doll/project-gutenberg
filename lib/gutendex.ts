@@ -106,3 +106,14 @@ export function formatDownloadCount(count: number): string {
     if (count >= 1_000) return `${(count / 1_000).toFixed(1)}K`
     return count.toString()
 }
+
+const languageNames = new Intl.DisplayNames(["en"], { type: "language" })
+
+export function getLanguageName(code: string): string {
+    try {
+        const name = languageNames.of(code)
+        return name && name !== code ? name : code.toUpperCase()
+    } catch {
+        return code.toUpperCase()
+    }
+}
