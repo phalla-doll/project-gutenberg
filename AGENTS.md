@@ -23,11 +23,13 @@ No test runner is configured. There are no tests.
 
 - **Next.js 16** App Router with React Server Components. Client components are used only for interactivity (pagination, search forms, topic filters, theme toggle, book chat).
 - **Tailwind CSS v4** — uses `@tailwindcss/postcss` (not a `tailwind.config` file). Theme lives in `app/globals.css` via CSS custom properties.
-- **shadcn/ui** — `radix-sera` style, `taupe` base color, `hugeicons` icon library. Add components via `pnpm dlx shadcn add <name>`.
+- **shadcn/ui** — `radix-sera` style, `taupe` base color, `hugeicons` icon library. Add components via `pnpm dlx shadcn add <name>`. `dialog.tsx` and `popover.tsx` were written by hand because the CLI tried to overwrite `button.tsx` and add an unrelated `cn` dependency.
 - **Fonts**: `Satoshi` (body) and `Familjen Grotesk` (headings) loaded from Fontshare via `<link>` in layout; `JetBrains Mono` via `next/font/google`. Custom properties: `--font-sans`, `--font-heading`, `--font-mono`.
 - **Images**: `images.unoptimized: true` in `next.config.mjs`. Remote patterns allow `www.gutenberg.org/cache/epub/**` and `covers.openlibrary.org`.
 - **Data source**: Neon Postgres (`lib/gutendex-server.ts` reads, `app/api/sync` writes). Gutendex is upstream only — mirrored into Postgres by cron, never queried at request time.
 - **Book chat**: `app/api/book-chat/route.ts` uses the OpenAI SDK pointed at NVIDIA's API (`https://integrate.api.nvidia.com/v1`). Explicit `runtime = "nodejs"` (streaming).
+- **Book dialog**: soft navigation to `/book/[id]` is intercepted by `app/@modal/(.)book/[id]` and opens `components/book-dialog.tsx`; direct loads and refreshes render the full `app/book/[id]/page.tsx`. Both render `components/book-detail.tsx`. `app/@modal/page.tsx` and `app/@modal/[...catchAll]/page.tsx` return `null` so the dialog closes on any other navigation — keep them when adding routes.
+- **Bookshelf grid**: `components/book-grid.tsx` + `BookCard` in `components/book-card-2.tsx`. Each cell draws its own `.shelf-wall`/`.shelf-plank` segment with zero column gap; `.shelf-cell` row-edge rules in `app/globals.css` mirror the grid's column counts per breakpoint, so update both together.
 - **Reader**: `app/book/[id]/read/page.tsx` with `components/reader-shell.tsx` and `components/reader-toc-minimap.tsx`. When `body[data-reader-focus="true"]`, header and footer are hidden via CSS.
 - **Analytics**: Google Analytics via `@next/third-parties/google`. Client helper in `lib/analytics.ts`.
 
