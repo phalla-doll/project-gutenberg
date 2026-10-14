@@ -59,6 +59,7 @@ interface BookProps {
     coverUrl?: string | null
     coverAlt?: string
     priority?: boolean
+    solid?: boolean
 }
 
 interface BookCardProps {
@@ -96,6 +97,7 @@ export const Book = ({
     coverUrl,
     coverAlt = "",
     priority = false,
+    solid = false,
 }: BookProps) => {
     const _width = useResponsive(width) ?? 196
     const _color = color
@@ -211,6 +213,29 @@ export const Book = ({
                     <div className="book-glare pointer-events-none absolute inset-0" />
                 </div>
                 <div className="book-pages" aria-hidden="true" />
+                {solid ? (
+                    <>
+                        <div className="book-spine" aria-hidden="true">
+                            {coverUrl ? (
+                                <Image
+                                    src={coverUrl}
+                                    alt=""
+                                    fill
+                                    className="object-cover object-left"
+                                    sizes="64px"
+                                />
+                            ) : null}
+                        </div>
+                        <div
+                            className="book-edge book-edge-top"
+                            aria-hidden="true"
+                        />
+                        <div
+                            className="book-edge book-edge-bottom"
+                            aria-hidden="true"
+                        />
+                    </>
+                ) : null}
                 <div className="book-back" aria-hidden="true">
                     {coverUrl ? (
                         <Image

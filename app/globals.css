@@ -452,7 +452,122 @@ input[type="search"]::-moz-search-clear-button {
             inset 0 1px 0 rgba(255, 236, 200, 0.4);
     }
 
+    .book-spine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: var(--book-depth);
+        height: 100%;
+        overflow: hidden;
+        transform-origin: left center;
+        transform: rotateY(90deg);
+        border-radius: 2px;
+        background: var(--book-color);
+        filter: brightness(0.82);
+    }
+
+    .book-spine::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(20, 20, 19, 0.3),
+                rgba(255, 255, 255, 0.16) 30%,
+                transparent 55%,
+                rgba(20, 20, 19, 0.28)
+            ),
+            linear-gradient(
+                180deg,
+                transparent 7%,
+                rgba(20, 20, 19, 0.3) 7% 7.6%,
+                transparent 7.6% 92.4%,
+                rgba(20, 20, 19, 0.3) 92.4% 93%,
+                transparent 93%
+            );
+    }
+
+    .book-edge {
+        position: absolute;
+        left: 0;
+        width: calc(100% - 3px);
+        height: var(--book-depth);
+        transform-origin: top center;
+        transform: rotateX(-90deg);
+        background:
+            repeating-linear-gradient(
+                180deg,
+                rgba(20, 20, 19, 0.07) 0 1px,
+                transparent 1px 3px
+            ),
+            linear-gradient(180deg, #fbf8f0, #efe8d8 55%, #d9cfba);
+    }
+
+    .book-edge-top {
+        top: 3px;
+    }
+
+    .book-edge-bottom {
+        top: calc(100% - 3px);
+    }
+
+    .book-stage {
+        --rx: -5deg;
+        --ry: -30deg;
+        --gx: 70%;
+        touch-action: pan-y;
+    }
+
+    .book-stage .book-scene .book-rotate {
+        transform: rotateX(var(--rx)) rotateY(var(--ry));
+        transition: transform 900ms var(--book-ease);
+        animation: book-float 6s ease-in-out infinite;
+    }
+
+    .book-stage[data-active] .book-scene .book-rotate {
+        transition-duration: 240ms;
+    }
+
+    .book-stage .book-scene .book-shadow {
+        transform: translate(-6%, 60%) scale(1.25, 1.5);
+        animation: book-float-shadow 6s ease-in-out infinite;
+    }
+
+    .book-stage .book-scene .book-glare {
+        opacity: 1;
+        background-position: var(--gx) 0;
+        transition: background-position 500ms var(--book-ease);
+    }
+
+    @keyframes book-float {
+        0%,
+        100% {
+            translate: 0 0;
+        }
+        50% {
+            translate: 0 -10px;
+        }
+    }
+
+    @keyframes book-float-shadow {
+        0%,
+        100% {
+            scale: 1;
+            opacity: 0.8;
+        }
+        50% {
+            scale: 0.86;
+            opacity: 0.55;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
+        .book-stage .book-scene .book-rotate,
+        .book-stage .book-scene .book-shadow {
+            animation: none;
+        }
+
         .book-rotate,
         .book-glare,
         .book-shadow {
