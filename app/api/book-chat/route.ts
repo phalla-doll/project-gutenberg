@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 
         const book = await getBookById(bookId)
         const completion = await getOpenAIClient().chat.completions.create({
-            model: "openai/gpt-oss-120b",
+            model: "openai/gpt-oss-20b",
             messages: [
                 { role: "system", content: createSystemPrompt(book) },
                 ...messages,
