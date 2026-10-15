@@ -9,7 +9,7 @@ A modern web application for browsing, searching, and downloading free public do
 | Category | Technology |
 | --- | --- |
 | Framework | [Next.js 16](https://nextjs.org) (App Router, React Server Components, Turbopack) |
-| Language | [TypeScript 5.9](https://www.typescriptlang.org) |
+| Language | [TypeScript 7](https://www.typescriptlang.org) |
 | Styling | [Tailwind CSS v4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (radix-sera style, taupe base) |
 | Icons | [Hugeicons](https://hugeicons.com) |
 | Theming | [next-themes](https://github.com/pacocoursey/next-themes) (dark/light mode, toggle with `D` key) |
@@ -21,6 +21,15 @@ A modern web application for browsing, searching, and downloading free public do
 | Database | [Neon](https://neon.tech) Postgres, [@neondatabase/serverless](https://www.npmjs.com/package/@neondatabase/serverless) HTTP driver |
 | Data Source | [Gutendex](https://gutendex.com) (sync only — daily/weekly cron mirrors metadata into Postgres) |
 | Hosting | [Cloudflare Workers](https://workers.cloudflare.com) via [OpenNext](https://opennext.js.org/cloudflare) (R2 incremental cache, Cron Triggers) |
+
+Typechecking uses TypeScript 7 via the `@typescript/native` npm alias. The
+`typescript` dependency aliases `@typescript/typescript6` so Next.js and
+typescript-eslint can still use the compiler API they require, following
+[Microsoft's side-by-side setup](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0).
+
+ESLint 10 passes this project's lint checks, but the current Next.js dependencies
+`eslint-plugin-import`, `eslint-plugin-jsx-a11y`, and `eslint-plugin-react` still
+declare peer ranges through ESLint 9. pnpm reports these peer warnings on install.
 
 ## Project Structure
 
