@@ -1,0 +1,955 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T05:12:55.849959+00:00",
+  "title": "Design System: Project Sonam",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Background",
+        "tonalRamp": [
+          "oklch(0.1500 0.0061 317.75)",
+          "oklch(0.2643 0.0061 317.75)",
+          "oklch(0.3786 0.0061 317.75)",
+          "oklch(0.4929 0.0061 317.75)",
+          "oklch(0.6071 0.0061 317.75)",
+          "oklch(0.7214 0.0061 317.75)",
+          "oklch(0.8357 0.0061 317.75)",
+          "oklch(0.9500 0.0061 317.75)"
+        ]
+      },
+      "foreground": {
+        "role": "primary",
+        "displayName": "Foreground",
+        "tonalRamp": [
+          "oklch(0.1500 0.0426 321.35)",
+          "oklch(0.2643 0.0426 321.35)",
+          "oklch(0.3786 0.0426 321.35)",
+          "oklch(0.4929 0.0426 321.35)",
+          "oklch(0.6071 0.0426 321.35)",
+          "oklch(0.7214 0.0426 321.35)",
+          "oklch(0.8357 0.0426 321.35)",
+          "oklch(0.9500 0.0426 321.35)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary",
+        "tonalRamp": [
+          "oklch(0.1500 0.0889 333.11)",
+          "oklch(0.2643 0.0889 333.11)",
+          "oklch(0.3786 0.0889 333.11)",
+          "oklch(0.4929 0.0889 333.11)",
+          "oklch(0.6071 0.0889 333.11)",
+          "oklch(0.7214 0.0889 333.11)",
+          "oklch(0.8357 0.0889 333.11)",
+          "oklch(0.9500 0.0889 333.11)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "neutral",
+        "displayName": "Primary Foreground",
+        "tonalRamp": [
+          "oklch(0.1500 0.0000 89.88)",
+          "oklch(0.2643 0.0000 89.88)",
+          "oklch(0.3786 0.0000 89.88)",
+          "oklch(0.4929 0.0000 89.88)",
+          "oklch(0.6071 0.0000 89.88)",
+          "oklch(0.7214 0.0000 89.88)",
+          "oklch(0.8357 0.0000 89.88)",
+          "oklch(0.9500 0.0000 89.88)"
+        ]
+      },
+      "primary-active": {
+        "role": "neutral",
+        "displayName": "Primary Active",
+        "tonalRamp": [
+          "oklch(0.1500 0.0731 332.97)",
+          "oklch(0.2643 0.0731 332.97)",
+          "oklch(0.3786 0.0731 332.97)",
+          "oklch(0.4929 0.0731 332.97)",
+          "oklch(0.6071 0.0731 332.97)",
+          "oklch(0.7214 0.0731 332.97)",
+          "oklch(0.8357 0.0731 332.97)",
+          "oklch(0.9500 0.0731 332.97)"
+        ]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Secondary",
+        "tonalRamp": [
+          "oklch(0.1500 0.0221 318.96)",
+          "oklch(0.2643 0.0221 318.96)",
+          "oklch(0.3786 0.0221 318.96)",
+          "oklch(0.4929 0.0221 318.96)",
+          "oklch(0.6071 0.0221 318.96)",
+          "oklch(0.7214 0.0221 318.96)",
+          "oklch(0.8357 0.0221 318.96)",
+          "oklch(0.9500 0.0221 318.96)"
+        ]
+      },
+      "secondary-foreground": {
+        "role": "neutral",
+        "displayName": "Secondary Foreground",
+        "tonalRamp": [
+          "oklch(0.1500 0.0575 332.75)",
+          "oklch(0.2643 0.0575 332.75)",
+          "oklch(0.3786 0.0575 332.75)",
+          "oklch(0.4929 0.0575 332.75)",
+          "oklch(0.6071 0.0575 332.75)",
+          "oklch(0.7214 0.0575 332.75)",
+          "oklch(0.8357 0.0575 332.75)",
+          "oklch(0.9500 0.0575 332.75)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(0.1500 0.0187 317.73)",
+          "oklch(0.2643 0.0187 317.73)",
+          "oklch(0.3786 0.0187 317.73)",
+          "oklch(0.4929 0.0187 317.73)",
+          "oklch(0.6071 0.0187 317.73)",
+          "oklch(0.7214 0.0187 317.73)",
+          "oklch(0.8357 0.0187 317.73)",
+          "oklch(0.9500 0.0187 317.73)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Muted Foreground",
+        "tonalRamp": [
+          "oklch(0.1500 0.0450 320.67)",
+          "oklch(0.2643 0.0450 320.67)",
+          "oklch(0.3786 0.0450 320.67)",
+          "oklch(0.4929 0.0450 320.67)",
+          "oklch(0.6071 0.0450 320.67)",
+          "oklch(0.7214 0.0450 320.67)",
+          "oklch(0.8357 0.0450 320.67)",
+          "oklch(0.9500 0.0450 320.67)"
+        ]
+      },
+      "accent": {
+        "role": "secondary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(0.1500 0.0303 319.09)",
+          "oklch(0.2643 0.0303 319.09)",
+          "oklch(0.3786 0.0303 319.09)",
+          "oklch(0.4929 0.0303 319.09)",
+          "oklch(0.6071 0.0303 319.09)",
+          "oklch(0.7214 0.0303 319.09)",
+          "oklch(0.8357 0.0303 319.09)",
+          "oklch(0.9500 0.0303 319.09)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0287 318.69)",
+          "oklch(0.2643 0.0287 318.69)",
+          "oklch(0.3786 0.0287 318.69)",
+          "oklch(0.4929 0.0287 318.69)",
+          "oklch(0.6071 0.0287 318.69)",
+          "oklch(0.7214 0.0287 318.69)",
+          "oklch(0.8357 0.0287 318.69)",
+          "oklch(0.9500 0.0287 318.69)"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Input",
+        "tonalRamp": [
+          "oklch(0.1500 0.0446 319.98)",
+          "oklch(0.2643 0.0446 319.98)",
+          "oklch(0.3786 0.0446 319.98)",
+          "oklch(0.4929 0.0446 319.98)",
+          "oklch(0.6071 0.0446 319.98)",
+          "oklch(0.7214 0.0446 319.98)",
+          "oklch(0.8357 0.0446 319.98)",
+          "oklch(0.9500 0.0446 319.98)"
+        ]
+      },
+      "ring": {
+        "role": "neutral",
+        "displayName": "Ring",
+        "tonalRamp": [
+          "oklch(0.1500 0.0961 335.69)",
+          "oklch(0.2643 0.0961 335.69)",
+          "oklch(0.3786 0.0961 335.69)",
+          "oklch(0.4929 0.0961 335.69)",
+          "oklch(0.6071 0.0961 335.69)",
+          "oklch(0.7214 0.0961 335.69)",
+          "oklch(0.8357 0.0961 335.69)",
+          "oklch(0.9500 0.0961 335.69)"
+        ]
+      },
+      "surface-soft": {
+        "role": "neutral",
+        "displayName": "Surface Soft",
+        "tonalRamp": [
+          "oklch(0.1500 0.0141 318.70)",
+          "oklch(0.2643 0.0141 318.70)",
+          "oklch(0.3786 0.0141 318.70)",
+          "oklch(0.4929 0.0141 318.70)",
+          "oklch(0.6071 0.0141 318.70)",
+          "oklch(0.7214 0.0141 318.70)",
+          "oklch(0.8357 0.0141 318.70)",
+          "oklch(0.9500 0.0141 318.70)"
+        ]
+      },
+      "surface-dark": {
+        "role": "primary",
+        "displayName": "Surface Dark",
+        "tonalRamp": [
+          "oklch(0.1500 0.0426 321.35)",
+          "oklch(0.2643 0.0426 321.35)",
+          "oklch(0.3786 0.0426 321.35)",
+          "oklch(0.4929 0.0426 321.35)",
+          "oklch(0.6071 0.0426 321.35)",
+          "oklch(0.7214 0.0426 321.35)",
+          "oklch(0.8357 0.0426 321.35)",
+          "oklch(0.9500 0.0426 321.35)"
+        ]
+      },
+      "surface-dark-elevated": {
+        "role": "neutral",
+        "displayName": "Surface Dark Elevated",
+        "tonalRamp": [
+          "oklch(0.1500 0.0617 334.22)",
+          "oklch(0.2643 0.0617 334.22)",
+          "oklch(0.3786 0.0617 334.22)",
+          "oklch(0.4929 0.0617 334.22)",
+          "oklch(0.6071 0.0617 334.22)",
+          "oklch(0.7214 0.0617 334.22)",
+          "oklch(0.8357 0.0617 334.22)",
+          "oklch(0.9500 0.0617 334.22)"
+        ]
+      },
+      "surface-dark-soft": {
+        "role": "neutral",
+        "displayName": "Surface Dark Soft",
+        "tonalRamp": [
+          "oklch(0.1500 0.0596 332.60)",
+          "oklch(0.2643 0.0596 332.60)",
+          "oklch(0.3786 0.0596 332.60)",
+          "oklch(0.4929 0.0596 332.60)",
+          "oklch(0.6071 0.0596 332.60)",
+          "oklch(0.7214 0.0596 332.60)",
+          "oklch(0.8357 0.0596 332.60)",
+          "oklch(0.9500 0.0596 332.60)"
+        ]
+      },
+      "on-dark": {
+        "role": "neutral",
+        "displayName": "On Dark",
+        "tonalRamp": [
+          "oklch(0.1500 0.0061 317.75)",
+          "oklch(0.2643 0.0061 317.75)",
+          "oklch(0.3786 0.0061 317.75)",
+          "oklch(0.4929 0.0061 317.75)",
+          "oklch(0.6071 0.0061 317.75)",
+          "oklch(0.7214 0.0061 317.75)",
+          "oklch(0.8357 0.0061 317.75)",
+          "oklch(0.9500 0.0061 317.75)"
+        ]
+      },
+      "on-dark-soft": {
+        "role": "neutral",
+        "displayName": "On Dark Soft",
+        "tonalRamp": [
+          "oklch(0.1500 0.0290 332.89)",
+          "oklch(0.2643 0.0290 332.89)",
+          "oklch(0.3786 0.0290 332.89)",
+          "oklch(0.4929 0.0290 332.89)",
+          "oklch(0.6071 0.0290 332.89)",
+          "oklch(0.7214 0.0290 332.89)",
+          "oklch(0.8357 0.0290 332.89)",
+          "oklch(0.9500 0.0290 332.89)"
+        ]
+      },
+      "body-text": {
+        "role": "neutral",
+        "displayName": "Body Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0455 321.98)",
+          "oklch(0.2643 0.0455 321.98)",
+          "oklch(0.3786 0.0455 321.98)",
+          "oklch(0.4929 0.0455 321.98)",
+          "oklch(0.6071 0.0455 321.98)",
+          "oklch(0.7214 0.0455 321.98)",
+          "oklch(0.8357 0.0455 321.98)",
+          "oklch(0.9500 0.0455 321.98)"
+        ]
+      },
+      "muted-soft": {
+        "role": "neutral",
+        "displayName": "Muted Soft",
+        "tonalRamp": [
+          "oklch(0.1500 0.0452 322.12)",
+          "oklch(0.2643 0.0452 322.12)",
+          "oklch(0.3786 0.0452 322.12)",
+          "oklch(0.4929 0.0452 322.12)",
+          "oklch(0.6071 0.0452 322.12)",
+          "oklch(0.7214 0.0452 322.12)",
+          "oklch(0.8357 0.0452 322.12)",
+          "oklch(0.9500 0.0452 322.12)"
+        ]
+      },
+      "hairline-soft": {
+        "role": "neutral",
+        "displayName": "Hairline Soft",
+        "tonalRamp": [
+          "oklch(0.1500 0.0205 318.40)",
+          "oklch(0.2643 0.0205 318.40)",
+          "oklch(0.3786 0.0205 318.40)",
+          "oklch(0.4929 0.0205 318.40)",
+          "oklch(0.6071 0.0205 318.40)",
+          "oklch(0.7214 0.0205 318.40)",
+          "oklch(0.8357 0.0205 318.40)",
+          "oklch(0.9500 0.0205 318.40)"
+        ]
+      },
+      "bookmark": {
+        "role": "primary",
+        "displayName": "Bookmark",
+        "tonalRamp": [
+          "oklch(0.1500 0.0669 51.78)",
+          "oklch(0.2643 0.0669 51.78)",
+          "oklch(0.3786 0.0669 51.78)",
+          "oklch(0.4929 0.0669 51.78)",
+          "oklch(0.6071 0.0669 51.78)",
+          "oklch(0.7214 0.0669 51.78)",
+          "oklch(0.8357 0.0669 51.78)",
+          "oklch(0.9500 0.0669 51.78)"
+        ]
+      },
+      "cover-field": {
+        "role": "secondary",
+        "displayName": "Cover Field",
+        "tonalRamp": [
+          "oklch(0.1500 0.0232 317.13)",
+          "oklch(0.2643 0.0232 317.13)",
+          "oklch(0.3786 0.0232 317.13)",
+          "oklch(0.4929 0.0232 317.13)",
+          "oklch(0.6071 0.0232 317.13)",
+          "oklch(0.7214 0.0232 317.13)",
+          "oklch(0.8357 0.0232 317.13)",
+          "oklch(0.9500 0.0232 317.13)"
+        ]
+      },
+      "destructive": {
+        "role": "neutral",
+        "displayName": "Destructive",
+        "tonalRamp": [
+          "oklch(0.1500 0.1619 21.24)",
+          "oklch(0.2643 0.1619 21.24)",
+          "oklch(0.3786 0.1619 21.24)",
+          "oklch(0.4929 0.1619 21.24)",
+          "oklch(0.6071 0.1619 21.24)",
+          "oklch(0.7214 0.1619 21.24)",
+          "oklch(0.8357 0.1619 21.24)",
+          "oklch(0.9500 0.1619 21.24)"
+        ]
+      },
+      "reader-sepia-background": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Background",
+        "tonalRamp": [
+          "oklch(0.1500 0.0240 78.00)",
+          "oklch(0.2643 0.0240 78.00)",
+          "oklch(0.3786 0.0240 78.00)",
+          "oklch(0.4929 0.0240 78.00)",
+          "oklch(0.6071 0.0240 78.00)",
+          "oklch(0.7214 0.0240 78.00)",
+          "oklch(0.8357 0.0240 78.00)",
+          "oklch(0.9500 0.0240 78.00)"
+        ]
+      },
+      "reader-sepia-surface": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0340 75.00)",
+          "oklch(0.2643 0.0340 75.00)",
+          "oklch(0.3786 0.0340 75.00)",
+          "oklch(0.4929 0.0340 75.00)",
+          "oklch(0.6071 0.0340 75.00)",
+          "oklch(0.7214 0.0340 75.00)",
+          "oklch(0.8357 0.0340 75.00)",
+          "oklch(0.9500 0.0340 75.00)"
+        ]
+      },
+      "reader-sepia-text": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0210 64.00)",
+          "oklch(0.2643 0.0210 64.00)",
+          "oklch(0.3786 0.0210 64.00)",
+          "oklch(0.4929 0.0210 64.00)",
+          "oklch(0.6071 0.0210 64.00)",
+          "oklch(0.7214 0.0210 64.00)",
+          "oklch(0.8357 0.0210 64.00)",
+          "oklch(0.9500 0.0210 64.00)"
+        ]
+      },
+      "reader-sepia-muted": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Muted",
+        "tonalRamp": [
+          "oklch(0.1500 0.0260 66.00)",
+          "oklch(0.2643 0.0260 66.00)",
+          "oklch(0.3786 0.0260 66.00)",
+          "oklch(0.4929 0.0260 66.00)",
+          "oklch(0.6071 0.0260 66.00)",
+          "oklch(0.7214 0.0260 66.00)",
+          "oklch(0.8357 0.0260 66.00)",
+          "oklch(0.9500 0.0260 66.00)"
+        ]
+      },
+      "reader-sepia-border": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0340 72.00)",
+          "oklch(0.2643 0.0340 72.00)",
+          "oklch(0.3786 0.0340 72.00)",
+          "oklch(0.4929 0.0340 72.00)",
+          "oklch(0.6071 0.0340 72.00)",
+          "oklch(0.7214 0.0340 72.00)",
+          "oklch(0.8357 0.0340 72.00)",
+          "oklch(0.9500 0.0340 72.00)"
+        ]
+      },
+      "reader-dark-background": {
+        "role": "secondary",
+        "displayName": "Reader Dark Background",
+        "tonalRamp": [
+          "oklch(0.1500 0.0080 84.00)",
+          "oklch(0.2643 0.0080 84.00)",
+          "oklch(0.3786 0.0080 84.00)",
+          "oklch(0.4929 0.0080 84.00)",
+          "oklch(0.6071 0.0080 84.00)",
+          "oklch(0.7214 0.0080 84.00)",
+          "oklch(0.8357 0.0080 84.00)",
+          "oklch(0.9500 0.0080 84.00)"
+        ]
+      },
+      "reader-dark-surface": {
+        "role": "secondary",
+        "displayName": "Reader Dark Surface",
+        "tonalRamp": [
+          "oklch(0.1500 0.0090 84.00)",
+          "oklch(0.2643 0.0090 84.00)",
+          "oklch(0.3786 0.0090 84.00)",
+          "oklch(0.4929 0.0090 84.00)",
+          "oklch(0.6071 0.0090 84.00)",
+          "oklch(0.7214 0.0090 84.00)",
+          "oklch(0.8357 0.0090 84.00)",
+          "oklch(0.9500 0.0090 84.00)"
+        ]
+      },
+      "reader-dark-text": {
+        "role": "secondary",
+        "displayName": "Reader Dark Text",
+        "tonalRamp": [
+          "oklch(0.1500 0.0060 88.00)",
+          "oklch(0.2643 0.0060 88.00)",
+          "oklch(0.3786 0.0060 88.00)",
+          "oklch(0.4929 0.0060 88.00)",
+          "oklch(0.6071 0.0060 88.00)",
+          "oklch(0.7214 0.0060 88.00)",
+          "oklch(0.8357 0.0060 88.00)",
+          "oklch(0.9500 0.0060 88.00)"
+        ]
+      },
+      "reader-dark-muted": {
+        "role": "secondary",
+        "displayName": "Reader Dark Muted",
+        "tonalRamp": [
+          "oklch(0.1500 0.0100 88.00)",
+          "oklch(0.2643 0.0100 88.00)",
+          "oklch(0.3786 0.0100 88.00)",
+          "oklch(0.4929 0.0100 88.00)",
+          "oklch(0.6071 0.0100 88.00)",
+          "oklch(0.7214 0.0100 88.00)",
+          "oklch(0.8357 0.0100 88.00)",
+          "oklch(0.9500 0.0100 88.00)"
+        ]
+      },
+      "reader-dark-border": {
+        "role": "secondary",
+        "displayName": "Reader Dark Border",
+        "tonalRamp": [
+          "oklch(0.1500 0.0120 84.00)",
+          "oklch(0.2643 0.0120 84.00)",
+          "oklch(0.3786 0.0120 84.00)",
+          "oklch(0.4929 0.0120 84.00)",
+          "oklch(0.6071 0.0120 84.00)",
+          "oklch(0.7214 0.0120 84.00)",
+          "oklch(0.8357 0.0120 84.00)",
+          "oklch(0.9500 0.0120 84.00)"
+        ]
+      },
+      "reader-light-highlight": {
+        "role": "secondary",
+        "displayName": "Reader Light Highlight",
+        "tonalRamp": [
+          "oklch(0.1500 0.1000 77.00)",
+          "oklch(0.2643 0.1000 77.00)",
+          "oklch(0.3786 0.1000 77.00)",
+          "oklch(0.4929 0.1000 77.00)",
+          "oklch(0.6071 0.1000 77.00)",
+          "oklch(0.7214 0.1000 77.00)",
+          "oklch(0.8357 0.1000 77.00)",
+          "oklch(0.9500 0.1000 77.00)"
+        ]
+      },
+      "reader-light-highlight-active": {
+        "role": "secondary",
+        "displayName": "Reader Light Highlight Active",
+        "tonalRamp": [
+          "oklch(0.1500 0.1200 62.00)",
+          "oklch(0.2643 0.1200 62.00)",
+          "oklch(0.3786 0.1200 62.00)",
+          "oklch(0.4929 0.1200 62.00)",
+          "oklch(0.6071 0.1200 62.00)",
+          "oklch(0.7214 0.1200 62.00)",
+          "oklch(0.8357 0.1200 62.00)",
+          "oklch(0.9500 0.1200 62.00)"
+        ]
+      },
+      "reader-sepia-highlight": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Highlight",
+        "tonalRamp": [
+          "oklch(0.1500 0.1000 70.00)",
+          "oklch(0.2643 0.1000 70.00)",
+          "oklch(0.3786 0.1000 70.00)",
+          "oklch(0.4929 0.1000 70.00)",
+          "oklch(0.6071 0.1000 70.00)",
+          "oklch(0.7214 0.1000 70.00)",
+          "oklch(0.8357 0.1000 70.00)",
+          "oklch(0.9500 0.1000 70.00)"
+        ]
+      },
+      "reader-sepia-highlight-active": {
+        "role": "secondary",
+        "displayName": "Reader Sepia Highlight Active",
+        "tonalRamp": [
+          "oklch(0.1500 0.1200 58.00)",
+          "oklch(0.2643 0.1200 58.00)",
+          "oklch(0.3786 0.1200 58.00)",
+          "oklch(0.4929 0.1200 58.00)",
+          "oklch(0.6071 0.1200 58.00)",
+          "oklch(0.7214 0.1200 58.00)",
+          "oklch(0.8357 0.1200 58.00)",
+          "oklch(0.9500 0.1200 58.00)"
+        ]
+      },
+      "reader-dark-highlight": {
+        "role": "secondary",
+        "displayName": "Reader Dark Highlight",
+        "tonalRamp": [
+          "oklch(0.1500 0.1100 70.00)",
+          "oklch(0.2643 0.1100 70.00)",
+          "oklch(0.3786 0.1100 70.00)",
+          "oklch(0.4929 0.1100 70.00)",
+          "oklch(0.6071 0.1100 70.00)",
+          "oklch(0.7214 0.1100 70.00)",
+          "oklch(0.8357 0.1100 70.00)",
+          "oklch(0.9500 0.1100 70.00)"
+        ]
+      },
+      "reader-dark-highlight-active": {
+        "role": "secondary",
+        "displayName": "Reader Dark Highlight Active",
+        "tonalRamp": [
+          "oklch(0.1500 0.1200 62.00)",
+          "oklch(0.2643 0.1200 62.00)",
+          "oklch(0.3786 0.1200 62.00)",
+          "oklch(0.4929 0.1200 62.00)",
+          "oklch(0.6071 0.1200 62.00)",
+          "oklch(0.7214 0.1200 62.00)",
+          "oklch(0.8357 0.1200 62.00)",
+          "oklch(0.9500 0.1200 62.00)"
+        ]
+      },
+      "opening-plum": {
+        "role": "primary",
+        "displayName": "Opening Plum",
+        "tonalRamp": [
+          "oklch(0.1500 0.0569 333.19)",
+          "oklch(0.2643 0.0569 333.19)",
+          "oklch(0.3786 0.0569 333.19)",
+          "oklch(0.4929 0.0569 333.19)",
+          "oklch(0.6071 0.0569 333.19)",
+          "oklch(0.7214 0.0569 333.19)",
+          "oklch(0.8357 0.0569 333.19)",
+          "oklch(0.9500 0.0569 333.19)"
+        ]
+      },
+      "display-lilac": {
+        "role": "secondary",
+        "displayName": "Display Lilac",
+        "tonalRamp": [
+          "oklch(0.1500 0.0542 314.86)",
+          "oklch(0.2643 0.0542 314.86)",
+          "oklch(0.3786 0.0542 314.86)",
+          "oklch(0.4929 0.0542 314.86)",
+          "oklch(0.6071 0.0542 314.86)",
+          "oklch(0.7214 0.0542 314.86)",
+          "oklch(0.8357 0.0542 314.86)",
+          "oklch(0.9500 0.0542 314.86)"
+        ]
+      },
+      "display-peach": {
+        "role": "secondary",
+        "displayName": "Display Peach",
+        "tonalRamp": [
+          "oklch(0.1500 0.0480 39.76)",
+          "oklch(0.2643 0.0480 39.76)",
+          "oklch(0.3786 0.0480 39.76)",
+          "oklch(0.4929 0.0480 39.76)",
+          "oklch(0.6071 0.0480 39.76)",
+          "oklch(0.7214 0.0480 39.76)",
+          "oklch(0.8357 0.0480 39.76)",
+          "oklch(0.9500 0.0480 39.76)"
+        ]
+      },
+      "cover-peach": {
+        "role": "secondary",
+        "displayName": "Cover Peach",
+        "tonalRamp": [
+          "oklch(0.1500 0.0197 50.14)",
+          "oklch(0.2643 0.0197 50.14)",
+          "oklch(0.3786 0.0197 50.14)",
+          "oklch(0.4929 0.0197 50.14)",
+          "oklch(0.6071 0.0197 50.14)",
+          "oklch(0.7214 0.0197 50.14)",
+          "oklch(0.8357 0.0197 50.14)",
+          "oklch(0.9500 0.0197 50.14)"
+        ]
+      },
+      "cover-lavender": {
+        "role": "secondary",
+        "displayName": "Cover Lavender",
+        "tonalRamp": [
+          "oklch(0.1500 0.0136 295.31)",
+          "oklch(0.2643 0.0136 295.31)",
+          "oklch(0.3786 0.0136 295.31)",
+          "oklch(0.4929 0.0136 295.31)",
+          "oklch(0.6071 0.0136 295.31)",
+          "oklch(0.7214 0.0136 295.31)",
+          "oklch(0.8357 0.0136 295.31)",
+          "oklch(0.9500 0.0136 295.31)"
+        ]
+      },
+      "invitation-hover": {
+        "role": "neutral",
+        "displayName": "Invitation Hover",
+        "tonalRamp": [
+          "oklch(0.1500 0.0547 59.91)",
+          "oklch(0.2643 0.0547 59.91)",
+          "oklch(0.3786 0.0547 59.91)",
+          "oklch(0.4929 0.0547 59.91)",
+          "oklch(0.6071 0.0547 59.91)",
+          "oklch(0.7214 0.0547 59.91)",
+          "oklch(0.8357 0.0547 59.91)",
+          "oklch(0.9500 0.0547 59.91)"
+        ]
+      },
+      "jacket-paper": {
+        "role": "neutral",
+        "displayName": "Jacket Paper",
+        "tonalRamp": [
+          "oklch(0.1500 0.0136 78.26)",
+          "oklch(0.2643 0.0136 78.26)",
+          "oklch(0.3786 0.0136 78.26)",
+          "oklch(0.4929 0.0136 78.26)",
+          "oklch(0.6071 0.0136 78.26)",
+          "oklch(0.7214 0.0136 78.26)",
+          "oklch(0.8357 0.0136 78.26)",
+          "oklch(0.9500 0.0136 78.26)"
+        ]
+      },
+      "page-light": {
+        "role": "neutral",
+        "displayName": "Page Light",
+        "tonalRamp": [
+          "oklch(0.1500 0.0229 84.59)",
+          "oklch(0.2643 0.0229 84.59)",
+          "oklch(0.3786 0.0229 84.59)",
+          "oklch(0.4929 0.0229 84.59)",
+          "oklch(0.6071 0.0229 84.59)",
+          "oklch(0.7214 0.0229 84.59)",
+          "oklch(0.8357 0.0229 84.59)",
+          "oklch(0.9500 0.0229 84.59)"
+        ]
+      },
+      "page-rule": {
+        "role": "neutral",
+        "displayName": "Page Rule",
+        "tonalRamp": [
+          "oklch(0.1500 0.0240 75.82)",
+          "oklch(0.2643 0.0240 75.82)",
+          "oklch(0.3786 0.0240 75.82)",
+          "oklch(0.4929 0.0240 75.82)",
+          "oklch(0.6071 0.0240 75.82)",
+          "oklch(0.7214 0.0240 75.82)",
+          "oklch(0.8357 0.0240 75.82)",
+          "oklch(0.9500 0.0240 75.82)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Source-derived display role."
+      },
+      "display-wide": {
+        "displayName": "Display Wide",
+        "purpose": "Source-derived display wide role."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Source-derived title role."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Source-derived body role."
+      },
+      "description-wide": {
+        "displayName": "Description Wide",
+        "purpose": "Source-derived description wide role."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Source-derived label role."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Source-derived button role."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Compact technical/action-menu labels."
+      },
+      "serif-accent": {
+        "displayName": "Serif Accent",
+        "purpose": "EB Garamond italic, actively used in the home invitation."
+      },
+      "reader": {
+        "displayName": "Reader",
+        "purpose": "Default Satoshi reader content."
+      },
+      "reader-serif": {
+        "displayName": "Reader Serif",
+        "purpose": "Selectable Sentient reader content."
+      },
+      "reader-soft": {
+        "displayName": "Reader Soft",
+        "purpose": "Selectable Synonym reader content."
+      },
+      "invitation": {
+        "displayName": "Invitation",
+        "purpose": "Home invitation, responsive 52/42/36px."
+      },
+      "invitation-italic": {
+        "displayName": "Invitation Italic",
+        "purpose": "Apricot expressive home line in EB Garamond italic."
+      }
+    },
+    "shadows": [
+      {
+        "name": "jacket-face",
+        "value": "9px 15px 18px -7px rgb(53 36 56 / 0.3)",
+        "purpose": "Shared dimensional jacket."
+      },
+      {
+        "name": "jacket-edge",
+        "value": "inset 0 0 0 1px rgb(0 0 0 / 0.08)",
+        "purpose": "Subtle face boundary."
+      },
+      {
+        "name": "paper-edge",
+        "value": "2px 2px 1px rgb(53 36 56 / 0.18)",
+        "purpose": "Visible paper edge."
+      },
+      {
+        "name": "display-plane",
+        "value": "0 16px 32px -16px rgb(15 5 22 / 0.5)",
+        "purpose": "Layered lilac home stage."
+      },
+      {
+        "name": "topic",
+        "value": "0 2px 3px rgb(53 36 56 / 0.04)",
+        "purpose": "Discovery topic control."
+      },
+      {
+        "name": "detail-book",
+        "value": "0 18px 34px rgba(20, 20, 19, 0.12), 0 2px 6px rgba(20, 20, 19, 0.06)",
+        "purpose": "Original detail preview."
+      }
+    ],
+    "motion": [
+      {
+        "name": "book-ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Shared jacket and detail object easing."
+      },
+      {
+        "name": "jacket-intent",
+        "value": "320ms",
+        "purpose": "Catalog and opening book lift; reduced motion preserves resting poses."
+      },
+      {
+        "name": "state-fade",
+        "value": "180ms ease",
+        "purpose": "Navigation, topic/action fill, and Open book fade."
+      },
+      {
+        "name": "detail-pose",
+        "value": "900ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Detail resting pose; active pointer pose is 240ms."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ordinary rendered button slot with the global typography/radius override.",
+      "html": "<button class=\"ds-button-primary\">Read online</button>",
+      "css": ".ds-button-primary{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius,8px);background:var(--primary,#74436c);color:var(--primary-foreground,#fff);font-size:13px;line-height:16px;font-weight:600;letter-spacing:0;text-transform:none;cursor:pointer;transition:background 150ms ease,transform 150ms ease}.ds-button-primary:hover{background:rgb(116 67 108 / 0.8)}.ds-button-primary:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:4px;}.ds-button-primary:active{transform:translateY(1px)}.ds-button-primary:disabled{opacity:.5;pointer-events:none}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ordinary rendered button slot with the global typography/radius override.",
+      "html": "<button class=\"ds-button-secondary\">Download</button>",
+      "css": ".ds-button-secondary{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius,8px);background:var(--secondary,#eadfed);color:var(--secondary-foreground,#54364f);font-size:13px;line-height:16px;font-weight:600;letter-spacing:0;text-transform:none;cursor:pointer;transition:background 150ms ease,transform 150ms ease}.ds-button-secondary:hover{background:rgb(234 223 237 / 0.8)}.ds-button-secondary:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:4px;}.ds-button-secondary:active{transform:translateY(1px)}.ds-button-secondary:disabled{opacity:.5;pointer-events:none}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ordinary rendered button slot with the global typography/radius override.",
+      "html": "<button class=\"ds-button-outline\">More options</button>",
+      "css": ".ds-button-outline{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:1px solid var(--border,#ded0e2);border-radius:var(--radius,8px);background:transparent;color:var(--foreground,#352438);font-size:13px;line-height:16px;font-weight:600;letter-spacing:0;text-transform:none;cursor:pointer;transition:background 150ms ease,transform 150ms ease}.ds-button-outline:hover{background:var(--muted,#e9e0ec)}.ds-button-outline:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:4px;}.ds-button-outline:active{transform:translateY(1px)}.ds-button-outline:disabled{opacity:.5;pointer-events:none}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Ordinary rendered button slot with the global typography/radius override.",
+      "html": "<button class=\"ds-button-ghost\">More options</button>",
+      "css": ".ds-button-ghost{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 24px;border:1px solid transparent;border-radius:var(--radius,8px);background:transparent;color:var(--foreground,#352438);font-size:13px;line-height:16px;font-weight:600;letter-spacing:0;text-transform:none;cursor:pointer;transition:background 150ms ease,transform 150ms ease}.ds-button-ghost:hover{background:var(--muted,#e9e0ec)}.ds-button-ghost:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:4px;}.ds-button-ghost:active{transform:translateY(1px)}.ds-button-ghost:disabled{opacity:.5;pointer-events:none}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "text-input",
+      "description": "Transparent bottom-boundary field; header search has a separate dark context.",
+      "html": "<input class=\"ds-input\" type=\"search\" aria-label=\"Search books\" placeholder=\"Search books or authors\">",
+      "css": ".ds-input{font-family:var(--font-sans,\"Satoshi\",sans-serif);height:40px;width:100%;min-width:0;padding:4px 0;border:1px solid transparent;border-bottom-color:var(--input,#cbb5d0);border-radius:var(--radius,8px);background:transparent;color:var(--foreground,#352438);font-size:16px;transition:border-color 150ms ease}.ds-input::placeholder{color:var(--muted-foreground,#6c5870)}.ds-input:hover{border-bottom-color:var(--ring,#905783)}.ds-input:focus-visible{border-bottom-color:var(--ring,#905783);outline:2px solid var(--ring,#905783);outline-offset:4px;}.ds-input:disabled{opacity:.5;cursor:not-allowed}@media(min-width:768px){.ds-input{font-size:14px}}"
+    },
+    {
+      "name": "Current Navigation",
+      "kind": "nav",
+      "refersTo": "top-nav",
+      "description": "Desktop current destination with the apricot bookmark underline and inset keyboard focus.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Preview navigation\"><a class=\"ds-nav-link\" href=\"#home\" aria-current=\"page\">Home</a><a class=\"ds-nav-link\" href=\"#browse\">Browse</a><a class=\"ds-nav-link\" href=\"#lists\">Reading Lists</a></nav>",
+      "css": ".ds-nav{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:flex;flex-wrap:wrap;background:var(--surface-dark,#352438);padding:0 8px}.ds-nav-link{position:relative;display:inline-flex;align-items:center;height:64px;padding:0 14px;color:var(--on-dark-soft,#e3d0df);font-size:14px;font-weight:500;text-decoration:none;transition:color 180ms ease}.ds-nav-link:hover,.ds-nav-link[aria-current=page]{color:var(--on-dark,#faf7fb)}.ds-nav-link[aria-current=page]::after{content:\"\";position:absolute;bottom:0;left:14px;right:14px;height:4px;border-radius:3px 3px 0 0;background:var(--bookmark,#f3c3a7)}.ds-nav-link:focus-visible{outline:2px solid var(--bookmark,#f3c3a7);outline-offset:-6px;border-radius:8px}"
+    },
+    {
+      "name": "Discovery Topic",
+      "kind": "chip",
+      "refersTo": "topic-chip",
+      "description": "White, softly lifted discovery topic shortcut with a plum border and text.",
+      "html": "<a class=\"ds-topic\" href=\"#classics\">Classics</a>",
+      "css": ".ds-topic{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:6px 14px;border-radius:999px;background:#ffffff;border:1px solid var(--border,#ded0e2);box-shadow:0 2px 3px rgb(53 36 56 / 0.04);color:var(--secondary-foreground,#54364f);font-size:13px;font-weight:500;text-decoration:none;transition:background 180ms ease}.ds-topic:hover{background:var(--secondary,#eadfed)}.ds-topic:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:4px;}@media(prefers-reduced-motion:reduce){.ds-topic{transition:none}}"
+    },
+    {
+      "name": "Dimensional Catalog Jacket",
+      "kind": "card",
+      "refersTo": "catalog-cover",
+      "description": "The missing or failed cover variant shows shared jacket depth, paper edge, and visible aligned metadata. Shipping covers fill the same 2:3 face.",
+      "html": "<a class=\"ds-book\" href=\"#book\" aria-label=\"Pride and Prejudice by Jane Austen\"><div class=\"ds-field\"><div class=\"ds-jacket\"><div class=\"ds-pages\"></div><div class=\"ds-face\"><div class=\"ds-fallback\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15\"/></svg><span>Pride and Prejudice</span></div></div></div><span class=\"ds-open\">Open book</span></div><h2 class=\"ds-book-title\">Pride and Prejudice</h2><p class=\"ds-author\">Jane Austen</p></a>",
+      "css": ".ds-book{font-family:var(--font-sans,\"Satoshi\",sans-serif);display:block;max-width:224px;border-radius:12px;color:var(--foreground,#352438);text-decoration:none}.ds-field{position:relative;display:flex;aspect-ratio:4/5;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;background:var(--cover-field,#eee3f2);perspective:900px}.ds-jacket{position:relative;width:63%;aspect-ratio:2/3;transform-style:preserve-3d;transform:rotateY(-22deg) rotateZ(-3deg);transition:transform 320ms cubic-bezier(.22,1,.36,1)}.ds-face{position:absolute;inset:0;overflow:hidden;border-radius:2px 5px 5px 2px;background:#f7f1e8;box-shadow:9px 15px 18px -7px rgb(53 36 56 / .3);backface-visibility:hidden}.ds-face::after{content:\"\";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgb(0 0 0 / .2),rgb(255 255 255 / .25) 3%,rgb(0 0 0 / .12) 5%,transparent 9%);box-shadow:inset 0 0 0 1px rgb(0 0 0 / .08)}.ds-pages{position:absolute;top:3px;bottom:3px;right:-7px;width:10px;border-radius:0 3px 3px 0;background:repeating-linear-gradient(90deg,#f4ecdc 0 2px,#cfc4b5 2px 3px);transform:skewY(8deg);box-shadow:2px 2px 1px rgb(53 36 56 / .18)}.ds-fallback{display:flex;height:100%;flex-direction:column;justify-content:space-between;gap:12px;padding:12px;box-sizing:border-box;background:var(--surface-dark,#352438);color:var(--on-dark,#faf7fb);font-family:var(--font-heading,\"Familjen Grotesk\",sans-serif);font-size:14px;line-height:1.25}.ds-fallback span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}.ds-book-title{min-height:44px;margin:16px 0 0;font-family:var(--font-heading,\"Familjen Grotesk\",sans-serif);font-size:16px;font-weight:500;line-height:1.375;letter-spacing:-.02em}.ds-author{margin:6px 0 0;color:var(--muted-foreground,#6c5870);font-size:14px;line-height:1.625}.ds-open{position:absolute;bottom:12px;padding:5px 10px;border-radius:999px;background:var(--foreground,#352438);color:var(--background,#faf7fb);font-size:11px;font-weight:500;opacity:0;transition:opacity 180ms ease}.ds-book:focus-visible{outline:2px solid var(--ring,#905783);outline-offset:6px}.ds-book:focus-visible .ds-open{opacity:1}@media(hover:hover){.ds-book:hover .ds-jacket{transform:translateY(-8px) rotateY(-8deg) rotateZ(0deg)}.ds-book:hover .ds-open{opacity:1}}@media(prefers-reduced-motion:reduce){.ds-jacket,.ds-open{transition:none}.ds-book:hover .ds-jacket{transform:rotateY(-22deg) rotateZ(-3deg)}}"
+    },
+    {
+      "name": "Discovery Invitation",
+      "kind": "custom",
+      "refersTo": "discovery-opening",
+      "description": "The opening\u2019s actual invitation typography and Browse action; the adjacent shipping display contains three real popular books.",
+      "html": "<section class=\"ds-invitation\"><h1>Open a book.<em>Go somewhere new.</em></h1><p>Discover free classics, follow a little curiosity, and make room for your next great read.</p><a class=\"ds-feature\" href=\"#browse\">Find your next read <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\"/></svg></a></section>",
+      "css": ".ds-invitation{font-family:var(--font-sans,\"Satoshi\",sans-serif);padding:36px 40px;border-radius:24px;background:#482b43;color:var(--background,#faf7fb)}.ds-invitation h1{max-width:470px;margin:0;font-family:var(--font-heading,\"Familjen Grotesk\",sans-serif);font-size:52px;font-weight:500;line-height:1.05;letter-spacing:-.03em}.ds-invitation h1 em{display:block;margin-top:4px;color:var(--bookmark,#f3c3a7);font-family:var(--font-serif,\"EB Garamond\",Georgia,serif);font-size:1.12em;font-weight:400;letter-spacing:-.02em}.ds-invitation p{max-width:350px;margin:18px 0 0;color:var(--on-dark-soft,#e3d0df);font-size:15px;line-height:1.65}.ds-feature{display:inline-flex;align-items:center;gap:16px;min-height:44px;margin-top:24px;padding:11px 18px;box-sizing:border-box;border-radius:10px;background:var(--bookmark,#f3c3a7);color:var(--foreground,#352438);font-size:14px;font-weight:600;text-decoration:none;transition:background 180ms ease}.ds-feature:hover{background:#ffdbbf}.ds-feature:focus-visible{outline:2px solid var(--bookmark,#f3c3a7);outline-offset:4px}@media(max-width:1023px){.ds-invitation h1{font-size:42px}.ds-invitation h1 em{font-size:1em}}@media(max-width:767px){.ds-invitation{padding:28px 24px;border-radius:20px}.ds-invitation h1{font-size:36px}.ds-invitation h1 em{font-size:1.12em}.ds-invitation p{margin-top:12px;font-size:14px}.ds-feature{margin-top:16px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Artist\u2019s Book Exhibition",
+    "overview": "An artist-residency exhibition translated into an approachable reading room. A deep plum shell and invitation, lilac-white ground, and apricot accents frame real books as dimensional objects. Page edges, hinge shading, directional soft shadows, and restrained perspective make discovery tactile without changing familiar catalog controls.\n\nThe home opening presents three linked popular books against layered lilac and peach planes. Catalog cards reuse the same jacket treatment, with visible title and author below. The reader stays quiet and adjustable; the book covers themselves supply the imagery, with no generated artwork or decorative grain.",
+    "keyCharacteristics": [
+      "Deep plum orientation and invitation surfaces on a lilac-white ground.",
+      "Apricot navigation bookmarks, invitation action, selection, and expressive italic line.",
+      "Real source covers rendered as dimensional jackets with visible paper edges.",
+      "Familjen Grotesk and Satoshi for clarity; EB Garamond italic for the home invitation.",
+      "A familiar responsive catalog and locally adjustable reader beneath the expressive opening."
+    ],
+    "rules": [
+      {
+        "name": "The Real Book Rule",
+        "body": "Build depth around actual catalog covers; keep titles and authors visible outside the object and full names accessible.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Bookmark Rule",
+        "body": "Use apricot to mark the current navigation destination on desktop and mobile, with the same warm accent supporting the home invitation.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Reading Rule",
+        "body": "Keep the exhibition\u2019s expressive staging in discovery; preserve a calm text column and local reading preferences in the reader.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do use the current global custom properties, with reader palette overrides scoped to the reader.",
+      "Do reuse BookJacket for discovery and catalog depth, with actual source covers and visible metadata.",
+      "Do preserve two/three/four/five catalog columns and the mobile three-book opening.",
+      "Do retain apricot current-location markers, keyboard focus, and reduced-motion behavior.",
+      "Do keep the existing Project Sonam logo, source attribution, and honest book metadata."
+    ],
+    "donts": [
+      "Don't replace real cover art with generated promotional imagery or decorative grain.",
+      "Don't normalize the catalog back to uniform flat blue fields or remove its jacket depth.",
+      "Don't hide catalog titles and authors behind hover or make the book link depend on motion.",
+      "Don't apply the expressive home invitation typography to every heading or reader paragraph.",
+      "Don't turn local reader themes into a global theme switch or assume every drawer wrapper receives the ordinary button-slot override."
+    ]
+  }
+}

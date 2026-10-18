@@ -29,8 +29,8 @@ No test runner is configured. There are no tests.
 - **Data source**: Neon Postgres (`lib/gutendex-server.ts` reads, `app/api/sync` writes). Gutendex is upstream only — mirrored into Postgres by cron, never queried at request time.
 - **Book chat**: `app/api/book-chat/route.ts` uses the OpenAI SDK pointed at NVIDIA's API (`https://integrate.api.nvidia.com/v1`). Explicit `runtime = "nodejs"` (streaming).
 - **Book dialog**: soft navigation to `/book/[id]` is intercepted by `app/@modal/(.)book/[id]` and opens `components/book-dialog.tsx`; direct loads and refreshes render the full `app/book/[id]/page.tsx`. Both render `components/book-detail.tsx`. `app/@modal/page.tsx` and `app/@modal/[...catchAll]/page.tsx` return `null` so the dialog closes on any other navigation — keep them when adding routes.
-- **Page headings**: Home, Browse, Reading Lists and Search use `components/page-heading.tsx` — a wooden sign (`.sign-board` in `app/globals.css`) with a numbered mark and an EB Garamond subtitle. Title and mark use `text-box: trim-both cap alphabetic` so the visible letters centre on the board.
-- **Bookshelf grid**: `components/book-grid.tsx` + `BookCard` in `components/book-card-2.tsx` render one continuous `.bookcase`. Every cell is a fixed `--shelf-row` height, so shelves, planks and wood grain are a repeating background on `.bookcase-inner` (empty slots still show shelf). Compartment uprights are `.shelf-cell::after` rules in `app/globals.css` keyed to the grid's column counts per breakpoint — update both together.
+- **Page headings**: Home, Browse, Reading Lists and Search use `components/page-heading.tsx` — Familjen Grotesk headings with Satoshi descriptions. No numbered marks or simulated wooden signs.
+- **Catalog grid**: `components/book-grid.tsx` + `components/book-card.tsx` render two columns on phones, three at sm, four at lg, and five at xl. Each cover is a dimensional `components/book-jacket.tsx` inside a lilac or peach 4:5 field with its title and author below. The home opening links three actual popular books in a layered display. `components/book-card-2.tsx` exports the interactive 3D `Book` used only by book details. Visual tokens live in `app/globals.css`; `DESIGN.md` documents the plum/lilac exhibition system.
 - **Reader**: `app/book/[id]/read/page.tsx` with `components/reader-shell.tsx` and `components/reader-toc-minimap.tsx`. When `body[data-reader-focus="true"]`, header and footer are hidden via CSS.
 - **Analytics**: Google Analytics via `@next/third-parties/google`. Client helper in `lib/analytics.ts`.
 
@@ -100,3 +100,13 @@ Adding a new read path? Put the SQL in `lib/gutendex-server.ts`, expose it throu
 - All filter/pagination state lives in URL search params (shareable URLs).
 - Book cover images use Next.js `Image` with remote patterns for `www.gutenberg.org` and `covers.openlibrary.org`.
 - Dark/light theme via `next-themes`; users can toggle with the `D` key.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

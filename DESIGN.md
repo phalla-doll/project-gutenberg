@@ -1,589 +1,354 @@
 ---
-version: alpha
-name: Claude-design-analysis
-description: A warm-canvas editorial interface for Anthropic's Claude product. The system anchors on a tinted cream canvas with serif display headlines, warm coral CTAs, and dark navy product surfaces (code editor mockups, model showcase cards). Brand voltage comes from the cream/coral pairing — deliberately warm and humanist where most AI brands use cool blue + slate. Type voice runs a slab-serif display ("Copernicus" / Tiempos Headline) for h1/h2 and a humanist sans for body. The signature Anthropic black-radial-spike mark anchors the wordmark.
-
+name: Project Sonam
+description: Tactile book discovery in plum, apricot, and lilac.
 colors:
-  primary: "#cc785c"
-  primary-active: "#a9583e"
-  primary-disabled: "#e6dfd8"
-  ink: "#141413"
-  body: "#3d3d3a"
-  body-strong: "#252523"
-  muted: "#6c6a64"
-  muted-soft: "#8e8b82"
-  hairline: "#e6dfd8"
-  hairline-soft: "#ebe6df"
-  canvas: "#faf9f5"
-  surface-soft: "#f5f0e8"
-  surface-card: "#efe9de"
-  surface-cream-strong: "#e8e0d2"
-  surface-dark: "#181715"
-  surface-dark-elevated: "#252320"
-  surface-dark-soft: "#1f1e1b"
-  on-primary: "#ffffff"
-  on-dark: "#faf9f5"
-  on-dark-soft: "#a09d96"
-  accent-teal: "#5db8a6"
-  accent-amber: "#e8a55a"
-  success: "#5db872"
-  warning: "#d4a017"
-  error: "#c64545"
-
+  background: "#faf7fb"
+  foreground: "#352438"
+  primary: "#74436c"
+  primary-foreground: "#ffffff"
+  primary-active: "#542e4e"
+  secondary: "#eadfed"
+  secondary-foreground: "#54364f"
+  muted: "#e9e0ec"
+  muted-foreground: "#6c5870"
+  accent: "#e4d5e8"
+  border: "#ded0e2"
+  input: "#cbb5d0"
+  ring: "#905783"
+  surface-soft: "#f1eaf3"
+  surface-dark: "#352438"
+  surface-dark-elevated: "#66445f"
+  surface-dark-soft: "#54354f"
+  on-dark: "#faf7fb"
+  on-dark-soft: "#e3d0df"
+  body-text: "#57435a"
+  muted-soft: "#735e76"
+  hairline-soft: "#e8deeb"
+  bookmark: "#f3c3a7"
+  cover-field: "#eee3f2"
+  destructive: "#b0323b"
+  reader-sepia-background: "oklch(0.955 0.024 78)"
+  reader-sepia-surface: "oklch(0.918 0.034 75)"
+  reader-sepia-text: "oklch(0.27 0.021 64)"
+  reader-sepia-muted: "oklch(0.48 0.026 66)"
+  reader-sepia-border: "oklch(0.82 0.034 72)"
+  reader-dark-background: "oklch(0.18 0.008 84)"
+  reader-dark-surface: "oklch(0.235 0.009 84)"
+  reader-dark-text: "oklch(0.9 0.006 88)"
+  reader-dark-muted: "oklch(0.66 0.01 88)"
+  reader-dark-border: "oklch(0.32 0.012 84)"
+  reader-light-highlight: "oklch(0.84 0.1 77 / 0.38)"
+  reader-light-highlight-active: "oklch(0.8 0.12 62 / 0.58)"
+  reader-sepia-highlight: "oklch(0.78 0.1 70 / 0.42)"
+  reader-sepia-highlight-active: "oklch(0.73 0.12 58 / 0.62)"
+  reader-dark-highlight: "oklch(0.64 0.11 70 / 0.38)"
+  reader-dark-highlight-active: "oklch(0.68 0.12 62 / 0.58)"
+  opening-plum: "#482b43"
+  display-lilac: "#bda6c8"
+  display-peach: "#d9b3a6"
+  cover-peach: "#f3e4dc"
+  cover-lavender: "#e7e5ef"
+  invitation-hover: "#ffdbbf"
+  jacket-paper: "#f7f1e8"
+  page-light: "#f4ecdc"
+  page-rule: "#cfc4b5"
 typography:
-  display-xl:
-    fontFamily: "Copernicus, Tiempos Headline, serif"
-    fontSize: 64px
-    fontWeight: 400
-    lineHeight: 1.05
-    letterSpacing: -1.5px
-  display-lg:
-    fontFamily: "Copernicus, Tiempos Headline, serif"
-    fontSize: 48px
-    fontWeight: 400
-    lineHeight: 1.1
-    letterSpacing: -1px
-  display-md:
-    fontFamily: "Copernicus, Tiempos Headline, serif"
-    fontSize: 36px
-    fontWeight: 400
-    lineHeight: 1.15
-    letterSpacing: -0.5px
-  display-sm:
-    fontFamily: "Copernicus, Tiempos Headline, serif"
-    fontSize: 28px
-    fontWeight: 400
-    lineHeight: 1.2
-    letterSpacing: -0.3px
-  title-lg:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 22px
+  display:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "36px"
     fontWeight: 500
-    lineHeight: 1.3
-    letterSpacing: 0
-  title-md:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 18px
+    lineHeight: 1.25
+    letterSpacing: "-0.025em"
+  display-wide:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "48px"
     fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 0
-  title-sm:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 16px
+    lineHeight: 1.25
+    letterSpacing: "-0.025em"
+  title:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
     fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 0
-  body-md:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 16px
+    lineHeight: 1.375
+    letterSpacing: "-0.02em"
+  body:
+    fontFamily: "Satoshi, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
     fontWeight: 400
-    lineHeight: 1.55
-    letterSpacing: 0
-  body-sm:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 14px
+    lineHeight: 1.625
+  description-wide:
+    fontFamily: "Satoshi, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "18px"
     fontWeight: 400
-    lineHeight: 1.55
-    letterSpacing: 0
-  caption:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 13px
+    lineHeight: 1.625
+  label:
+    fontFamily: "Satoshi, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
     fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 0
-  caption-uppercase:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 12px
-    fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 1.5px
-  code:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: 14px
-    fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: 0
   button:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 14px
+    fontFamily: "Satoshi, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "13px"
+    fontWeight: 600
+    lineHeight: "16px"
+    letterSpacing: "0"
+  mono:
+    fontFamily: "JetBrains Mono, ui-monospace, monospace"
+    fontSize: "0.68rem"
+    letterSpacing: "0.05em"
+  serif-accent:
+    fontFamily: "EB Garamond, Georgia, serif"
+  reader:
+    fontFamily: "Satoshi, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "18px"
+    fontWeight: 400
+    lineHeight: 1.85
+  reader-serif:
+    fontFamily: "Sentient, ui-serif, Georgia, serif"
+  reader-soft:
+    fontFamily: "Synonym, ui-sans-serif, system-ui, sans-serif"
+  invitation:
+    fontFamily: "Familjen Grotesk, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "52px"
     fontWeight: 500
-    lineHeight: 1
-    letterSpacing: 0
-  nav-link:
-    fontFamily: "StyreneB, Inter, sans-serif"
-    fontSize: 14px
-    fontWeight: 500
-    lineHeight: 1.4
-    letterSpacing: 0
-
+    lineHeight: 1.05
+    letterSpacing: "-0.03em"
+  invitation-italic:
+    fontFamily: "EB Garamond, Georgia, serif"
+    fontSize: "1.12em"
+    fontWeight: 400
+    letterSpacing: "-0.02em"
 rounded:
-  xs: 4px
-  sm: 6px
-  md: 8px
-  lg: 12px
-  xl: 16px
-  pill: 9999px
-  full: 9999px
-
+  sm: "6px"
+  md: "8px"
+  lg: "12px"
+  xl: "16px"
+  2xl: "18px"
+  pill: "999px"
+  book: "2px 5px 5px 2px"
+  invitation-action: "10px"
+  opening-mobile: "20px"
+  opening: "24px"
 spacing:
-  xxs: 4px
-  xs: 8px
-  sm: 12px
-  md: 16px
-  lg: 24px
-  xl: 32px
-  xxl: 48px
-  section: 96px
-
+  xs: "4px"
+  sm: "8px"
+  md: "12px"
+  lg: "16px"
+  xl: "24px"
+  2xl: "32px"
+  heading: "36px"
+  page-mobile: "40px"
+  page-wide: "56px"
+  home-mobile: "24px"
+  home-wide: "32px"
+  opening-after: "44px"
 components:
   button-primary:
     backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
+    textColor: "{colors.primary-foreground}"
     typography: "{typography.button}"
     rounded: "{rounded.md}"
-    padding: 12px 20px
-    height: 40px
-  button-primary-active:
-    backgroundColor: "{colors.primary-active}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.md}"
-  button-primary-disabled:
-    backgroundColor: "{colors.primary-disabled}"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.md}"
+    padding: "0 24px"
+    height: "40px"
+  button-primary-hover:
+    backgroundColor: "rgb(116 67 108 / 0.8)"
   button-secondary:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
+    backgroundColor: "{colors.secondary}"
+    textColor: "{colors.secondary-foreground}"
     typography: "{typography.button}"
     rounded: "{rounded.md}"
-    padding: 12px 20px
-    height: 40px
-  button-secondary-on-dark:
+    padding: "0 24px"
+    height: "40px"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.foreground}"
+    typography: "{typography.button}"
+    rounded: "{rounded.md}"
+    padding: "0 24px"
+    height: "40px"
+  button-ghost:
+    backgroundColor: "transparent"
+    textColor: "{colors.foreground}"
+    typography: "{typography.button}"
+    rounded: "{rounded.md}"
+    padding: "0 24px"
+    height: "40px"
+  text-input:
+    backgroundColor: "transparent"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.md}"
+    padding: "4px 0"
+    height: "40px"
+  header-search:
     backgroundColor: "{colors.surface-dark-elevated}"
     textColor: "{colors.on-dark}"
-    typography: "{typography.button}"
     rounded: "{rounded.md}"
-    padding: 12px 20px
-  button-text-link:
-    backgroundColor: transparent
-    textColor: "{colors.ink}"
-    typography: "{typography.button}"
-  button-icon-circular:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.full}"
-    size: 36px
-  text-link:
-    backgroundColor: transparent
-    textColor: "{colors.primary}"
-    typography: "{typography.body-md}"
+    padding: "4px 0 4px 36px"
+    height: "40px"
   top-nav:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.nav-link}"
-    height: 64px
-  hero-band:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.display-xl}"
-    padding: 96px
-  hero-illustration-card:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.xl}"
-  feature-card:
-    backgroundColor: "{colors.surface-card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.title-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  product-mockup-card-dark:
-    backgroundColor: "{colors.surface-dark}"
-    textColor: "{colors.on-dark}"
-    typography: "{typography.title-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  code-window-card:
-    backgroundColor: "{colors.surface-dark}"
-    textColor: "{colors.on-dark}"
-    typography: "{typography.code}"
-    rounded: "{rounded.lg}"
-    padding: 24px
-  model-comparison-card:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.title-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  pricing-tier-card:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.title-lg}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  pricing-tier-card-featured:
-    backgroundColor: "{colors.surface-dark}"
-    textColor: "{colors.on-dark}"
-    typography: "{typography.title-lg}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  callout-card-coral:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.title-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  connector-tile:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.title-sm}"
-    rounded: "{rounded.lg}"
-    padding: 20px
-  text-input:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.md}"
-    padding: 10px 14px
-    height: 40px
-  text-input-focused:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.md}"
-  cookie-consent-card:
-    backgroundColor: "{colors.surface-dark}"
-    textColor: "{colors.on-dark}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.lg}"
-    padding: 24px
-  category-tab:
-    backgroundColor: transparent
-    textColor: "{colors.muted}"
-    typography: "{typography.nav-link}"
-    padding: 8px 14px
-    rounded: "{rounded.md}"
-  category-tab-active:
-    backgroundColor: "{colors.surface-card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.nav-link}"
-    rounded: "{rounded.md}"
-  badge-pill:
-    backgroundColor: "{colors.surface-card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.pill}"
-    padding: 4px 12px
-  badge-coral:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.caption-uppercase}"
-    rounded: "{rounded.pill}"
-    padding: 4px 12px
-  cta-band-coral:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.display-sm}"
-    rounded: "{rounded.lg}"
-    padding: 64px
-  cta-band-dark:
-    backgroundColor: "{colors.surface-dark}"
-    textColor: "{colors.on-dark}"
-    typography: "{typography.display-sm}"
-    rounded: "{rounded.lg}"
-    padding: 64px
-  footer:
     backgroundColor: "{colors.surface-dark}"
     textColor: "{colors.on-dark-soft}"
-    typography: "{typography.body-sm}"
-    padding: 64px
+    typography: "{typography.label}"
+    height: "64px"
+  topic-chip:
+    backgroundColor: "{colors.primary-foreground}"
+    textColor: "{colors.secondary-foreground}"
+    rounded: "{rounded.pill}"
+    padding: "6px 14px"
+  catalog-cover:
+    backgroundColor: "{colors.cover-field}"
+    rounded: "{rounded.xl}"
+  book-dialog:
+    backgroundColor: "{colors.background}"
+    rounded: "{rounded.2xl}"
+  feature-action:
+    backgroundColor: "{colors.bookmark}"
+    textColor: "{colors.foreground}"
+    rounded: "{rounded.invitation-action}"
+    padding: "11px 18px"
+  discovery-opening:
+    backgroundColor: "{colors.opening-plum}"
+    textColor: "{colors.background}"
+    rounded: "{rounded.opening}"
+  book-jacket:
+    backgroundColor: "{colors.jacket-paper}"
+    rounded: "{rounded.book}"
 ---
+
+# Design System: Project Sonam
 
 ## Overview
 
-Claude.com is the warmest, most editorial interface in the AI-product category. The base atmosphere is a **tinted cream canvas** (`{colors.canvas}` — #faf9f5) — distinctly warm, deliberately not the cool gray-white that every other AI brand uses. Headlines run a **slab-serif display** ("Copernicus" / Tiempos Headline) at weight 400 with negative letter-spacing, paired with **StyreneB / Inter** body sans. The combination feels like a literary publication, not a SaaS marketing page.
+**Creative North Star: "The Artist’s Book Exhibition"**
 
-Brand voltage comes from the **cream + coral pairing** — coral (`{colors.primary}` — #cc785c) is the signature Anthropic accent, used on every primary CTA, on the brand wordmark, and on full-bleed callout cards. The coral is warm, slightly muted, never cyan/blue — a deliberate counter-positioning against OpenAI's cool slate, Google's saturated blue, and Microsoft's corporate cyan.
+An artist-residency exhibition translated into an approachable reading room. A deep plum shell and invitation, lilac-white ground, and apricot accents frame real books as dimensional objects. Page edges, hinge shading, directional soft shadows, and restrained perspective make discovery tactile without changing familiar catalog controls.
 
-The system has three surface modes that alternate page-by-page:
-1. **Cream canvas** (`{colors.canvas}`) — default body floor
-2. **Light cream cards** (`{colors.surface-card}`) — feature card backgrounds
-3. **Dark navy product surfaces** (`{colors.surface-dark}`) — code editor mockups, model showcase cards, pre-footer CTAs, footer itself
-
-The dark surfaces are where Claude shows its product chrome — code blocks, terminal output, model comparison tables, agentic-flow diagrams. The cream-to-dark contrast is the page's pacing rhythm.
+The home opening presents three linked popular books against layered lilac and peach planes. Catalog cards reuse the same jacket treatment, with visible title and author below. The reader stays quiet and adjustable; the book covers themselves supply the imagery, with no generated artwork or decorative grain.
 
 **Key Characteristics:**
-- Warm cream canvas (`{colors.canvas}` — #faf9f5) with dark warm-ink text (`{colors.ink}` — #141413). The brand's defining color choice.
-- Coral primary CTA (`{colors.primary}` — #cc785c). Used scarcely on individual buttons, generously on full-bleed coral callout cards.
-- Slab-serif display headlines via Copernicus / Tiempos Headline at weight 400 with negative letter-spacing. Pairs with humanist sans body for a literary editorial voice.
-- Dark navy product mockup cards (`{colors.surface-dark}` — #181715) carrying code blocks, terminal panels, model comparison data — the brand shows the product chrome at scale rather than abstract marketing illustrations.
-- Light cream feature cards (`{colors.surface-card}` — #efe9de) — slightly darker than canvas, used for content-driven feature explanations.
-- Anthropic radial-spike mark — a small black asterisk-like glyph (4-spoke radial) — appears as the brand wordmark prefix and as a content marker.
-- Border radius is hierarchical: `{rounded.md}` (8px) for buttons + inputs, `{rounded.lg}` (12px) for content + product cards, `{rounded.xl}` (16px) for the hero illustration container, `{rounded.pill}` for badges.
-- Section rhythm `{spacing.section}` (96px) — modern-SaaS standard. Internal card padding stays generous at `{spacing.xl}` (32px).
+
+- Deep plum orientation and invitation surfaces on a lilac-white ground.
+- Apricot navigation bookmarks, invitation action, selection, and expressive italic line.
+- Real source covers rendered as dimensional jackets with visible paper edges.
+- Familjen Grotesk and Satoshi for clarity; EB Garamond italic for the home invitation.
+- A familiar responsive catalog and locally adjustable reader beneath the expressive opening.
+
+`app/globals.css` owns global tokens and component styling. `components/book-jacket.tsx` owns the shared book object, with image failure state isolated in the client `BookCover` component; `components/reader-shell.tsx` owns local reading preferences. The frontmatter records the shipped values, including the semantic opening and paper tokens.
 
 ## Colors
 
-### Brand & Accent
-- **Coral / Primary** (`{colors.primary}` — #cc785c): The signature Anthropic warm coral. Used on every primary CTA background, on full-bleed coral callout cards, on the brand wordmark accent. The most-recognized Anthropic color outside of the spike-mark logo.
-- **Coral Active** (`{colors.primary-active}` — #a9583e): The press / hover-darker variant.
-- **Coral Disabled** (`{colors.primary-disabled}` — #e6dfd8): A desaturated cream-tinted disabled state.
-- **Accent Teal** (`{colors.accent-teal}` — #5db8a6): Used sparingly on secondary product surfaces (terminal status indicators, "active connection" dots in connectors page).
-- **Accent Amber** (`{colors.accent-amber}` — #e8a55a): A small companion warm-tone used on category badges and inline highlights.
+### Primary
 
-### Surface
-- **Canvas** (`{colors.canvas}` — #faf9f5): The default page floor. Tinted cream — warm, deliberately not pure white.
-- **Surface Soft** (`{colors.surface-soft}` — #f5f0e8): Section dividers, very-soft band backgrounds.
-- **Surface Card** (`{colors.surface-card}` — #efe9de): Feature cards, content cards. One step darker than canvas.
-- **Surface Cream Strong** (`{colors.surface-cream-strong}` — #e8e0d2): A strongest-cream variant used on selected category tabs and emphasized section bands.
-- **Surface Dark** (`{colors.surface-dark}` — #181715): Code editor mockups, model showcase cards, footer. The dominant dark surface.
-- **Surface Dark Elevated** (`{colors.surface-dark-elevated}` — #252320): Elevated cards inside dark bands (settings panels in mockups).
-- **Surface Dark Soft** (`{colors.surface-dark-soft}` — #1f1e1b): Slightly lighter dark, used for code block backgrounds inside larger dark cards.
-- **Hairline** (`{colors.hairline}` — #e6dfd8): The 1px border tone on cream surfaces. Same hex as `{colors.primary-disabled}` — borders feel like one elevation step rather than ink lines.
-- **Hairline Soft** (`{colors.hairline-soft}` — #ebe6df): Barely-visible divider used inside the same band.
+- **Plum Ink** (`foreground`, `surface-dark`): primary text, navigation shell, selected filters, and missing-cover fallback. **Exhibition Plum** (`opening-plum`) deepens the home invitation surface.
+- **Reading Plum** (`primary`): links and ordinary primary actions. Default button hover uses this color at 80% opacity; `primary-active` is a separate existing token.
+- **Soft Apricot** (`bookmark`): current navigation underline, selection, skip link, header focus, home action, and invitation italic. The invitation action has its own lighter hover (`invitation-hover`).
 
-### Text
-- **Ink** (`{colors.ink}` — #141413): All headlines and primary text. Warm dark, slightly off-pure-black.
-- **Body Strong** (`{colors.body-strong}` — #252523): Emphasized paragraphs, lead text.
-- **Body** (`{colors.body}` — #3d3d3a): Default running-text color.
-- **Muted** (`{colors.muted}` — #6c6a64): Sub-headings, breadcrumbs, footer-adjacent secondary text.
-- **Muted Soft** (`{colors.muted-soft}` — #8e8b82): Captions, fine-print, copyright lines.
-- **On Primary** (`{colors.on-primary}` — #ffffff): Text on coral buttons.
-- **On Dark** (`{colors.on-dark}` — #faf9f5): Cream-tinted white used on dark surfaces (echoes the canvas tone).
-- **On Dark Soft** (`{colors.on-dark-soft}` — #a09d96): Footer body text, secondary labels in dark mockups.
+### Secondary
 
-### Semantic
-- **Success** (`{colors.success}` — #5db872): Green status dots, "available" indicators.
-- **Warning** (`{colors.warning}` — #d4a017): Warning callouts (rare on marketing surfaces).
-- **Error** (`{colors.error}` — #c64545): Validation errors.
+- **Lilac and Peach Display Planes** (`display-lilac`, `display-peach`): the layered home book stage. These root tokens describe display surfaces and remain separate from control state colors.
+- **Catalog Fields** (`cover-field`, `cover-peach`, `cover-lavender`): three recurring jacket grounds, selected by book ID modulo three. `secondary` and `accent` support metadata and control states.
+- **Reader Palettes** (`reader-sepia-*`, `reader-dark-*`): local background, surface, text, muted text, borders, and search highlights. Light reading resolves to the global light palette. All reader OKLCH source values remain intact.
+
+### Neutral
+
+- **Lilac-white Canvas** (`background`), soft surface (`surface-soft`), and white: page ground, footer, popovers, and topic controls.
+- **Secondary Plum Text** (`body-text`, `muted-foreground`, `muted-soft`): summaries, authors, and supporting descriptions.
+- **Shell Layers** (`surface-dark-elevated`, `surface-dark-soft`, `on-dark`, `on-dark-soft`): search and secondary text on dark plum.
+- **Lilac Boundaries** (`border`, `input`, `hairline-soft`) and focus (`ring`): quiet rules and interaction feedback.
+- **Jacket Paper** (`jacket-paper`, `page-light`, `page-rule`): book-face base and visible paper-edge stripes. **Error Red** (`destructive`) remains functional.
+
+**The Bookmark Rule.** Use apricot to mark the current navigation destination on desktop and mobile, with the same warm accent supporting the home invitation.
+
+Sidecar tonal ramps are generated preview aids, not new shipping palette steps. Preserve source hex and OKLCH syntax rather than creating a second color authority.
 
 ## Typography
 
-### Font Family
-The system runs **Copernicus** (or **Tiempos Headline** as substitute) as the slab-serif display face for headlines, and **StyreneB** (or **Inter** as substitute) as the humanist sans for body, navigation, and UI labels. **JetBrains Mono** handles code blocks. The fallback stack walks `Tiempos Headline, Garamond, "Times New Roman", serif` for display and `Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif` for body.
+**Headings:** Familjen Grotesk. **Body and controls:** Satoshi. **Compact technical/action-menu labels:** JetBrains Mono. **Expressive home invitation:** EB Garamond italic. **Reader choices:** Satoshi by default, with Sentient serif and Synonym sans-serif available locally.
 
-The display/body split is editorial:
-- Copernicus serif (weight 400, negative tracking) → h1, h2, h3, hero display
-- StyreneB sans (weight 400-500) → body, navigation, buttons, captions, labels
-- JetBrains Mono → all code blocks and terminal text
+Satoshi, Familjen Grotesk, Sentient, and Synonym are served by `public/fonts/fonts.css`; JetBrains Mono and EB Garamond use `next/font`. The global serif token resolves to EB Garamond with Georgia/serif fallbacks.
 
-### Hierarchy
+- **Home invitation:** medium Familjen Grotesk (52px), leading (1.05), tracking (-0.03em); below large it becomes (42px), and below medium (768px) it becomes (36px). The separate italic line is EB Garamond at (1.12em), reduced to (1em) between medium and large, weight (400), tracking (-0.02em), in apricot. Home copy is (15px/1.65), reducing to (14px) on phones.
+- **Shared page headings:** medium (36px/1.25), tracking (-0.025em), increasing to (48px) at small. Home Popular Books is an h2 (30px), increasing to (36px) at small.
+- **Catalog titles:** medium Familjen Grotesk (16px/1.375), global heading tracking (-0.02em), clamped to two lines within a reserved (44px) title area so authors align across each row. Authors are Satoshi (14px/1.625), also clamped to two lines.
+- **Body:** Satoshi (16px/1.625); shared page descriptions grow to (18px) at small and stop at (42rem). Header links are medium (14px). Ordinary button slots are (13px), weight (600), normal case, zero tracking.
+- **Reader:** default Satoshi (18px/1.85), width (38rem); settings allow size (16–24px), leading (1.55–2.15), and width (38–64rem). Reader title is (30px), increasing to (48px) at medium. Title and author precede language/public-domain metadata.
 
-| Token | Size | Weight | Line Height | Letter Spacing | Use |
-|---|---|---|---|---|---|
-| `{typography.display-xl}` | 64px | 400 | 1.05 | -1.5px | Homepage h1 ("Meet your thinking partner") — Copernicus serif |
-| `{typography.display-lg}` | 48px | 400 | 1.1 | -1px | Section heads — Copernicus |
-| `{typography.display-md}` | 36px | 400 | 1.15 | -0.5px | Sub-section heads, model names — Copernicus |
-| `{typography.display-sm}` | 28px | 400 | 1.2 | -0.3px | Pricing tier names, callout headlines — Copernicus |
-| `{typography.title-lg}` | 22px | 500 | 1.3 | 0 | Pricing plan size labels — StyreneB |
-| `{typography.title-md}` | 18px | 500 | 1.4 | 0 | Feature card titles, intro paragraphs |
-| `{typography.title-sm}` | 16px | 500 | 1.4 | 0 | Connector tile titles, list labels |
-| `{typography.body-md}` | 16px | 400 | 1.55 | 0 | Default running-text — StyreneB |
-| `{typography.body-sm}` | 14px | 400 | 1.55 | 0 | Footer body, fine-print |
-| `{typography.caption}` | 13px | 500 | 1.4 | 0 | Badge labels, captions |
-| `{typography.caption-uppercase}` | 12px | 500 | 1.4 | 1.5px | Category tags, "NEW" badges |
-| `{typography.code}` | 14px | 400 | 1.6 | 0 | Code blocks — JetBrains Mono |
-| `{typography.button}` | 14px | 500 | 1.0 | 0 | Standard button labels |
-| `{typography.nav-link}` | 14px | 500 | 1.4 | 0 | Top-nav menu items |
-
-### Principles
-Display sizes use weight 400 (regular), never bold. Negative letter-spacing (-0.3 to -1.5px) is essential — Copernicus without it reads as off-brand. The serif character is what gives Anthropic its literary, considered voice; switching to a sans-serif display would make Claude feel like every other AI tool.
-
-Body type stays at weight 400 for paragraphs, weight 500 for labels and emphasized phrases. The sans body is humanist (StyreneB) — never geometric. Inter is an acceptable substitute because of its similar humanist proportions; Helvetica or Arial would be too neutral and break the warm-editorial feel.
-
-### Note on Font Substitutes
-If Copernicus / Tiempos Headline is unavailable, **Cormorant Garamond** at weight 500 with -0.02em letter-spacing is the closest open-source approximation. **EB Garamond** is a fallback. For StyreneB, **Inter** is the closest match — both are humanist sans designed for screen reading. **Söhne** is another close alternative if licensed.
+**The Quiet Reading Rule.** Keep the exhibition’s expressive staging in discovery; preserve a calm text column and local reading preferences in the reader.
 
 ## Layout
 
-### Spacing System
-- **Base unit:** 4px.
-- **Tokens:** `{spacing.xxs}` 4px · `{spacing.xs}` 8px · `{spacing.sm}` 12px · `{spacing.md}` 16px · `{spacing.lg}` 24px · `{spacing.xl}` 32px · `{spacing.xxl}` 48px · `{spacing.section}` 96px.
-- **Section padding:** `{spacing.section}` (96px) — modern-SaaS rhythm.
-- **Card internal padding:** `{spacing.xl}` (32px) for feature cards, pricing tier cards, model comparison cards; `{spacing.lg}` (24px) for code-window cards and connector tiles.
-- **Callout / CTA bands:** `{spacing.xxl}` (48px) inside coral callout cards; 64px inside the larger dark CTA band.
+The shared shell and catalog are centered at a maximum (80rem), with horizontal padding (16px), (24px) from small, and (32px) from large. Home vertical padding is (24px), increasing to (32px) from small. Shared page headings retain a bottom margin (36px).
 
-### Grid & Container
-- **Max content width:** ~1200px centered.
-- **Editorial body:** Single 12-column grid; hero often uses 6/6 split (h1 left, illustration right).
-- **Feature card grids:** 3-up at desktop, 2-up at tablet, 1-up at mobile.
-- **Connector tile grids:** 4-up or 6-up at desktop, 2-up at tablet, 1-up at mobile.
-- **Pricing grid:** 3-up at desktop (Free / Pro / Team / Enterprise often), 1-up at mobile.
+The home opening splits invitation/display at (0.95fr/1.05fr), has a minimum height (350px), and sits (44px) above the catalog heading. The display uses three actual popular books, asymmetric resting angles and offsets, an arched lilac plane, and a lower peach plane. Below medium (768px) it stacks into one column, uses a compact display with minimum height (235px), and leaves (30px) below. The invitation action remains a familiar Browse link. Home title captions are visible at (12px); full title/author names remain accessible on the linked objects.
 
-### Whitespace Philosophy
-The cream canvas + serif display + generous internal padding create an editorial pacing — Claude reads like a long-form magazine column rather than a marketing template. Whitespace between bands stays uniform at 96px; whitespace inside cards is generous (32px), letting type breathe.
+Catalog columns are **two** below small (640px), **three** from small, **four** from large (1024px), and **five** from extra-large (1280px). Horizontal/vertical gaps are (16px/32px), becoming (24px/40px) from small. Each field is (4:5); its jacket is (63%) wide with a normalized (2:3) aspect ratio. Source art fills the face with `object-fit: cover`. Text begins (16px) below, with (6px) between title and author. Do not confuse the stage aspect ratio with the jacket aspect ratio.
+
+The sticky header is (64px) high. Desktop navigation appears from medium (768px); full search appears from small. Phones use separate (44px) search/menu actions and a bottom navigation drawer. Desktop links are Home, Browse, and Reading Lists; the drawer also includes Search.
+
+Home topics form a wrapping row of controls without a surrounding ruled strip. Browse uses a labeled native topic select on phones and category tabs/topic chips from small. Filter and pagination state stays in URLs.
+
+Book details preserve the cover/action showcase and information regions. Soft book navigation opens the dialog; direct links render a full page. The dialog has maximum width (64rem), maximum height (`100svh - 2rem`), and internal phone scrolling; from medium its height is the smaller of (44rem) and (`100svh - 4rem`). The reader has an adjustable centered column, sticky (56px) toolbar, mobile bottom action strip, and local preferences/progress. Focus mode hides the global header/footer.
 
 ## Elevation & Depth
 
-| Level | Treatment | Use |
-|---|---|---|
-| Flat | No shadow, no border | Body sections, top nav, hero bands |
-| Soft hairline | 1px `{colors.hairline}` border | Inputs, sub-nav, occasionally on cards |
-| Cream card | `{colors.surface-card}` background — no shadow | Feature cards, content cards |
-| Dark surface card | `{colors.surface-dark}` background — no shadow | Code editor mockups, model showcase cards |
-| Subtle drop shadow | Faint shadow at low alpha | Hover-elevated states (the system uses `0 1px 3px rgba(20,20,19,0.08)` rarely) |
+Book depth is a reusable identity device, not a hover-only effect. The shared jacket has a shaded hinge, visible striped paper edge, soft directional shadow, and perspective at rest. Source cover art supplies the face. The home display adds large overlapping tonal planes, while catalog controls retain standard interaction patterns.
 
-The elevation philosophy is **color-block first, shadow rare**. Most depth comes from the cream-vs-dark surface contrast. Shadows are minimal. The dark surface mockups have their own internal product chrome (code editor scrollbars, line numbers, syntax highlighting) which adds detail without needing external shadows.
+**The Real Book Rule.** Build depth around actual catalog covers; keep titles and authors visible outside the object and full names accessible.
 
-### Decorative Depth
-- The Anthropic spike-mark glyph (4-spoke radial asterisk) appears as a small black mark in the brand wordmark and inline as a content marker.
-- Code editor mockups carry their own internal depth: syntax-highlighted text in muted blues / oranges / grays, line numbers in `{colors.muted-soft}`, status bars at the bottom in `{colors.surface-dark-elevated}`.
-- Some hero illustrations use simple line-art with coral and dark-navy strokes on cream — minimal, hand-drawn-feeling, never photorealistic.
+- **Jacket face:** `9px 15px 18px -7px rgb(53 36 56 / 0.3)`; subtle inset edge `inset 0 0 0 1px rgb(0 0 0 / 0.08)`.
+- **Paper edge:** `2px 2px 1px rgb(53 36 56 / 0.18)`; the striped edge is skewed (8deg).
+- **Exhibition plane:** `0 16px 32px -16px rgb(15 5 22 / 0.5)`; **topic controls:** `0 2px 3px rgb(53 36 56 / 0.04)`.
+- **Detail preview:** existing `0 18px 34px rgba(20, 20, 19, 0.12), 0 2px 6px rgba(20, 20, 19, 0.06)` plus its inset highlight, pages, spine, and glare.
+
+Catalog jackets rest at `rotateY(-22deg) rotateZ(-3deg)` and lift to `translateY(-8px) rotateY(-8deg) rotateZ(0deg)` over (320ms) with `cubic-bezier(0.22, 1, 0.36, 1)`. The three opening jackets have their own fixed poses; hover uses the same lift. Reduced motion removes transitions and preserves each resting pose. The original detail preview remains pointer-driven with its existing reduced-motion guard.
 
 ## Shapes
 
-### Border Radius Scale
-
-| Token | Value | Use |
-|---|---|---|
-| `{rounded.xs}` | 4px | Reserved for badge accents and tiny dropdowns |
-| `{rounded.sm}` | 6px | Small inline buttons, dropdown items |
-| `{rounded.md}` | 8px | Standard CTA buttons, text inputs, category tabs |
-| `{rounded.lg}` | 12px | Content cards (feature, pricing, code-window, model-comparison) |
-| `{rounded.xl}` | 16px | Hero illustration container, the larger marquee components |
-| `{rounded.pill}` | 9999px | Badge pills, "NEW" tags |
-| `{rounded.full}` | 9999px / 50% | Avatar substitutes, icon buttons |
-
-### Photography & Illustrations
-Claude's hero rarely uses photography. Instead it uses:
-- Simple line-art illustrations with coral + dark-navy strokes on the cream canvas
-- Code editor mockups (the dominant "hero" treatment on developer-focused pages)
-- Terminal output mockups with monospace text on dark
-- Model comparison cards (Opus / Sonnet / Haiku) with abstract geometric thumbnails
-
-When photography is used (rare — mostly testimonials), avatars crop to perfect circles at 40px diameter.
+Ordinary button/input slots use the base radius (8px). Catalog fields use (16px), while the catalog link focus shape remains (12px). Book faces use asymmetric corners (2px 5px 5px 2px). The home opening is (24px), reducing to (20px) on phones; its action is (10px). The display plane combines a broad arch with small lower corners, and the peach plane has an asymmetric upper-left curve. Topics and sorting use pills; subject metadata uses small wrapping rectangles. The book dialog uses the source-derived (18px) radius.
 
 ## Components
 
-### Top Navigation
-
-**`top-nav`** — Cream nav bar pinned to the top of every page. 64px tall, `{colors.canvas}` background. Carries the Anthropic spike-mark + "Claude" wordmark at left, primary horizontal menu (Product, Solutions, Use Cases, Pricing, Research, Company) center-left, right-side cluster with "Sign in" text-link, "Try Claude" `{component.button-primary}` (coral). Menu items in `{typography.nav-link}` (StyreneB 14px / 500).
-
 ### Buttons
 
-**`button-primary`** — The signature coral CTA. Background `{colors.primary}` (#cc785c), text `{colors.on-primary}` (white), type `{typography.button}` (StyreneB 14px / 500), padding 12px × 20px, height 40px, rounded `{rounded.md}` (8px). Active state `button-primary-active` darkens to `{colors.primary-active}` (#a9583e).
+Default, outline, secondary, ghost, destructive, and link variants remain the established primitives. Ordinary slots use global rounded, (13px), normal-case styling rather than the primitive’s original square/uppercase/tracked values. Default height/padding is (40px)/(0 24px), with (28/36/44px) size variants. Primary uses plum and white; outline/ghost gain a muted hover fill; disabled is noninteractive at 50% opacity. Focus retains the existing ring and global outline.
 
-**`button-secondary`** — Cream button with hairline outline. Background `{colors.canvas}`, text `{colors.ink}`, 1px hairline border, same padding + height + radius as primary.
+The home Browse action is a separate apricot-filled link with (11px 18px) padding, minimum height (44px), medium emphasis (14px/600), and a lighter apricot hover. The main navigation drawer uses a scoped override: rounded, normal-case links with a (44px) minimum target. Other drawer wrappers may replace the final data slot and need their own scoped treatment.
 
-**`button-secondary-on-dark`** — Used over `{colors.surface-dark}` cards. Background `{colors.surface-dark-elevated}` (#252320), text `{colors.on-dark}`. Stays dark — the system never inverts to a light secondary on dark surfaces.
+### Chips
 
-**`button-text-link`** — Inline text button, no background. Used for "Sign in" in the top nav and inline CTA links.
+Discovery topic links use white, a fine lilac border, a soft shadow, secondary plum text (13px/500), padding (6px 14px), and minimum height (36px). Hover changes the fill to `secondary`. Browse topic filters are separate bordered (14px) pills with ink-filled selected states. Metadata subjects wrap within rounded rectangles.
 
-**`button-icon-circular`** — 36px circular icon button. Background `{colors.canvas}`, hairline border, ink-color icon. Used for carousel arrows, share, "view more".
+### Cards / Containers
 
-**`text-link`** — Inline body links in `{colors.primary}` (the coral). Underlined on press; the coral inline link is one of the system's most distinctive small details.
+`BookJacket` is the server-rendered shared book object used by both the opening and catalog. Its client `BookCover` renders actual source images, with a titled plum fallback for missing or failed URLs. The fallback uses (12px) padding, (14px) text, and a three-line title clamp. Catalog stages cycle three tones by book ID; title and author sit outside the stage. The entire item is an accessible link, and full names remain available when visible text clamps. The dark Open book pill fades in on hover-capable pointers and keyboard focus without moving layout. Home loading uses skeletons; a resolved empty page shows a short recovery message directing readers to Browse topics.
 
-### Cards & Containers
+### Inputs / Fields
 
-**`hero-band`** — Cream-canvas hero with a 6-6 grid: h1 + sub-headline + button row on the left, hero illustration card or product mockup card on the right. Vertical padding `{spacing.section}` (96px).
+Standard inputs are transparent (40px) fields with a bottom boundary, (4px 0) padding, and the base radius. Text is (16px) on phones and (14px) from medium. Focus changes the boundary; invalid/disabled states retain destructive and opacity treatments. Header search uses elevated plum, pale text, no visible border/shadow, a leading icon, and apricot focus.
 
-**`hero-illustration-card`** — A larger card holding the hero's right-side artifact — sometimes a coral-stroke line illustration on cream background, sometimes a dark code editor mockup. Background `{colors.canvas}` or `{colors.surface-dark}` depending on context, rounded `{rounded.xl}` (16px).
+### Navigation
 
-**`feature-card`** — Used in 3-up feature grids. Background `{colors.surface-card}` (#efe9de — slightly darker cream), rounded `{rounded.lg}` (12px), internal padding `{spacing.xl}` (32px). Carries a small icon at top, an `{typography.title-md}` headline, and a body description in `{typography.body-md}`.
+Header links are medium (14px) Satoshi. Hover/current states brighten; `aria-current="page"` supplies the state. The apricot desktop marker is (4px) high, inset (14px) from each side; mobile uses a (32px × 4px) underline inset (16px) from the left. Header keyboard focus uses an inset apricot outline; featured books use a dark outline against the light display plane. The main navigation drawer has (20px) upper corners, a normal-case (20px) title, and safe-area-aware bottom padding. Preserve skip-to-content and visible keyboard focus.
 
-**`product-mockup-card-dark`** — Dark navy card showing actual Claude product chrome (chat interface, code editor, agent controls). Background `{colors.surface-dark}`, rounded `{rounded.lg}`, internal padding `{spacing.xl}` (32px). Carries text labels in `{colors.on-dark}` and product UI fragments below.
+### Book Details and Reader
 
-**`code-window-card`** — A specialized dark card showing a code editor with line numbers, syntax-highlighted code in `{typography.code}` (JetBrains Mono), and sometimes a "Run" button or terminal output panel below. Background `{colors.surface-dark}` with `{colors.surface-dark-soft}` for the inner code block, rounded `{rounded.lg}`, padding `{spacing.lg}` (24px). The signature visual element of Claude Code product pages.
-
-**`model-comparison-card`** — Used on the homepage's "Which problem are you up against?" section comparing Opus / Sonnet / Haiku. Background `{colors.canvas}` with hairline border, rounded `{rounded.lg}`, internal padding `{spacing.xl}` (32px). Carries the model name, a short capability blurb, and a `{component.text-link}` to learn more.
-
-**`pricing-tier-card`** — Standard tier card. Background `{colors.canvas}` with hairline border, rounded `{rounded.lg}`, padding `{spacing.xl}` (32px). Carries the plan name in `{typography.title-lg}` (StyreneB), price in `{typography.display-sm}` (Copernicus serif!), feature checklist in `{typography.body-md}`, and a `{component.button-primary}` at the bottom.
-
-**`pricing-tier-card-featured`** — The featured tier (typically "Pro" or "Team"). Background flips to `{colors.surface-dark}`, text inverts to `{colors.on-dark}`. The dark surface IS the featured-tier signal.
-
-**`callout-card-coral`** — A full-bleed coral card carrying a major call-to-action. Background `{colors.primary}` (#cc785c), text `{colors.on-primary}` (white), rounded `{rounded.lg}`, padding `{spacing.xxl}` (48px). The coral surface IS the voltage; the CTA inside uses an inverted button style (cream/canvas button on coral).
-
-**`connector-tile`** — Used on the connectors page's integration grid. Background `{colors.canvas}` with hairline border, rounded `{rounded.lg}`, padding 20px. Each tile carries a logo at top, a `{typography.title-sm}` connector name, and a short description.
-
-### Inputs & Forms
-
-**`text-input`** — Standard text input. Background `{colors.canvas}`, text `{colors.ink}`, type `{typography.body-md}`, rounded `{rounded.md}` (8px), padding 10px × 14px, height 40px. 1px hairline border in `{colors.hairline}`.
-
-**`text-input-focused`** — Focus state. Border thickens or shifts to `{colors.primary}` (coral) for emphasis. Carries a 3px coral-at-15%-alpha outer ring.
-
-**`cookie-consent-card`** — Bottom-right floating dark cookie banner. Background `{colors.surface-dark}`, text `{colors.on-dark}`, rounded `{rounded.lg}`, padding `{spacing.lg}` (24px). One of the few places dark surface appears at small scale on cream pages.
-
-### Tags / Badges
-
-**`badge-pill`** — Small pill label used for category tags. Background `{colors.surface-card}`, text `{colors.ink}`, type `{typography.caption}` (13px / 500), rounded `{rounded.pill}`, padding 4px × 12px.
-
-**`badge-coral`** — Coral-fill badge for "NEW", "BETA", featured highlights. Background `{colors.primary}`, text `{colors.on-primary}`, type `{typography.caption-uppercase}` (12px / 500 / 1.5px tracking), rounded `{rounded.pill}`, padding 4px × 12px.
-
-### Tab / Filter
-
-**`category-tab`** + **`category-tab-active`** — Used in sub-nav rows on solutions / connectors pages. Inactive: transparent background, `{colors.muted}` text. Active: `{colors.surface-card}` background, `{colors.ink}` text. Padding 8px × 14px, rounded `{rounded.md}`.
-
-### CTA / Footer
-
-**`cta-band-coral`** — A pre-footer "Try Claude" CTA card. Full-width coral fill, white type, rounded `{rounded.lg}`, padding 64px. Carries an h2 in `{typography.display-sm}` (still serif!), a sub-line, and a cream-button CTA.
-
-**`cta-band-dark`** — Alternative pre-footer band on developer-focused pages. Background `{colors.surface-dark}`, text `{colors.on-dark}`, rounded `{rounded.lg}`, padding 64px. Often pairs with a code-window card.
-
-**`footer`** — Dark navy footer that closes every page. Background `{colors.surface-dark}` (#181715), text `{colors.on-dark-soft}`. 4-column link list at desktop covering Product / Company / Resources / Legal. Vertical padding 64px. The Anthropic spike-mark + "Anthropic" wordmark sits at the top in `{colors.on-dark}`. The footer never inverts.
+Details keep Read online near the download count and preserve the original interactive 3D preview, readable summaries, wrapping metadata, and download actions. Reading settings remain local: Satoshi/Sentient/Synonym, size, line height, width, and light/sepia/dark palettes. The global site remains light; no global theme shortcut is part of this shell. The Librarian remains a bounded reading companion.
 
 ## Do's and Don'ts
 
-### Do
-- Anchor every page on the cream canvas. Pure white reads as "any other AI tool"; the warm tint is the brand differentiator.
-- Use Copernicus serif for every display headline. Pair with StyreneB sans body. Negative letter-spacing on display sizes is non-negotiable.
-- Reserve `{colors.primary}` (coral) for primary CTAs and full-bleed `{component.callout-card-coral}` moments. Don't paint accent moments coral elsewhere.
-- Use `{component.product-mockup-card-dark}` and `{component.code-window-card}` to show actual Claude product chrome. Don't paint marketing illustrations of code when you can show real code.
-- Pair `{component.feature-card}` (cream) with `{component.product-mockup-card-dark}` (navy) in alternating bands. The cream-to-dark rhythm is the brand's pacing mechanism.
-- Use the Anthropic spike-mark glyph as the brand wordmark prefix. Never invert the mark to white-on-dark within the wordmark itself.
-- Apply `{spacing.section}` (96px) between major bands.
+### Do:
 
-### Don't
-- Don't use cool grays or pure white for canvas. Cream is the brand.
-- Don't bold serif display weight. Copernicus at 700 reads as bombastic; the system stays at 400.
-- Don't use cool blue or saturated cyan as a brand accent. The coral is the brand voltage.
-- Don't put coral everywhere. The coral is scarce on individual elements and generous only on full-bleed coral callout cards.
-- Don't use Inter for display headlines. The serif character is the brand voice.
-- Don't repeat the same surface mode in two consecutive bands. The pacing alternates: cream → cream-card → dark-mockup → cream → coral-callout → dark-footer.
-- Don't add hover state styling beyond what the system already encodes — primary darkens on press; nothing else changes.
+- **Do** use the current global custom properties, with reader palette overrides scoped to the reader.
+- **Do** reuse BookJacket for discovery and catalog depth, with actual source covers and visible metadata.
+- **Do** preserve two/three/four/five catalog columns and the mobile three-book opening.
+- **Do** retain apricot current-location markers, keyboard focus, and reduced-motion behavior.
+- **Do** keep the existing Project Sonam logo, source attribution, and honest book metadata.
 
-## Responsive Behavior
+### Don't:
 
-### Breakpoints
+- **Don't** replace real cover art with generated promotional imagery or decorative grain.
+- **Don't** normalize the catalog back to uniform flat blue fields or remove its jacket depth.
+- **Don't** hide catalog titles and authors behind hover or make the book link depend on motion.
+- **Don't** apply the expressive home invitation typography to every heading or reader paragraph.
+- **Don't** turn local reader themes into a global theme switch or assume every drawer wrapper receives the ordinary button-slot override.
 
-| Name | Width | Key Changes |
-|---|---|---|
-| Mobile | < 768px | Hamburger nav; hero h1 64→32px; hero-illustration-card stacks below content; feature grids 1-up; connector tiles 2-up; pricing 1-up; footer 4 cols → 1 |
-| Tablet | 768–1024px | Top nav stays horizontal but tightens; feature cards 2-up; connector tiles 3-up; pricing 2-up |
-| Desktop | 1024–1440px | Full top-nav with all menu items; 3-up feature cards; 4-up or 6-up connector tiles; 3-up pricing tiers |
-| Wide | > 1440px | Same as desktop with more outer breathing room; max content width caps at 1200px |
-
-### Touch Targets
-- `{component.button-primary}` at minimum 40 × 40px.
-- `{component.button-icon-circular}` at exactly 36 × 36 — slightly under WCAG 44 but visually centered.
-- `{component.text-input}` height is 40px.
-- Connector tile entire card area is tappable; effective tap area >> 44px.
-
-### Collapsing Strategy
-- Top nav collapses to hamburger at < 768px; menu opens as a full-screen cream sheet.
-- Hero band's 6-6 grid collapses to single-column on mobile — h1 + sub-head + buttons first, then the illustration / mockup card below.
-- Feature grids reduce columns rather than scaling cards down.
-- Pricing tier cards collapse 4 → 2 → 1; featured-tier dark surface stays visually distinct at every breakpoint.
-- Code-window cards retain code legibility at every breakpoint by allowing horizontal scroll within the card rather than wrapping code lines.
-
-### Image Behavior
-- Code blocks inside dark mockups stay at fixed font-size; horizontal scroll on mobile rather than wrapping.
-- Hero illustrations scale proportionally; line-art strokes thin slightly on mobile.
-- Avatar photos in testimonials crop to circles at every breakpoint.
-
-## Iteration Guide
-
-1. Focus on ONE component at a time. Reference its YAML key (`{component.feature-card}`, `{component.code-window-card}`).
-2. Variants of an existing component (`-active`, `-disabled`, `-focused`) live as separate entries in `components:`.
-3. Use `{token.refs}` everywhere — never inline hex.
-4. Never document hover. Default and Active/Pressed states only.
-5. Display headlines stay Copernicus serif 400 with negative tracking. Body stays StyreneB / Inter 400. The split is unbreakable.
-6. Cream + coral + dark navy is the trinity. Don't introduce a fourth surface tone (no purple cards, no green sections).
-7. When in doubt about emphasis: bigger Copernicus serif before bolder weight.
-
-## Known Gaps
-
-- Copernicus and StyreneB are licensed Anthropic typefaces and not available as public web fonts. Substitutes (Tiempos Headline / Cormorant Garamond / EB Garamond for serif; Inter / Söhne for sans) are documented in the typography section.
-- The Anthropic radial-spike-mark is a brand glyph rendered as inline SVG; it's not formalized as a system token here. Treat it as a logo asset.
-- Animation and transition timings (chat message reveal, code block typewriter effect on the homepage, agentic-flow diagram animations) are not in scope.
-- Form validation states beyond `{component.text-input-focused}` are not extracted — error / success states would need a sign-up or feedback flow to confirm.
-- The actual Claude product surface (claude.ai chat interface) shares some tokens with the marketing site but adds many product-specific components (chat bubbles, message tools, file upload chips, conversation history sidebar) that are out of scope for this marketing-surface document.
-- The "agent" / "computer use" demo cards on certain pages display animated Claude controlling a browser — the static screenshot doesn't fully capture the animation chrome.
+The main navigation drawer has explicit scoped styling. Other drawer wrappers retain their own component conventions.

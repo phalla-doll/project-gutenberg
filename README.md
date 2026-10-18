@@ -228,7 +228,7 @@ interface PaginatedResponse<T> {
 
 ## Key Features
 
-- **Responsive design** — 2-column mobile to 6-column desktop grid
+- **Responsive design** — 2-column mobile to 5-column desktop grid
 - **Infinite feeds** — popular and topic pages load more books as the user scrolls
 - **In-app reader** — plain text editions are parsed into readable sections with a minimap table of contents
 - **Book-scoped AI assistant** — ask about a book from the detail page or highlight reader text for passage-specific questions
