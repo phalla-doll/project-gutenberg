@@ -3,14 +3,7 @@
 import React from "react"
 import clsx from "clsx"
 import Image from "next/image"
-import Link from "next/link"
 import { useResponsive } from "@/components/ui/use-responsive"
-import {
-    type Book as GutendexBook,
-    formatAuthorName,
-    getCoverUrl,
-} from "@/lib/gutendex"
-
 const DefaultIllustration = (
     <svg
         fill="none"
@@ -60,30 +53,6 @@ interface BookProps {
     priority?: boolean
     solid?: boolean
 }
-
-interface BookCardProps {
-    book: GutendexBook
-    priority?: boolean
-}
-
-const coverThemes = [
-    {
-        cover: "oklch(0.658 0.113 39.1)",
-        text: "oklch(0.191 0.002 106.6)",
-    },
-    {
-        cover: "oklch(0.552 0.113 38.5)",
-        text: "oklch(0.191 0.002 106.6)",
-    },
-    {
-        cover: "oklch(0.257 0.006 78.2)",
-        text: "oklch(0.982 0.005 95.1)",
-    },
-    {
-        cover: "oklch(0.708 0.134 149.4)",
-        text: "oklch(0.191 0.002 106.6)",
-    },
-]
 
 export const Book = ({
     title,
@@ -248,42 +217,5 @@ export const Book = ({
                 </div>
             </div>
         </div>
-    )
-}
-
-export function BookCard({ book, priority = false }: BookCardProps) {
-    const coverUrl = getCoverUrl(book)
-    const theme = coverThemes[book.id % coverThemes.length]
-    const author = book.authors[0]
-    const authorName = author ? formatAuthorName(author) : "Unknown Author"
-
-    return (
-        <Link
-            href={`/book/${book.id}`}
-            aria-label={`${book.title} by ${authorName}`}
-            title={book.title}
-            className="shelf-cell group block outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-            <div className="flex h-(--shelf-bay) items-end justify-center">
-                <Book
-                    title={book.title}
-                    width={150}
-                    color={theme.cover}
-                    textColor={theme.text}
-                    coverUrl={coverUrl}
-                    coverAlt=""
-                    textured
-                    priority={priority}
-                />
-            </div>
-            <div className="shelf-label">
-                <span className="font-mono text-[0.6rem] tracking-[0.14em] text-shelf-call">
-                    PG {String(book.id).padStart(4, "0")}
-                </span>
-                <span className="mt-0.5 truncate text-xs font-semibold text-shelf-ink decoration-shelf-call/50 underline-offset-2 group-hover:underline">
-                    {book.title}
-                </span>
-            </div>
-        </Link>
     )
 }
