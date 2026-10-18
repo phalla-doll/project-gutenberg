@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-    themeColor: "#faf9f5",
+    themeColor: "#352438",
 }
 
 const jetbrainsMono = JetBrains_Mono({
@@ -68,6 +68,7 @@ export default function RootLayout({
     return (
         <html
             lang="en"
+            data-scroll-behavior="smooth"
             className={`${jetbrainsMono.variable} ${ebGaramond.variable} font-sans antialiased`}
         >
             <head>
@@ -86,16 +87,16 @@ export default function RootLayout({
                 <main id="main-content" className="flex-1">
                     {children}
                 </main>
-                <footer className="bg-surface-dark py-16 text-on-dark-soft">
+                <footer className="border-t border-border bg-surface-soft py-10 text-muted-foreground">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="flex flex-col items-center gap-4 text-center">
+                        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex items-center gap-2">
-                                <Logo className="size-6 text-on-dark" />
-                                <span className="font-heading text-lg text-on-dark">
+                                <Logo className="size-6 text-primary" />
+                                <span className="font-heading text-lg text-foreground">
                                     Project Sonam
                                 </span>
                             </div>
-                            <p className="text-sm">
+                            <p className="text-sm leading-relaxed">
                                 Built with data from{" "}
                                 <a
                                     href="https://gutendex.com"
@@ -109,7 +110,7 @@ export default function RootLayout({
                             </p>
                             <Link
                                 href="/about/disclaimer"
-                                className="text-sm text-on-dark underline underline-offset-4 transition-colors hover:text-primary"
+                                className="shrink-0 text-sm text-primary underline underline-offset-4"
                             >
                                 About & Disclaimer
                             </Link>

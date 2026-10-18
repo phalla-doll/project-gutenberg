@@ -45,53 +45,58 @@ export function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
-            <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+        <header className="site-header sticky top-0 z-50">
+            <a href="#main-content" className="skip-link">
+                Skip to content
+            </a>
+            <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-4 sm:px-6 lg:px-8">
                 <Link
                     href="/"
-                    className="flex items-center gap-2 font-heading text-lg"
+                    className="flex shrink-0 items-center gap-2.5 font-heading text-lg font-medium"
                 >
-                    <Logo className="size-6 text-primary" />
+                    <Logo className="size-7 text-on-dark" />
                     <span>Project Sonam</span>
                 </Link>
 
                 <nav
-                    className="hidden items-center gap-1 md:flex"
+                    className="ml-4 hidden items-center md:flex"
                     aria-label="Main navigation"
                 >
-                    {desktopNavLinks.map(({ href, label, icon: Icon }) => (
-                        <Link key={href} href={href}>
-                            <Button
-                                variant={
-                                    pathname === href ? "secondary" : "ghost"
-                                }
-                                size="sm"
-                                className="gap-1.5"
-                            >
-                                <Icon className="size-4" aria-hidden="true" />
-                                {label}
-                            </Button>
+                    {desktopNavLinks.map(({ href, label }) => (
+                        <Link
+                            key={href}
+                            href={href}
+                            className="header-nav-link"
+                            aria-current={
+                                pathname === href ||
+                                (href !== "/" &&
+                                    pathname.startsWith(`${href}/`))
+                                    ? "page"
+                                    : undefined
+                            }
+                        >
+                            {label}
                         </Link>
                     ))}
                 </nav>
 
                 <form
                     onSubmit={handleSearch}
-                    className="ml-auto hidden max-w-sm flex-1 items-center sm:flex"
+                    className="ml-auto hidden max-w-64 flex-1 items-center sm:flex"
                     role="search"
                 >
                     <div className="relative w-full">
                         <Search01Icon
-                            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+                            className="pointer-events-none absolute top-1/2 left-3 z-10 size-4 -translate-y-1/2 text-on-dark-soft"
                             aria-hidden="true"
                         />
                         <Input
                             type="search"
                             name="q"
-                            placeholder="Search books..."
+                            placeholder="Search books or authors"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9"
+                            className="header-search pl-9"
                             aria-label="Search books"
                             autoComplete="off"
                         />
@@ -101,7 +106,7 @@ export function Header() {
                 <Button
                     asChild
                     variant="ghost"
-                    size="icon"
+                    size="icon-lg"
                     className="ml-auto sm:hidden"
                     aria-label="Search books"
                 >
@@ -114,14 +119,14 @@ export function Header() {
                     <DrawerTrigger asChild>
                         <Button
                             variant="ghost"
-                            size="icon"
+                            size="icon-lg"
                             className="md:hidden"
                             aria-label="Open navigation menu"
                         >
                             <Menu01Icon className="size-5" aria-hidden="true" />
                         </Button>
                     </DrawerTrigger>
-                    <DrawerContent>
+                    <DrawerContent className="site-nav-drawer">
                         <DrawerHeader>
                             <DrawerTitle>Navigation</DrawerTitle>
                         </DrawerHeader>
@@ -134,13 +139,27 @@ export function Header() {
                                     <Button
                                         asChild
                                         variant={
-                                            pathname === href
+                                            pathname === href ||
+                                            (href !== "/" &&
+                                                pathname.startsWith(`${href}/`))
                                                 ? "secondary"
                                                 : "ghost"
                                         }
                                         className="w-full justify-start gap-2"
                                     >
-                                        <Link href={href}>
+                                        <Link
+                                            href={href}
+                                            className="mobile-nav-link"
+                                            aria-current={
+                                                pathname === href ||
+                                                (href !== "/" &&
+                                                    pathname.startsWith(
+                                                        `${href}/`
+                                                    ))
+                                                    ? "page"
+                                                    : undefined
+                                            }
+                                        >
                                             <Icon
                                                 className="size-4"
                                                 aria-hidden="true"
