@@ -85,14 +85,14 @@ export function BookDetail({ book, variant = "page" }: BookDetailProps) {
     const showcase = (
         <div
             className={cn(
-                "flex flex-col items-center",
-                isDialog && "md:h-full md:justify-center md:pb-6"
+                "flex flex-col items-center rounded-xl bg-secondary px-4 py-8",
+                isDialog && "rounded-none md:h-full md:justify-center md:py-12"
             )}
         >
             <Book3DPreview
                 title={book.title}
                 coverUrl={coverUrl}
-                width={isDialog ? 220 : 240}
+                width={isDialog ? { sm: 170, md: 220 } : { sm: 200, md: 240 }}
             />
             <div className="flex w-full max-w-[280px] flex-col items-center gap-3">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -105,37 +105,43 @@ export function BookDetail({ book, variant = "page" }: BookDetailProps) {
         </div>
     )
 
-    const details = (
-        <div className="flex min-w-0 flex-col gap-6">
-            <div>
-                {heading}
-                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground">
-                    <p className="text-lg">{authorName}</p>
-                    {mainAuthor &&
-                        (mainAuthor.birth_year || mainAuthor.death_year) && (
-                            <>
-                                <span
-                                    className="size-1 rounded-full bg-muted-foreground/50"
-                                    aria-hidden="true"
-                                />
-                                <span className="text-sm">
-                                    {mainAuthor.birth_year || "?"} &ndash;{" "}
-                                    {mainAuthor.death_year || "?"}
-                                </span>
-                            </>
-                        )}
-                    {book.languages.length > 0 && (
+    const introduction = (
+        <div>
+            {heading}
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground">
+                <p className="text-lg">{authorName}</p>
+                {mainAuthor &&
+                    (mainAuthor.birth_year || mainAuthor.death_year) && (
                         <>
                             <span
                                 className="size-1 rounded-full bg-muted-foreground/50"
                                 aria-hidden="true"
                             />
                             <span className="text-sm">
-                                {book.languages.map(getLanguageName).join(", ")}
+                                {mainAuthor.birth_year || "?"} &ndash;{" "}
+                                {mainAuthor.death_year || "?"}
                             </span>
                         </>
                     )}
-                </div>
+                {book.languages.length > 0 && (
+                    <>
+                        <span
+                            className="size-1 rounded-full bg-muted-foreground/50"
+                            aria-hidden="true"
+                        />
+                        <span className="text-sm">
+                            {book.languages.map(getLanguageName).join(", ")}
+                        </span>
+                    </>
+                )}
+            </div>
+        </div>
+    )
+
+    const details = (
+        <div className="flex min-w-0 flex-col gap-6">
+            <div className={cn(isDialog && "hidden md:block")}>
+                {introduction}
             </div>
 
             {book.summaries.length > 0 && (
@@ -145,7 +151,7 @@ export function BookDetail({ book, variant = "page" }: BookDetailProps) {
                     {book.summaries.map((summary, i) => (
                         <p
                             key={i}
-                            className="text-sm leading-relaxed text-body-text"
+                            className="text-base leading-relaxed text-body-text"
                         >
                             {summary}
                         </p>
@@ -221,9 +227,14 @@ export function BookDetail({ book, variant = "page" }: BookDetailProps) {
 
     if (isDialog) {
         return (
-            <div className="md:grid md:h-full md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-                <div className="pt-10 md:pt-0">{showcase}</div>
-                <div className="flex min-w-0 flex-col gap-8 px-6 pt-4 pb-6 md:overflow-y-auto md:py-12 md:pr-12 md:pl-4">
+            <div className="md:grid md:h-full md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+                <div>
+                    <div className="px-6 pt-12 pb-5 md:hidden">
+                        {introduction}
+                    </div>
+                    {showcase}
+                </div>
+                <div className="flex min-w-0 flex-col gap-8 px-6 py-8 md:overflow-y-auto md:p-10">
                     {details}
                 </div>
             </div>

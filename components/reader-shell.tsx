@@ -626,6 +626,14 @@ export function ReaderShell({
                 )}
 
                 <header className="mx-auto flex w-full max-w-[var(--reader-width)] flex-col gap-5 border-b border-[var(--reader-border)] pb-7">
+                    <div>
+                        <h1 className="font-heading text-3xl tracking-tight text-balance break-words text-[var(--reader-text)] md:text-5xl">
+                            {title}
+                        </h1>
+                        <p className="mt-2 text-lg text-[var(--reader-muted)]">
+                            {authorName}
+                        </p>
+                    </div>
                     <div className="flex flex-wrap gap-2">
                         {languages.map((lang) => (
                             <Badge key={lang} variant="secondary">
@@ -635,14 +643,6 @@ export function ReaderShell({
                         {isPublicDomain && (
                             <Badge variant="outline">Public Domain</Badge>
                         )}
-                    </div>
-                    <div>
-                        <h1 className="font-heading text-3xl tracking-tight text-balance break-words text-[var(--reader-text)] md:text-5xl">
-                            {title}
-                        </h1>
-                        <p className="mt-2 text-lg text-[var(--reader-muted)]">
-                            {authorName}
-                        </p>
                     </div>
                 </header>
 

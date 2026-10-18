@@ -8,7 +8,7 @@ const REST = { rx: -5, ry: -30, gx: 70 }
 interface Book3DPreviewProps {
     title: string
     coverUrl: string | null
-    width?: number
+    width?: number | { sm: number; md?: number }
 }
 
 export function Book3DPreview({
@@ -65,7 +65,6 @@ export function Book3DPreview({
                 width={width}
                 coverUrl={coverUrl}
                 coverAlt={title}
-                textured
                 solid
                 priority
             />
