@@ -94,6 +94,10 @@ export function BrowseFilters({
     function handleTopicChange(slug: string) {
         if (slug === selectedSlug) return
         setSelectedSlug(slug)
+        const group = topicGroups.find((group) =>
+            group.topics.some((topic) => topic.slug === slug)
+        )
+        if (group) setActiveGroupHeading(group.heading)
         startTransition(() => pushUrl(slug, sort))
         window.scrollTo({ top: 0, behavior: "smooth" })
     }
@@ -116,9 +120,30 @@ export function BrowseFilters({
 
     return (
         <>
+            <div className="flex flex-col gap-2 sm:hidden">
+                <label htmlFor="browse-topic" className="text-sm font-medium">
+                    Topic
+                </label>
+                <select
+                    id="browse-topic"
+                    value={selectedSlug}
+                    onChange={(event) => handleTopicChange(event.target.value)}
+                    className="h-11 w-full rounded-lg border border-input bg-background px-3 text-base text-foreground"
+                >
+                    {topicGroups.map((group) => (
+                        <optgroup key={group.heading} label={group.heading}>
+                            {group.topics.map((topic) => (
+                                <option key={topic.slug} value={topic.slug}>
+                                    {topic.label}
+                                </option>
+                            ))}
+                        </optgroup>
+                    ))}
+                </select>
+            </div>
             <section
                 aria-label="Browse filters"
-                className="overflow-x-hidden rounded-2xl border border-border/70 bg-card/40"
+                className="hidden overflow-x-hidden rounded-2xl border border-border/70 bg-card/40 sm:block"
             >
                 <div className="relative border-b border-border/60">
                     <div
@@ -192,12 +217,9 @@ export function BrowseFilters({
 
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-border/60 pb-4">
                 <div className="flex flex-col gap-1">
-                    <span className="text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase">
-                        {activeGroup.heading}
-                    </span>
-                    <p className="font-heading text-2xl text-foreground">
+                    <h2 className="font-heading text-2xl text-foreground">
                         {topicBySlug.get(selectedSlug)?.label}
-                    </p>
+                    </h2>
                 </div>
                 <div
                     className="flex items-center gap-3"

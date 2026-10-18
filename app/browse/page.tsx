@@ -441,8 +441,6 @@ export default async function BrowsePage({
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <PageHeading
-                mark="02"
-                markLabel="Subjects"
                 title="Browse by Topic"
                 description="Explore free ebooks organized by subject and category"
             />

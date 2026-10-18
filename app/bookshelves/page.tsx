@@ -49,8 +49,6 @@ export default function BookshelvesPage() {
     return (
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <PageHeading
-                mark="03"
-                markLabel="Collections"
                 title="Reading Lists"
                 description="Hand-picked by Project Gutenberg volunteers"
             />
@@ -144,12 +142,8 @@ async function BookshelvesContent() {
                                     <Link
                                         key={shelf.slug}
                                         href={`/bookshelves/${shelf.slug}`}
-                                        className="group relative flex h-full flex-col justify-between gap-4 overflow-hidden rounded-xl border border-border/70 bg-card/40 px-5 py-4 transition-all hover:-translate-y-0.5 hover:border-foreground/40 hover:bg-card hover:shadow-sm"
+                                        className="group flex h-full flex-col justify-between gap-4 rounded-xl bg-secondary/60 px-5 py-5 transition-colors hover:bg-secondary"
                                     >
-                                        <span
-                                            aria-hidden="true"
-                                            className="absolute inset-y-3 left-0 w-0.75 rounded-r-full bg-primary/20 transition-all group-hover:inset-y-2 group-hover:bg-primary"
-                                        />
                                         <span className="line-clamp-2 font-heading text-base leading-snug tracking-tight text-foreground transition-colors group-hover:text-primary">
                                             {displayBookshelfName(shelf.name)}
                                         </span>
@@ -162,7 +156,7 @@ async function BookshelvesContent() {
                                                 {shelf.count === 1 ? "" : "s"}
                                             </span>
                                             <ArrowRight01Icon
-                                                className="size-4 -translate-x-1 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0 group-hover:text-foreground group-hover:opacity-100"
+                                                className="size-4 text-primary"
                                                 aria-hidden="true"
                                             />
                                         </div>
